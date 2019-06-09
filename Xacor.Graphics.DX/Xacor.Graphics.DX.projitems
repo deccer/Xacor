@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>7b7225e0-f6f2-4d96-b304-eecdc4152a26</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Xacor.Graphics.DX</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)VertexPosition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VertexPositionColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VertexPositionTexture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VertexPositionTextureNormalTangent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" />
+  </ItemGroup>
+</Project>

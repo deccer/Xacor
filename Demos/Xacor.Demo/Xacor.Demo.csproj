@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DryIoc.dll" Version="4.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Xacor.Game\Xacor.Game.csproj" />
+    <ProjectReference Include="..\..\Xacor.Graphics.DX11\Xacor.Graphics.DX11.csproj" />
+    <ProjectReference Include="..\..\Xacor.Graphics.GL46\Xacor.Graphics.GL46.csproj" />
+    <ProjectReference Include="..\..\Xacor.Graphics\Xacor.Graphics.csproj" />
+    <ProjectReference Include="..\..\Xacor.Platform.Windows\Xacor.Platform.Windows.csproj" />
+    <ProjectReference Include="..\..\Xacor.Platform\Xacor.Platform.csproj" />
+    <ProjectReference Include="..\..\Xacor\Xacor.csproj" />
+  </ItemGroup>
+
+</Project>
