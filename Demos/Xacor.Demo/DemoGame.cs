@@ -6,10 +6,13 @@ namespace Xacor.Demo
 {
     internal class DemoGame : GameBase
     {
+        private readonly IGraphicsFactory _graphicsFactory;
+        private ICommandList _commandList;
+
         public DemoGame(IGamePlatformFactory gamePlatformFactory, IGraphicsFactory graphicsFactory)
             : base(gamePlatformFactory, graphicsFactory)
         {
-
+            _graphicsFactory = graphicsFactory;
         }
 
         protected override void Draw()
@@ -22,6 +25,8 @@ namespace Xacor.Demo
             base.Initialize();
 
             Window.Title = "Xacor.Demo";
+
+            _commandList = _graphicsFactory.CreateCommandList();
         }
 
         protected override void Update()
