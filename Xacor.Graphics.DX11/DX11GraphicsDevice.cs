@@ -1,4 +1,5 @@
 ﻿using SharpDX.Direct3D11;
+using Xacor.Graphics.DX;
 using D3D11Device = SharpDX.Direct3D11.Device;
 using D3D11DeviceContext = SharpDX.Direct3D11.DeviceContext;
 

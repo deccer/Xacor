@@ -2,14 +2,19 @@
 {
     public class DX12GraphicsFactory : IGraphicsFactory
     {
-        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        public ICommandList CreateCommandList()
         {
-            return new DX12SwapChain();
+            throw new System.NotImplementedException();
         }
 
         public IShader CreateShaderFromFile(string filePath)
         {
             throw new System.NotImplementedException();
+        }
+
+        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        {
+            return new DX12SwapChain();
         }
     }
 }

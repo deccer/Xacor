@@ -2,8 +2,10 @@
 {
     public interface IGraphicsFactory
     {
-        ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo);
+        ICommandList CreateCommandList();
 
         IShader CreateShaderFromFile(string filePath);
+
+        ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo);
     }
 }

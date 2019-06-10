@@ -2,14 +2,19 @@
 {
     public class GL33GraphicsFactory : IGraphicsFactory
     {
-        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        public ICommandList CreateCommandList()
         {
-            return new GL33SwapChain(swapChainInfo);
+            throw new System.NotImplementedException();
         }
 
         public IShader CreateShaderFromFile(string filePath)
         {
             throw new System.NotImplementedException();
+        }
+
+        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        {
+            return new GL33SwapChain(swapChainInfo);
         }
     }
 }

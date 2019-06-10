@@ -1,4 +1,5 @@
 ﻿using SharpDX.DXGI;
+using Xacor.Graphics.DX;
 using DXGIFactory = SharpDX.DXGI.Factory1;
 
 namespace Xacor.Graphics.DX11

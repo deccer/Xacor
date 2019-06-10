@@ -7,6 +7,8 @@
 
         R8UNorm,
         R8G8B8A8UNorm,
+        R16UInt,
+        R32UInt,
 
         R16G16Float,
         R16G16B16A16Float,

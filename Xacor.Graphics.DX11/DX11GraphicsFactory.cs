@@ -12,14 +12,19 @@ namespace Xacor.Graphics.DX11
             _graphicsDevice = new DX11GraphicsDevice(deviceType);
         }
 
-        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        public ICommandList CreateCommandList()
         {
-            return new DX11SwapChain(_graphicsDevice, swapChainInfo);
+            return new DX11CommandList(_graphicsDevice);
         }
 
         public IShader CreateShaderFromFile(string filePath)
         {
             return new DX11Shader(_graphicsDevice, this);
+        }
+
+        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        {
+            return new DX11SwapChain(_graphicsDevice, swapChainInfo);
         }
 
         internal DX11InputLayout CreateInputLayout(VertexType vertexType, byte[] shaderByteCode)

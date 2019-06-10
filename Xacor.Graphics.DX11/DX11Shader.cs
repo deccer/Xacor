@@ -62,13 +62,11 @@ namespace Xacor.Graphics.DX11
             }
         }
 
-        private readonly DX11GraphicsDevice _graphicsDevice;
         private readonly DX11GraphicsFactory _graphicsFactory;
         private ShaderBytecode _shaderBytecode;
 
         public DX11Shader(DX11GraphicsDevice graphicsDevice, DX11GraphicsFactory graphicsFactory)
         {
-            _graphicsDevice = graphicsDevice;
             _graphicsFactory = graphicsFactory;
         }
 

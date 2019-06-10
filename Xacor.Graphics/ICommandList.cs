@@ -4,6 +4,8 @@
     {
         void Begin(string passName, IPipeline pipeline);
 
+        void ClearRenderTarget(Texture renderTarget);
+
         void Draw(int vertexCount);
 
         void DrawIndexed(int indexCount, int indexOffset, int vertexOffset);

@@ -1,6 +1,6 @@
 ﻿namespace Xacor.Graphics
 {
-    public interface ITexture
+    public class TextureView
     {
     }
 }
