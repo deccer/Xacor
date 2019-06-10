@@ -9,6 +9,7 @@
     <Import_RootNamespace>Xacor.Graphics.DX</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DXExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VertexPosition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VertexPositionColor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VertexPositionTexture.cs" />

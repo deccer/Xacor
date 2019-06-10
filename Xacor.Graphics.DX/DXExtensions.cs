@@ -1,9 +1,9 @@
 ﻿using System;
 using SharpDX.Direct3D;
 
-namespace Xacor.Graphics.DX11
+namespace Xacor.Graphics.DX
 {
-    internal static class Extensions
+    internal static class DXExtensions
     {
         public static DriverType ToSharpDX(this DeviceType deviceType)
         {
@@ -34,36 +34,6 @@ namespace Xacor.Graphics.DX11
         }
 
         // ReSharper disable once InconsistentNaming
-        public static SharpDX.Direct3D11.CullMode ToSharpDX(this CullMode cullMode)
-        {
-            switch (cullMode)
-            {
-                case CullMode.Front:
-                    return SharpDX.Direct3D11.CullMode.Front;
-                case CullMode.Back:
-                    return SharpDX.Direct3D11.CullMode.Back;
-                case CullMode.None:
-                    return SharpDX.Direct3D11.CullMode.None;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(cullMode), cullMode, null);
-            }
-        }
-
-        // ReSharper disable once InconsistentNaming
-        public static SharpDX.Direct3D11.FillMode ToSharpDX(this FillMode fillMode)
-        {
-            switch (fillMode)
-            {
-                case FillMode.Solid:
-                    return SharpDX.Direct3D11.FillMode.Solid;
-                case FillMode.Wireframe:
-                    return SharpDX.Direct3D11.FillMode.Wireframe;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(fillMode), fillMode, null);
-            }
-        }
-
-        // ReSharper disable once InconsistentNaming
         public static SharpDX.DXGI.Format ToSharpDX(this Format format)
         {
             switch (format)
@@ -76,10 +46,14 @@ namespace Xacor.Graphics.DX11
                     return SharpDX.DXGI.Format.R8_UNorm;
                 case Format.R8G8B8A8UNorm:
                     return SharpDX.DXGI.Format.R8G8B8A8_UNorm;
+                case Format.R16UInt:
+                    return SharpDX.DXGI.Format.R16_UInt;
                 case Format.R16G16Float:
                     return SharpDX.DXGI.Format.R16G16_Float;
                 case Format.R16G16B16A16Float:
                     return SharpDX.DXGI.Format.R16G16B16A16_Float;
+                case Format.R32UInt:
+                    return SharpDX.DXGI.Format.R32_UInt;
                 case Format.R32Float:
                     return SharpDX.DXGI.Format.R32_Float;
                 case Format.R32G32Float:
