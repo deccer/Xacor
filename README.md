@@ -1,4 +1,6 @@
-# Xacor - Experimental Game Engine
+# Xacor
+
+![Experimental Game Engine](Resources/AppLogo/Xacor_Logo.png)
 
 Supporting various rendering backends.
 
