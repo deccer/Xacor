@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>AppLogo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,5 +20,9 @@
     <ProjectReference Include="..\..\Xacor.Platform\Xacor.Platform.csproj" />
     <ProjectReference Include="..\..\Xacor\Xacor.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /Y /E &quot;$(SolutionDir)Assets&quot; &quot;$(TargetDir)Assets\&quot;" />
+  </Target>
 
 </Project>

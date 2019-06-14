@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using DryIoc;
+using Xacor.Game;
 using Xacor.Graphics;
 using Xacor.Graphics.DX11;
 using Xacor.Graphics.GL46;
@@ -14,15 +16,18 @@ namespace Xacor.Demo
         private static IResolver CreateResolver()
         {
             var container = new Container(rules => rules.WithTrackingDisposableTransients());
+            //container.Register<IProfiler>();
+            container.RegisterInstance<GraphicsOptions>(new GraphicsOptions(new Size(1920, 1080)));
+            container.Register<GameOptions>();
             container.Register<IGamePlatformFactory, Win32GamePlatformFactory>();
             container.RegisterInstance<DeviceType>(DeviceType.Hardware);
-            container.Register<IGraphicsFactory, GL46GraphicsFactory>();
+            container.Register<IGraphicsFactory, DX11GraphicsFactory>();
             container.Register<DemoGame>();
             return container;
         }
 
         [STAThread]
-        public static void Main()
+        public static /*async Task*/ void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

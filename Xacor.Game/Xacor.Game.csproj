@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Xacor.Graphics\Xacor.Graphics.csproj" />
     <ProjectReference Include="..\Xacor.Platform\Xacor.Platform.csproj" />
   </ItemGroup>

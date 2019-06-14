@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using Xacor.Graphics;
 using Xacor.Platform;
 
@@ -7,14 +8,19 @@ namespace Xacor.Game
     public class GameBase : IDisposable
     {
         private readonly IGamePlatformFactory _gamePlatformFactory;
-        private readonly IGraphicsFactory _graphicsFactory;
         private readonly IGameLoop _gameLoop;
 
         private ISwapChain _swapchain;
 
-        public IGraphicsDevice GraphicsDevice { get; }
+        protected IGraphicsDevice GraphicsDevice { get; }
 
-        public IGameWindow Window { get; private set; }
+        protected IGraphicsFactory GraphicsFactory { get; }
+
+        protected IGameWindow Window { get; private set; }
+
+        protected TextureView BackBufferView { get; private set; }
+
+        protected TextureView BackBufferDepthStencilView { get; private set; }
 
         protected virtual void BeginDraw()
         {
@@ -43,7 +49,7 @@ namespace Xacor.Game
         protected GameBase(IGamePlatformFactory gamePlatformFactory, IGraphicsFactory graphicsFactory)
         {
             _gamePlatformFactory = gamePlatformFactory;
-            _graphicsFactory = graphicsFactory;
+            GraphicsFactory = graphicsFactory;
 
             _gameLoop = _gamePlatformFactory.CreateGameLoop();
         }
@@ -53,7 +59,9 @@ namespace Xacor.Game
             Window = _gamePlatformFactory.CreateGameWindow("Xacor");
 
             var swapChainInfo = CreateSwapChainInfo();
-            _swapchain = _graphicsFactory.CreateSwapchain(swapChainInfo);
+            _swapchain = GraphicsFactory.CreateSwapchain(swapChainInfo);
+            BackBufferView = _swapchain.TextureView;
+            BackBufferDepthStencilView = _swapchain.DepthStencilView;
         }
 
         protected virtual void Update()
