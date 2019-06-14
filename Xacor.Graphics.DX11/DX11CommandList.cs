@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Numerics;
 using SharpDX.Direct3D11;
 using SharpDX.Mathematics.Interop;
 using Xacor.Graphics.DX;
@@ -13,26 +16,69 @@ namespace Xacor.Graphics.DX11
 
         public void Begin(string passName, IPipeline pipeline)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.Begin,
+                PassName = passName
+            };
+            _commandList.Add(command);
+
+            if (pipeline != null)
+            {
+                SetBlendState(pipeline.BlendState);
+                SetDepthStencilState(pipeline.DepthStencilState);
+                SetRasterizerState(pipeline.RasterizerState);
+                SetInputLayout(pipeline.InputLayout);
+                SetVertexShader(pipeline.VertexShader);
+                SetPixelShader(pipeline.PixelShader);
+                SetPrimitiveTopology(pipeline.PrimitiveTopology);
+                SetViewport(pipeline.Viewport);
+            }
         }
 
-        public void ClearRenderTarget(Texture renderTarget)
+        public void ClearRenderTarget(TextureView renderTarget, Vector4 clearColor)
         {
-            var command = new DX11Command();
-            command.Type = DX11CommandType.ClearRenderTarget;
-            command.RenderTargetClear = (DX11TextureView)renderTarget.View;
-            command.RenderTargetClearColor = new RawColor4(0.2f, 0.0f, 0.0f, 1.0f);
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.ClearRenderTarget,
+                RenderTarget = (DX11TextureView)renderTarget,
+                RenderTargetClearColor = new RawColor4(clearColor.X,  clearColor.Y, clearColor.Z,  clearColor.W)
+            };
+            _commandList.Add(command);
+        }
+
+        public void ClearDepthStencil(TextureView depthStencilView, float depthClear, byte depthClearStencil)
+        {
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.ClearDepthStencil,
+                RenderTargetDepthStencil = (DX11TextureView)depthStencilView,
+                DepthClear = depthClear,
+                DepthClearStencil = depthClearStencil
+            };
             _commandList.Add(command);
         }
 
         public void Draw(int vertexCount)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.Draw,
+                VertexCount = vertexCount
+            };
+            _commandList.Add(command);
         }
 
         public void DrawIndexed(int indexCount, int indexOffset, int vertexOffset)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.DrawIndexed,
+                IndexCount = indexCount,
+                IndexOffset = indexOffset,
+                VertexOffset = vertexOffset
+            };
+            _commandList.Add(command);
         }
 
         public DX11CommandList(DX11GraphicsDevice graphicsDevice)
@@ -43,47 +89,164 @@ namespace Xacor.Graphics.DX11
 
         public void End()
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.End
+            };
+            _commandList.Add(command);
         }
 
         public void SetBlendState(IBlendState blendState)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetBlendState,
+                BlendState = (DX11BlendState)blendState
+            };
+            _commandList.Add(command);
         }
 
-        public void SetConstantBuffer(IConstantBuffer buffer)
+        public void SetConstantBuffer(IConstantBuffer buffer, BufferScope bufferScope)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetConstantBuffers,
+                ConstantBufferScope = bufferScope,
+                ConstantBuffer = (DX11ConstantBuffer)buffer
+            };
+            _commandList.Add(command);
         }
 
         public void SetDepthStencilState(IDepthStencilState depthStencilState)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetDepthStencilState,
+                DepthStencilState = (DX11DepthStencilState)depthStencilState
+            };
+            _commandList.Add(command);
         }
 
         public void SetIndexBuffer(IIndexBuffer indexBuffer)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetIndexBuffer,
+                IndexBuffer = (DX11IndexBuffer)indexBuffer
+            };
+            _commandList.Add(command);
+        }
+
+        public void SetInputLayout(IInputLayout inputLayout)
+        {
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetInputLayout,
+                InputLayout = (DX11InputLayout)inputLayout
+            };
+            _commandList.Add(command);
         }
 
         public void SetPixelShader(IShader pixelShader)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetPixelShader,
+                PixelShader = (PixelShader)(DX11Shader)pixelShader
+            };
+            _commandList.Add(command);
         }
 
         public void SetRasterizerState(IRasterizerState rasterizerState)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetRasterizerState,
+                RasterizerState = (DX11RasterizerState)rasterizerState
+            };
+            _commandList.Add(command);
+        }
+
+        public void SetRenderTarget(TextureView renderTarget, TextureView depthStencilView)
+        {
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetRenderTarget,
+                RenderTarget = (DX11TextureView)renderTarget,
+                RenderTargetDepthStencil = (DX11TextureView)depthStencilView
+
+            };
+            _commandList.Add(command);
+        }
+
+        public void SetRenderTargets(TextureView[] renderTargets, TextureView depthStencilView)
+        {
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetRenderTargets,
+                RenderTargets = renderTargets.Select(rt => (RenderTargetView)(DX11TextureView)rt).ToArray()
+            };
+            _commandList.Add(command);
+        }
+
+        public void SetScissorRectangle(Rectangle rectangle)
+        {
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetScissor,
+                ScissorRectangle = rectangle.ToSharpDX()
+            };
+            _commandList.Add(command);
+        }
+
+        public void SetTexture(TextureView textureView)
+        {
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetTextures,
+                Textures = new[] { (ShaderResourceView)(DX11TextureView)textureView }
+            };
+            _commandList.Add(command);
+        }
+
+        public void SetPrimitiveTopology(PrimitiveTopology primitiveTopology)
+        {
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetPrimitiveTopology,
+                PrimitiveTopology = primitiveTopology
+            };
+            _commandList.Add(command);
         }
 
         public void SetVertexBuffer(IVertexBuffer vertexBuffer)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetVertexBuffer,
+                VertexBufferBinding = (DX11VertexBufferBinding)vertexBuffer.GetVertexBufferBinding()
+            };
+            _commandList.Add(command);
         }
 
         public void SetVertexShader(IShader vertexShader)
         {
-            throw new NotImplementedException();
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetVertexShader,
+                VertexShader = (VertexShader)(DX11Shader)vertexShader
+            };
+            _commandList.Add(command);
+        }
+
+        public void SetViewport(Viewport viewport)
+        {
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetViewport,
+                Viewport = viewport.ToSharpDX(),
+            };
+            _commandList.Add(command);
         }
 
         public void Submit()
@@ -147,39 +310,38 @@ namespace Xacor.Graphics.DX11
                         _graphicsDevice.NativeDeviceContext.ComputeShader.Set(command.ComputeShader);
                         break;
                     case DX11CommandType.SetConstantBuffers:
-                        for (var i = command.ConstantBuffersStartSlot; i < command.ConstantBuffers.Count; ++i)
+                        switch (command.ConstantBufferScope)
                         {
-                            switch (command.ConstantBufferScope)
-                            {
-                                case BufferScope.VertexShader:
-                                    _graphicsDevice.NativeDeviceContext.VertexShader.SetConstantBuffer(i, command.ConstantBuffers[i]);
-                                    break;
-                                case BufferScope.PixelShader:
-                                    _graphicsDevice.NativeDeviceContext.PixelShader.SetConstantBuffer(i, command.ConstantBuffers[i]);
-                                    break;
-                                case BufferScope.Global:
-                                    _graphicsDevice.NativeDeviceContext.VertexShader.SetConstantBuffer(i, command.ConstantBuffers[i]);
-                                    _graphicsDevice.NativeDeviceContext.PixelShader.SetConstantBuffer(i, command.ConstantBuffers[i]);
-                                    break;
-                                case BufferScope.NotAssigned:
-                                    break;
-                                default:
-                                    throw new ArgumentOutOfRangeException();
-                            }
+                            case BufferScope.VertexShader:
+                                _graphicsDevice.NativeDeviceContext.VertexShader.SetConstantBuffer(command.ConstantBuffersStartSlot, command.ConstantBuffer);
+                                break;
+                            case BufferScope.PixelShader:
+                                _graphicsDevice.NativeDeviceContext.PixelShader.SetConstantBuffer(command.ConstantBuffersStartSlot, command.ConstantBuffer);
+                                break;
+                            case BufferScope.Global:
+                                _graphicsDevice.NativeDeviceContext.VertexShader.SetConstantBuffer(command.ConstantBuffersStartSlot, command.ConstantBuffer);
+                                _graphicsDevice.NativeDeviceContext.PixelShader.SetConstantBuffer(command.ConstantBuffersStartSlot, command.ConstantBuffer);
+                                break;
+                            case BufferScope.NotAssigned:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
                         }
-
                         break;
                     case DX11CommandType.SetSamplers:
-                        _graphicsDevice.NativeDeviceContext.PixelShader.SetSamplers(command.SamplersStartSlot, command.SamplerCount, command.Samplers.ToArray());
+                        _graphicsDevice.NativeDeviceContext.PixelShader.SetSamplers(command.SamplersStartSlot, command.SamplerCount, command.Samplers);
                         break;
                     case DX11CommandType.SetTextures:
-                        _graphicsDevice.NativeDeviceContext.PixelShader.SetShaderResources(command.TexturesStartSlot, command.TextureCount, command.Textures.ToArray());
+                        _graphicsDevice.NativeDeviceContext.PixelShader.SetShaderResources(command.TexturesStartSlot, command.TextureCount, command.Textures);
+                        break;
+                    case DX11CommandType.SetRenderTarget:
+                        _graphicsDevice.NativeDeviceContext.OutputMerger.SetRenderTargets(command.RenderTargetDepthStencil, command.RenderTarget);
                         break;
                     case DX11CommandType.SetRenderTargets:
-                        _graphicsDevice.NativeDeviceContext.OutputMerger.SetRenderTargets(command.RenderTargetDepthStencil, command.RenderTargets.ToArray());
+                        _graphicsDevice.NativeDeviceContext.OutputMerger.SetRenderTargets(command.RenderTargetDepthStencil, command.RenderTargets);
                         break;
                     case DX11CommandType.ClearRenderTarget:
-                        _graphicsDevice.NativeDeviceContext.ClearRenderTargetView(command.RenderTargetClear, command.RenderTargetClearColor);
+                        _graphicsDevice.NativeDeviceContext.ClearRenderTargetView(command.RenderTarget, command.RenderTargetClearColor);
                         break;
                     case DX11CommandType.ClearDepthStencil:
                         var depthStencilClearFlags = DepthStencilClearFlags.Depth;

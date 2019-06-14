@@ -6,6 +6,6 @@ namespace Xacor.Graphics
     {
         IInputLayout InputLayout { get; }
 
-        Task CompileAsync(ShaderStage shaderStage, string filePath, VertexType vertexType);
+        void CompileAsync(ShaderStage shaderStage, string filePath, VertexType vertexType);
     }
 }

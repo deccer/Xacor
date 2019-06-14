@@ -7,7 +7,7 @@ namespace Xacor.Graphics.DX11
 {
     internal class DX11GraphicsDevice : IGraphicsDevice
     {
-        public D3D11Device NativeDevice { get; }
+        private readonly D3D11Device _nativeDevice;
 
         public D3D11DeviceContext NativeDeviceContext { get; }
 
@@ -17,8 +17,13 @@ namespace Xacor.Graphics.DX11
 #if DEBUG
             deviceCreationFlags = deviceCreationFlags | DeviceCreationFlags.Debug;
 #endif
-            NativeDevice = new D3D11Device(deviceType.ToSharpDX(), deviceCreationFlags);
-            NativeDeviceContext = NativeDevice.ImmediateContext;
+            _nativeDevice = new D3D11Device(deviceType.ToSharpDX(), deviceCreationFlags);
+            NativeDeviceContext = _nativeDevice.ImmediateContext;
+        }
+
+        public static implicit operator D3D11Device(DX11GraphicsDevice graphicsDevice)
+        {
+            return graphicsDevice._nativeDevice;
         }
     }
 }

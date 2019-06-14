@@ -1,35 +1,49 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using SharpDX.Direct3D11;
-using Buffer = SharpDX.Direct3D11.Buffer;
+using D3D11Buffer = SharpDX.Direct3D11.Buffer;
 
 namespace Xacor.Graphics.DX11
 {
-    internal class DX11ConstantBuffer<T> : ConstantBuffer<T>, IDisposable where T : struct
+    internal class DX11ConstantBuffer : IConstantBuffer
     {
-        internal Buffer NativeBuffer { get; }
+        private D3D11Buffer _nativeBuffer;
 
         private readonly DX11GraphicsDevice _graphicsDevice;
-        private readonly int _stride = Marshal.SizeOf<T>();
 
         public void Dispose()
         {
-            NativeBuffer?.Dispose();
+            _nativeBuffer?.Dispose();
         }
 
-        public DX11ConstantBuffer(DX11GraphicsDevice graphicsDevice, T constants)
+        public static implicit operator D3D11Buffer(DX11ConstantBuffer constantBuffer)
+        {
+            return constantBuffer._nativeBuffer;
+        }
+
+        public static IConstantBuffer Create<T>(DX11GraphicsDevice graphicsDevice, T constants) where T: struct
+        {
+            var buffer = new DX11ConstantBuffer(graphicsDevice);
+            buffer.Initialize(constants);
+            return buffer;
+        }
+
+        private DX11ConstantBuffer(DX11GraphicsDevice graphicsDevice)
         {
             _graphicsDevice = graphicsDevice;
-
-            var bufferDescription = new BufferDescription(_stride, BindFlags.ConstantBuffer, ResourceUsage.Default);
-            NativeBuffer = Buffer.Create(graphicsDevice.NativeDevice, ref constants, bufferDescription);
         }
 
-        public override void UpdateBuffer(T constants)
+        private void Initialize<T>(T constants) where T: struct
         {
-            _graphicsDevice.NativeDeviceContext.MapSubresource(NativeBuffer, 0, MapMode.Write, MapFlags.None, out var dataStream);
+            var stride = Marshal.SizeOf<T>();
+            var bufferDescription = new BufferDescription(stride, BindFlags.ConstantBuffer, ResourceUsage.Default);
+            _nativeBuffer = D3D11Buffer.Create(_graphicsDevice, ref constants, bufferDescription);
+        }
+
+        public void UpdateBuffer<T>(T constants) where T: struct
+        {
+            _graphicsDevice.NativeDeviceContext.MapSubresource(_nativeBuffer, 0, MapMode.Write, MapFlags.None, out var dataStream);
             dataStream.Write(constants);
-            _graphicsDevice.NativeDeviceContext.UnmapSubresource(NativeBuffer, 0);
+            _graphicsDevice.NativeDeviceContext.UnmapSubresource(_nativeBuffer, 0);
         }
     }
 }

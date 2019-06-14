@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D;
+using SharpDX.Direct3D11;
 
 namespace Xacor.Graphics.DX11
 {
@@ -62,29 +63,49 @@ namespace Xacor.Graphics.DX11
             }
         }
 
+        private readonly DX11GraphicsDevice _graphicsDevice;
         private readonly DX11GraphicsFactory _graphicsFactory;
         private ShaderBytecode _shaderBytecode;
+        private DeviceChild _shaderObject;
 
         public DX11Shader(DX11GraphicsDevice graphicsDevice, DX11GraphicsFactory graphicsFactory)
         {
+            _graphicsDevice = graphicsDevice;
             _graphicsFactory = graphicsFactory;
         }
 
-        protected override async Task CompileInternalAsync(ShaderStage shaderStage, string filePath, VertexType vertexType)
+        protected override void CompileInternal(ShaderStage shaderStage, string filePath, VertexType vertexType)
         {
-            await Task.Run(() =>
+            var macros = Macros.Select(macro => new ShaderMacro(macro.Key, macro.Value)).ToArray();
+
+            using var includeHandler = new IncludeHandler(null);
+
+            _shaderBytecode = LoadBytecode(shaderStage, filePath, includeHandler, macros);
+
+            if (shaderStage == ShaderStage.Vertex && vertexType != VertexType.Unknown)
             {
-                var macros = Macros.Select(macro => new ShaderMacro(macro.Key, macro.Value)).ToArray();
+                InputLayout = _graphicsFactory.CreateInputLayout(vertexType, _shaderBytecode);
+            }
 
-                using var includeHandler = new IncludeHandler(null);
+            switch (shaderStage)
+            {
+                case ShaderStage.Vertex:
+                    _shaderObject = new VertexShader(_graphicsDevice, _shaderBytecode);
+                    break;
+                case ShaderStage.Pixel:
+                    _shaderObject = new PixelShader(_graphicsDevice, _shaderBytecode);
+                    break;
+                case ShaderStage.Compute:
+                    _shaderObject = new ComputeShader(_graphicsDevice, _shaderBytecode);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(shaderStage), shaderStage, null);
+            }
+        }
 
-                _shaderBytecode = LoadBytecode(shaderStage, filePath, includeHandler, macros);
-
-                if (vertexType != VertexType.Unknown)
-                {
-                    InputLayout = _graphicsFactory.CreateInputLayout(vertexType, _shaderBytecode);
-                }
-            });
+        public static implicit operator DeviceChild(DX11Shader shader)
+        {
+            return shader._shaderObject;
         }
 
         private static ShaderBytecode LoadBytecode(ShaderStage shaderStage, string filePath, Include includeHandler, ShaderMacro[] macros)

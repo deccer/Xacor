@@ -23,11 +23,11 @@ namespace Xacor.Graphics
             Macros = new Dictionary<string, string>();
         }
 
-        protected abstract Task CompileInternalAsync(ShaderStage shaderStage, string filePath, VertexType vertexType);
+        protected abstract void CompileInternal(ShaderStage shaderStage, string filePath, VertexType vertexType);
 
-        public async Task CompileAsync(ShaderStage shaderStage, string filePath, VertexType vertexType)
+        public void CompileAsync(ShaderStage shaderStage, string filePath, VertexType vertexType)
         {
-            await CompileInternalAsync(shaderStage, filePath, vertexType);
+            CompileInternal(shaderStage, filePath, vertexType);
         }
     }
 }

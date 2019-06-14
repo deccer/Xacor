@@ -7,6 +7,10 @@ namespace Xacor.Graphics.GL46
     {
         public GraphicsContext NativeContext { get; }
 
+        public TextureView TextureView { get; }
+
+        public TextureView DepthStencilView { get; }
+
         public void Dispose()
         {
             NativeContext?.Dispose();

@@ -21,6 +21,7 @@
         SetConstantBuffers,
         SetSamplers,
         SetTextures,
+        SetRenderTarget,
         SetRenderTargets,
         ClearRenderTarget,
         ClearDepthStencil

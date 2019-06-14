@@ -8,7 +8,7 @@ namespace Xacor.Graphics.DX11
 
         public DX11Texture(DX11GraphicsDevice graphicsDevice)
         {
-            View = new DX11TextureView(graphicsDevice, this);
+
         }
     }
 }

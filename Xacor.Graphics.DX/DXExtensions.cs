@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using SharpDX.Direct3D;
+using SharpDX.Mathematics.Interop;
 
 namespace Xacor.Graphics.DX
 {
@@ -80,6 +82,38 @@ namespace Xacor.Graphics.DX
                 default:
                     throw new ArgumentOutOfRangeException(nameof(primitiveTopology), primitiveTopology, null);
             }
+        }
+
+        public static RawViewportF ToSharpDX(this Viewport viewport)
+        {
+            RawViewportF nativeViewport;
+            nativeViewport.X = viewport.X;
+            nativeViewport.Y = viewport.Y;
+            nativeViewport.Width = viewport.Width;
+            nativeViewport.Height = viewport.Height;
+            nativeViewport.MaxDepth = viewport.MaxDepth;
+            nativeViewport.MinDepth = viewport.MinDepth;
+            return nativeViewport;
+        }
+
+        public static RawRectangleF ToSharpDX(this RectangleF rectangle)
+        {
+            RawRectangleF nativeRectangle;
+            nativeRectangle.Left = rectangle.Left;
+            nativeRectangle.Right = rectangle.Right;
+            nativeRectangle.Bottom = rectangle.Bottom;
+            nativeRectangle.Top = rectangle.Top;
+            return nativeRectangle;
+        }
+
+        public static RawRectangle ToSharpDX(this Rectangle rectangle)
+        {
+            RawRectangle nativeRectangle;
+            nativeRectangle.Left = rectangle.Left;
+            nativeRectangle.Right = rectangle.Right;
+            nativeRectangle.Bottom = rectangle.Bottom;
+            nativeRectangle.Top = rectangle.Top;
+            return nativeRectangle;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Drawing;
+using System.Numerics;
 using SharpDX.Direct3D11;
 using SharpDX.Mathematics.Interop;
 
@@ -8,22 +9,22 @@ namespace Xacor.Graphics.DX11
     {
         public DX11CommandType Type;
         public RawColor4 RenderTargetClearColor;
-        public RenderTargetView RenderTargetClear;
-        public List<RenderTargetView> RenderTargets;
+        public RenderTargetView RenderTarget;
+        public RenderTargetView[] RenderTargets;
         public DepthStencilView RenderTargetDepthStencil;
 
         public int TexturesStartSlot;
         public int TextureCount;
-        public List<ShaderResourceView> Textures;
+        public ShaderResourceView[] Textures;
 
         public int SamplersStartSlot;
         public int SamplerCount;
-        public List<SamplerState> Samplers;
+        public SamplerState[] Samplers;
 
         public int ConstantBuffersStartSlot;
         public int ConstantBufferCount;
         public BufferScope ConstantBufferScope;
-        public List<Buffer> ConstantBuffers;
+        public Buffer ConstantBuffer;
 
         public RasterizerState RasterizerState;
         public DepthStencilState DepthStencilState;
@@ -34,7 +35,7 @@ namespace Xacor.Graphics.DX11
         public string PassName;
         public PrimitiveTopology PrimitiveTopology;
 
-        public VertexBufferBinding VertexBufferBinding;
+        public DX11VertexBufferBinding VertexBufferBinding;
         public int VertexCount;
         public int VertexOffset;
         public Buffer IndexBuffer;
@@ -53,13 +54,10 @@ namespace Xacor.Graphics.DX11
 
         public void Clear()
         {
-            RenderTargetClearColor = new RawColor4(0, 0, 0, 1.0f);
+            RenderTargetClearColor = new RawColor4(0, 0, 1, 1.0f);
             RenderTargetDepthStencil = null;
-            RenderTargetClear = null;
-            RenderTargets = new List<RenderTargetView>();
-            Textures = new List<ShaderResourceView>();
-            Samplers = new List<SamplerState>();
-            ConstantBuffers = new List<Buffer>();
+            RenderTarget = null;
+            ConstantBuffer = null;
             DepthStencilState = null;
             InputLayout = null;
             RasterizerState = null;

@@ -17,7 +17,7 @@ namespace Xacor.Graphics.DX11
                 .Select(attribute => new InputElement(attribute.Name, attribute.SemanticIndex,attribute.Format.ToSharpDX(), attribute.Offset, attribute.Binding))
                 .ToArray();
 
-            _inputLayout = new D3D11InputLayout(graphicsDevice.NativeDevice, shaderBytecode, inputElements);
+            _inputLayout = new D3D11InputLayout(graphicsDevice, shaderBytecode, inputElements);
         }
 
         public static implicit operator D3D11InputLayout(DX11InputLayout inputLayout)

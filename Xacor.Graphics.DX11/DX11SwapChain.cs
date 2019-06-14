@@ -1,6 +1,9 @@
-﻿using SharpDX.DXGI;
+﻿using SharpDX.Direct3D11;
+using SharpDX.DXGI;
 using Xacor.Graphics.DX;
 using DXGIFactory = SharpDX.DXGI.Factory1;
+using D3D11Texture2D = SharpDX.Direct3D11.Texture2D;
+using Device = SharpDX.DXGI.Device;
 
 namespace Xacor.Graphics.DX11
 {
@@ -9,11 +12,14 @@ namespace Xacor.Graphics.DX11
         private readonly DXGIFactory _factory;
         private readonly SwapChain _swapChain;
 
+        public TextureView TextureView { get; }
+
+        public TextureView DepthStencilView { get; }
+
         public DX11SwapChain(DX11GraphicsDevice graphiceDevice, SwapChainInfo swapChainInfo)
         {
             _factory = new DXGIFactory();
 
-            var device = graphiceDevice.NativeDevice;
             var swapChainDescription = new SwapChainDescription
             {
                 SwapEffect = swapChainInfo.SwapEffect.ToSharpDX(),
@@ -26,7 +32,32 @@ namespace Xacor.Graphics.DX11
                 Usage = Usage.RenderTargetOutput
             };
 
-            _swapChain = new SwapChain(_factory, device, swapChainDescription);
+            _swapChain = new SwapChain(_factory, graphiceDevice, swapChainDescription);
+            using var resource = _swapChain.GetBackBuffer<D3D11Texture2D>(0);
+
+            TextureView = new DX11TextureView(graphiceDevice, resource, TextureViewType.RenderTarget);
+            DepthStencilView = CreateDepthStencilView(graphiceDevice, swapChainInfo.Width, swapChainInfo.Height);
+        }
+
+        private static TextureView CreateDepthStencilView(DX11GraphicsDevice graphicsDevice, int width, int height)
+        {
+            var depthBufferDescription = new Texture2DDescription
+            {
+                Format = SharpDX.DXGI.Format.D24_UNorm_S8_UInt,
+                ArraySize = 1,
+                MipLevels = 1,
+                Width = width,
+                Height = height,
+                SampleDescription = new SampleDescription(1, 0),
+                Usage = ResourceUsage.Default,
+                BindFlags = BindFlags.DepthStencil,
+                CpuAccessFlags = CpuAccessFlags.None,
+                OptionFlags = ResourceOptionFlags.None
+            };
+
+            using var depthBuffer = new D3D11Texture2D(graphicsDevice, depthBufferDescription);
+
+            return new DX11TextureView(graphicsDevice, depthBuffer, TextureViewType.DepthStencil);
         }
 
         public void Present()
