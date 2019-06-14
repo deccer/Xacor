@@ -33,6 +33,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{65478F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{4D894059-F529-4EFA-A6FE-9895F003CADF}"
 	ProjectSection(SolutionItems) = preProject
+		Assets\Shaders\_Simple.ps.hlsl = Assets\Shaders\_Simple.ps.hlsl
+		Assets\Shaders\_Simple.vs.hlsl = Assets\Shaders\_Simple.vs.hlsl
+		Assets\Shaders\_SimpleTextured.ps.hlsl = Assets\Shaders\_SimpleTextured.ps.hlsl
+		Assets\Shaders\_SimpleTextured.vs.hlsl = Assets\Shaders\_SimpleTextured.vs.hlsl
 		Assets\Shaders\Common.Buffer.hlsl = Assets\Shaders\Common.Buffer.hlsl
 		Assets\Shaders\Common.hlsl = Assets\Shaders\Common.hlsl
 		Assets\Shaders\Common.ps.hlsl = Assets\Shaders\Common.ps.hlsl
@@ -69,6 +73,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Textures", "Textures", "{D0
 		Assets\Textures\TC_SkyRed_Yp.png = Assets\Textures\TC_SkyRed_Yp.png
 		Assets\Textures\TC_SkyRed_Zn.png = Assets\Textures\TC_SkyRed_Zn.png
 		Assets\Textures\TC_SkyRed_Zp.png = Assets\Textures\TC_SkyRed_Zp.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A595499-8AEF-4F5E-AB84-CF1F69AD7DE3}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
