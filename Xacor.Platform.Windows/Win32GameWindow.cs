@@ -6,6 +6,8 @@ namespace Xacor.Platform.Windows
 {
     internal class Win32GameWindow : IGameWindow
     {
+        private const string WindowTitle = "Xacor";
+
         private readonly MainView _mainView;
 
         public IntPtr Handle { get; }
@@ -32,11 +34,11 @@ namespace Xacor.Platform.Windows
             _mainView.Dispose();
         }
 
-        public Win32GameWindow(string caption)
+        public Win32GameWindow()
         {
             _mainView = new MainView
             {
-                Text = caption,
+                Text = WindowTitle,
                 StartPosition = FormStartPosition.CenterScreen,
                 ClientSize = new Size(1920, 1080)
             };

@@ -56,7 +56,7 @@ namespace Xacor.Game
 
         protected virtual void Initialize()
         {
-            Window = _gamePlatformFactory.CreateGameWindow("Xacor");
+            Window = _gamePlatformFactory.CreateGameWindow();
 
             var swapChainInfo = CreateSwapChainInfo();
             _swapchain = GraphicsFactory.CreateSwapchain(swapChainInfo);
