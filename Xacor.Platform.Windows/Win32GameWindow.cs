@@ -8,6 +8,7 @@ namespace Xacor.Platform.Windows
     {
         private const string WindowTitle = "Xacor";
 
+        private readonly GraphicsOptions _graphicsOptions;
         private readonly MainView _mainView;
 
         public IntPtr Handle { get; }
@@ -34,13 +35,15 @@ namespace Xacor.Platform.Windows
             _mainView.Dispose();
         }
 
-        public Win32GameWindow()
+        public Win32GameWindow(GraphicsOptions graphicsOptions)
         {
+            _graphicsOptions = graphicsOptions ?? throw new ArgumentNullException(nameof(graphicsOptions));
+
             _mainView = new MainView
             {
                 Text = WindowTitle,
                 StartPosition = FormStartPosition.CenterScreen,
-                ClientSize = new Size(1920, 1080)
+                ClientSize = new Size(_graphicsOptions.Resolution.Width, _graphicsOptions.Resolution.Height)
             };
 
             _mainView.Closed += (_, __) => { IsOpen = false; };

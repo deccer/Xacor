@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Xacor.Graphics
 {
-    public interface IGraphicsFactory
+    public interface IGraphicsFactory : IDisposable
     {
         IBlendState CreateBlendState(bool isBlendEnabled, Blend sourceBlend, Blend destinationBlend, BlendOperation blendOperation, Blend sourceAlphaBlend, Blend destinationAlphaBlend, BlendOperation blendOperationAlpha);
 
@@ -18,9 +19,13 @@ namespace Xacor.Graphics
 
         IRasterizerState CreateRasterizerState(CullMode cullMode, FillMode fillMode, bool isDepthEnabled, bool isScissorEnabled, bool isMultiSampleEnabled, bool isAntialiasedLineEnabled);
 
+        ISampler CreateSampler();
+
         Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros);
 
         ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo);
+
+        ITextureFactory CreateTextureFactory();
 
         IVertexBuffer CreateVertexBuffer<T>(T[] vertices) where T : struct;
     }

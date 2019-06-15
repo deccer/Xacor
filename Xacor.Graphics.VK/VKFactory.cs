@@ -40,6 +40,11 @@ namespace Xacor.Graphics.VK
             throw new NotImplementedException();
         }
 
+        public ISampler CreateSampler()
+        {
+            throw new NotImplementedException();
+        }
+
         public IPipeline CreatePipeline()
         {
             throw new NotImplementedException();
@@ -55,7 +60,17 @@ namespace Xacor.Graphics.VK
             throw new NotImplementedException();
         }
 
+        public ITextureFactory CreateTextureFactory()
+        {
+            throw new NotImplementedException();
+        }
+
         public IVertexBuffer CreateVertexBuffer<T>(T[] vertices) where T : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException();
         }

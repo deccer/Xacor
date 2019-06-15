@@ -1,10 +1,10 @@
-﻿namespace Xacor.Game
+﻿namespace Xacor
 {
-    public class GameOptions
+    public class Options
     {
         public GraphicsOptions Graphics { get; }
 
-        public GameOptions(GraphicsOptions graphicsOptions)
+        public Options(GraphicsOptions graphicsOptions)
         {
             Graphics = graphicsOptions;
         }

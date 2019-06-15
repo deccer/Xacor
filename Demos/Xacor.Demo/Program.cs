@@ -17,8 +17,8 @@ namespace Xacor.Demo
         {
             var container = new Container(rules => rules.WithTrackingDisposableTransients());
             //container.Register<IProfiler>();
-            container.RegisterInstance<GraphicsOptions>(new GraphicsOptions(new Size(1920, 1080)));
-            container.Register<GameOptions>();
+            container.RegisterInstance<GraphicsOptions>(new GraphicsOptions(new Size(1920, 1080), WindowState.Windowed));
+            container.Register<Options>();
             container.Register<IGamePlatformFactory, Win32GamePlatformFactory>();
             container.RegisterInstance<DeviceType>(DeviceType.Hardware);
             container.Register<IGraphicsFactory, DX11GraphicsFactory>();

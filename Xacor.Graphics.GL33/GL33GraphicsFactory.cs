@@ -39,6 +39,11 @@ namespace Xacor.Graphics.GL33
             throw new System.NotImplementedException();
         }
 
+        public ISampler CreateSampler()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IPipeline CreatePipeline()
         {
             throw new System.NotImplementedException();
@@ -54,7 +59,17 @@ namespace Xacor.Graphics.GL33
             return new GL33SwapChain(swapChainInfo);
         }
 
+        public ITextureFactory CreateTextureFactory()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IVertexBuffer CreateVertexBuffer<T>(T[] vertices) where T : struct
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Dispose()
         {
             throw new System.NotImplementedException();
         }

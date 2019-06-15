@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Xacor.Graphics.DX12
 {
     public class DX12GraphicsFactory : IGraphicsFactory
     {
+        private readonly DX12GraphicsDevice _graphicsDevice;
+
         public IBlendState CreateBlendState(bool isBlendEnabled, Blend sourceBlend, Blend destinationBlend,
             BlendOperation blendOperation, Blend sourceAlphaBlend, Blend destinationAlphaBlend,
             BlendOperation blendOperationAlpha)
@@ -40,6 +41,11 @@ namespace Xacor.Graphics.DX12
             throw new System.NotImplementedException();
         }
 
+        public ISampler CreateSampler()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IPipeline CreatePipeline()
         {
             throw new System.NotImplementedException();
@@ -55,9 +61,24 @@ namespace Xacor.Graphics.DX12
             return new DX12SwapChain();
         }
 
+        public ITextureFactory CreateTextureFactory()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IVertexBuffer CreateVertexBuffer<T>(T[] vertices) where T : struct
         {
             throw new System.NotImplementedException();
+        }
+
+        public DX12GraphicsFactory()
+        {
+            _graphicsDevice = new DX12GraphicsDevice();
+        }
+
+        public void Dispose()
+        {
+            _graphicsDevice?.Dispose();
         }
     }
 }

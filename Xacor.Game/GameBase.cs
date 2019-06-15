@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Dynamic;
+using System.Diagnostics;
+using Xacor;
 using Xacor.Graphics;
 using Xacor.Platform;
 
@@ -7,8 +8,12 @@ namespace Xacor.Game
 {
     public class GameBase : IDisposable
     {
+        private readonly Options _options;
         private readonly IGamePlatformFactory _gamePlatformFactory;
         private readonly IGameLoop _gameLoop;
+
+        private readonly Stopwatch _stopWatch = Stopwatch.StartNew();
+        private double _lastUpdate;
 
         private ISwapChain _swapchain;
 
@@ -46,8 +51,9 @@ namespace Xacor.Game
 
         }
 
-        protected GameBase(IGamePlatformFactory gamePlatformFactory, IGraphicsFactory graphicsFactory)
+        protected GameBase(Options options, IGamePlatformFactory gamePlatformFactory, IGraphicsFactory graphicsFactory)
         {
+            _options = options;
             _gamePlatformFactory = gamePlatformFactory;
             GraphicsFactory = graphicsFactory;
 
@@ -56,7 +62,7 @@ namespace Xacor.Game
 
         protected virtual void Initialize()
         {
-            Window = _gamePlatformFactory.CreateGameWindow();
+            Window = _gamePlatformFactory.CreateGameWindow(_options.Graphics);
 
             var swapChainInfo = CreateSwapChainInfo();
             _swapchain = GraphicsFactory.CreateSwapchain(swapChainInfo);
@@ -64,7 +70,7 @@ namespace Xacor.Game
             BackBufferDepthStencilView = _swapchain.DepthStencilView;
         }
 
-        protected virtual void Update()
+        protected virtual void Update(double deltaTime)
         {
 
         }
@@ -72,18 +78,24 @@ namespace Xacor.Game
         public void Run()
         {
             Initialize();
+            _stopWatch.Restart();
+            _lastUpdate = _stopWatch.ElapsedMilliseconds / 1000.0;
             _gameLoop.Run(Window, Tick);
+            _stopWatch.Stop();
             Cleanup();
         }
 
         private SwapChainInfo CreateSwapChainInfo()
         {
-            return new SwapChainInfo(Window.Handle, Window.Width, Window.Height, true, SwapEffect.FlipDiscard);
+            return new SwapChainInfo(Window.Handle, Window.Width, Window.Height, _options.Graphics.WindowState != WindowState.Fullscreen, SwapEffect.FlipDiscard);
         }
 
         private void Tick()
         {
-            Update();
+            var now = _stopWatch.ElapsedMilliseconds / 1000.0;
+            var deltaTime = now - _lastUpdate;
+            Update(deltaTime);
+            _lastUpdate = now;
             BeginDraw();
             Draw();
             EndDraw();

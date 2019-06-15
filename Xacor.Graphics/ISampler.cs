@@ -1,6 +1,8 @@
-﻿namespace Xacor.Graphics
+﻿using System;
+
+namespace Xacor.Graphics
 {
-    public interface ISampler
+    public interface ISampler : IDisposable
     {
 
     }

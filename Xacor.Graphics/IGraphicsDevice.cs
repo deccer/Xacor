@@ -1,6 +1,8 @@
-﻿namespace Xacor.Graphics
+﻿using System;
+
+namespace Xacor.Graphics
 {
-    public interface IGraphicsDevice
+    public interface IGraphicsDevice : IDisposable
     {
 
     }

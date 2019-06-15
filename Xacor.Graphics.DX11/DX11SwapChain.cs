@@ -35,7 +35,7 @@ namespace Xacor.Graphics.DX11
             _swapChain = new SwapChain(_factory, graphiceDevice, swapChainDescription);
             using var resource = _swapChain.GetBackBuffer<D3D11Texture2D>(0);
 
-            TextureView = new DX11TextureView(graphiceDevice, resource, TextureViewType.RenderTarget);
+            TextureView = new DX11TextureView(graphiceDevice, resource, swapChainInfo.Width, swapChainInfo.Height, 0, false, 1, TextureViewType.RenderTarget);
             DepthStencilView = CreateDepthStencilView(graphiceDevice, swapChainInfo.Width, swapChainInfo.Height);
         }
 
@@ -57,7 +57,7 @@ namespace Xacor.Graphics.DX11
 
             using var depthBuffer = new D3D11Texture2D(graphicsDevice, depthBufferDescription);
 
-            return new DX11TextureView(graphicsDevice, depthBuffer, TextureViewType.DepthStencil);
+            return new DX11TextureView(graphicsDevice, depthBuffer, width, height, 0, false, 1, TextureViewType.DepthStencil);
         }
 
         public void Present()

@@ -67,6 +67,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{4D89
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Textures", "Textures", "{D0F6C1E3-BFEF-4074-AA21-9F4FBA198EC2}"
 	ProjectSection(SolutionItems) = preProject
+		Assets\Textures\T_Default_D0.png = Assets\Textures\T_Default_D0.png
+		Assets\Textures\T_Default_D1.png = Assets\Textures\T_Default_D1.png
 		Assets\Textures\TC_SkyRed_Xn.png = Assets\Textures\TC_SkyRed_Xn.png
 		Assets\Textures\TC_SkyRed_Xp.png = Assets\Textures\TC_SkyRed_Xp.png
 		Assets\Textures\TC_SkyRed_Yn.png = Assets\Textures\TC_SkyRed_Yn.png

@@ -2,7 +2,7 @@
 {
     public interface IGamePlatformFactory
     {
-        IGameWindow CreateGameWindow();
+        IGameWindow CreateGameWindow(GraphicsOptions graphicsOptions);
 
         IGameLoop CreateGameLoop();
     }

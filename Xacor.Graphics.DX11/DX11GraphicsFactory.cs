@@ -8,11 +8,6 @@ namespace Xacor.Graphics.DX11
     {
         private readonly DX11GraphicsDevice _graphicsDevice;
 
-        public DX11GraphicsFactory(DeviceType deviceType)
-        {
-            _graphicsDevice = new DX11GraphicsDevice(deviceType);
-        }
-
         public IBlendState CreateBlendState(bool isBlendEnabled, Blend sourceBlend, Blend destinationBlend, BlendOperation blendOperation,
             Blend sourceAlphaBlend, Blend destinationAlphaBlend, BlendOperation blendOperationAlpha)
         {
@@ -48,6 +43,11 @@ namespace Xacor.Graphics.DX11
             return new DX11RasterizerState(_graphicsDevice, cullMode, fillMode, isDepthEnabled, isScissorEnabled, isMultiSampleEnabled, isAntialiasedLineEnabled);
         }
 
+        public ISampler CreateSampler()
+        {
+            return new DX11Sampler(_graphicsDevice);
+        }
+
         public Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros)
         {
             var shader = new DX11Shader(_graphicsDevice, this);
@@ -62,6 +62,11 @@ namespace Xacor.Graphics.DX11
         public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
         {
             return new DX11SwapChain(_graphicsDevice, swapChainInfo);
+        }
+
+        public ITextureFactory CreateTextureFactory()
+        {
+            return new DX11TextureFactory(_graphicsDevice);
         }
 
         public IVertexBuffer CreateVertexBuffer<T>(T[] vertices) where T: struct
@@ -86,11 +91,11 @@ namespace Xacor.Graphics.DX11
                     break;
                 case VertexType.PositionTexture:
                     attributes.Add(new VertexAttribute("POSITION", 0, 0, 0, Format.R32G32B32Float));
-                    attributes.Add(new VertexAttribute("TEXTURE", 0, 0, 12, Format.R32G32Float));
+                    attributes.Add(new VertexAttribute("TEXCOORD", 0, 0, 12, Format.R32G32Float));
                     break;
                 case VertexType.PositionTextureNormalTangent:
                     attributes.Add(new VertexAttribute("POSITION", 0, 0, 0, Format.R32G32B32Float));
-                    attributes.Add(new VertexAttribute("TEXTURE", 0, 0, 12, Format.R32G32Float));
+                    attributes.Add(new VertexAttribute("TEXCOORD", 0, 0, 12, Format.R32G32Float));
                     attributes.Add(new VertexAttribute("NORMAL", 0, 0, 20, Format.R32G32B32Float));
                     attributes.Add(new VertexAttribute("TANGENT", 0, 0, 32, Format.R32G32B32Float));
                     break;
@@ -100,5 +105,16 @@ namespace Xacor.Graphics.DX11
 
             return new DX11InputLayout(_graphicsDevice, shaderByteCode, attributes);
         }
+
+        public void Dispose()
+        {
+            _graphicsDevice?.Dispose();
+        }
+
+        public DX11GraphicsFactory(DeviceType deviceType)
+        {
+            _graphicsDevice = new DX11GraphicsDevice(deviceType);
+        }
+
     }
 }

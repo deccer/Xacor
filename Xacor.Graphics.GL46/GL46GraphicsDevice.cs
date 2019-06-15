@@ -2,6 +2,8 @@
 {
     internal class GL46GraphicsDevice : IGraphicsDevice
     {
-
+        public void Dispose()
+        {
+        }
     }
 }

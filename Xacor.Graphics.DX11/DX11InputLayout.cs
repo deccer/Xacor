@@ -14,7 +14,7 @@ namespace Xacor.Graphics.DX11
         public DX11InputLayout(DX11GraphicsDevice graphicsDevice, byte[] shaderBytecode, IEnumerable<VertexAttribute> attributes)
         {
             var inputElements = attributes
-                .Select(attribute => new InputElement(attribute.Name, attribute.SemanticIndex,attribute.Format.ToSharpDX(), attribute.Offset, attribute.Binding))
+                .Select(attribute => new InputElement(attribute.Name, attribute.SemanticIndex, attribute.Format.ToSharpDX(), attribute.Offset, attribute.Binding))
                 .ToArray();
 
             _inputLayout = new D3D11InputLayout(graphicsDevice, shaderBytecode, inputElements);

@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Xacor.Graphics\Xacor.Graphics.csproj" />
     <ProjectReference Include="..\Xacor.Platform\Xacor.Platform.csproj" />
+    <ProjectReference Include="..\Xacor\Xacor.csproj" />
   </ItemGroup>
 
 </Project>

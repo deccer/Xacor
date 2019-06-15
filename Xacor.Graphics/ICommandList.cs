@@ -37,6 +37,8 @@ namespace Xacor.Graphics
 
         void SetRenderTargets(TextureView[] renderTargets, TextureView depthStencilView);
 
+        void SetSampler(ISampler sampler);
+
         void SetScissorRectangle(Rectangle rectangle);
 
         void SetTexture(TextureView textureView);

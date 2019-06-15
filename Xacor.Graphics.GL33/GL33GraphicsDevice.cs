@@ -6,6 +6,11 @@ namespace Xacor.Graphics.GL33
     {
         public GraphicsContext NativeContext { get; }
 
+        public void Dispose()
+        {
+            NativeContext?.Dispose();
+        }
+
         public GL33GraphicsDevice()
         {
             NativeContext = new GraphicsContext(GraphicsMode.Default, null);

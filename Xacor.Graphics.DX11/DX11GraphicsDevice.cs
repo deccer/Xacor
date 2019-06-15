@@ -11,11 +11,16 @@ namespace Xacor.Graphics.DX11
 
         public D3D11DeviceContext NativeDeviceContext { get; }
 
+        public void Dispose()
+        {
+            _nativeDevice?.Dispose();
+        }
+
         public DX11GraphicsDevice(DeviceType deviceType)
         {
             var deviceCreationFlags = DeviceCreationFlags.BgraSupport;
 #if DEBUG
-            deviceCreationFlags = deviceCreationFlags | DeviceCreationFlags.Debug;
+            deviceCreationFlags |= DeviceCreationFlags.Debug;
 #endif
             _nativeDevice = new D3D11Device(deviceType.ToSharpDX(), deviceCreationFlags);
             NativeDeviceContext = _nativeDevice.ImmediateContext;

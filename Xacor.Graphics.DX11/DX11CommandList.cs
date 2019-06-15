@@ -42,7 +42,7 @@ namespace Xacor.Graphics.DX11
             {
                 Type = DX11CommandType.ClearRenderTarget,
                 RenderTarget = (DX11TextureView)renderTarget,
-                RenderTargetClearColor = new RawColor4(clearColor.X,  clearColor.Y, clearColor.Z,  clearColor.W)
+                RenderTargetClearColor = new RawColor4(clearColor.X, clearColor.Y, clearColor.Z, clearColor.W)
             };
             _commandList.Add(command);
         }
@@ -189,6 +189,18 @@ namespace Xacor.Graphics.DX11
             _commandList.Add(command);
         }
 
+        public void SetSampler(ISampler sampler)
+        {
+            var command = new DX11Command
+            {
+                Type = DX11CommandType.SetSamplers,
+                Samplers = new[] { (SamplerState)(DX11Sampler)sampler },
+                SamplerCount = 1,
+                SamplersStartSlot = 0
+            };
+            _commandList.Add(command);
+        }
+
         public void SetScissorRectangle(Rectangle rectangle)
         {
             var command = new DX11Command
@@ -204,7 +216,9 @@ namespace Xacor.Graphics.DX11
             var command = new DX11Command
             {
                 Type = DX11CommandType.SetTextures,
-                Textures = new[] { (ShaderResourceView)(DX11TextureView)textureView }
+                Textures = new[] { (ShaderResourceView)(DX11TextureView)textureView },
+                TexturesStartSlot = 0,
+                TextureCount = 1
             };
             _commandList.Add(command);
         }

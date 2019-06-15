@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Numerics;
-using SharpDX.Direct3D11;
+﻿using SharpDX.Direct3D11;
 using SharpDX.Mathematics.Interop;
 
 namespace Xacor.Graphics.DX11
