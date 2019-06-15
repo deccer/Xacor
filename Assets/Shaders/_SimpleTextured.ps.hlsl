@@ -1,11 +1,11 @@
-TextureCube T_Texture;
+Texture2D T_Texture;
 
 SamplerState S_Texture;
 
 struct PSInput
 {
 	float4 Position: SV_POSITION;
-	float3 Uv: TEXCOORD0;
+	float2 Uv: TEXCOORD0;
 };
 
 float4 Main(PSInput input) : SV_TARGET

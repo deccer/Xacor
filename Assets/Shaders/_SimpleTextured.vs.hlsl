@@ -1,13 +1,13 @@
 struct VSInput
 {
 	float3 Position: POSITION;
-	float3 Uv: TEXCOORD0;
+	float2 Uv: TEXCOORD0;
 };
 
 struct PSInput
 {
 	float4 Position: SV_POSITION;
-	float3 Uv: TEXCOORD0;
+	float2 Uv: TEXCOORD0;
 };
 
 cbuffer Input
