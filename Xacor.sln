@@ -83,6 +83,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xacor.Input", "Xacor.Input\Xacor.Input.csproj", "{A8B1D4D7-2C28-4133-A704-E2A6C87C8E2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xacor.Input.RawInput", "Xacor.Input.RawInput\Xacor.Input.RawInput.csproj", "{7C1448A8-44ED-4D3E-BABB-26853ADF569D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Xacor.Graphics.DX\Xacor.Graphics.DX.projitems*{7b7225e0-f6f2-4d96-b304-eecdc4152a26}*SharedItemsImports = 13
@@ -136,6 +140,14 @@ Global
 		{A7553A2E-768C-4CF1-9A44-415CBAFE32CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7553A2E-768C-4CF1-9A44-415CBAFE32CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7553A2E-768C-4CF1-9A44-415CBAFE32CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8B1D4D7-2C28-4133-A704-E2A6C87C8E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8B1D4D7-2C28-4133-A704-E2A6C87C8E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8B1D4D7-2C28-4133-A704-E2A6C87C8E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8B1D4D7-2C28-4133-A704-E2A6C87C8E2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C1448A8-44ED-4D3E-BABB-26853ADF569D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C1448A8-44ED-4D3E-BABB-26853ADF569D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C1448A8-44ED-4D3E-BABB-26853ADF569D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C1448A8-44ED-4D3E-BABB-26853ADF569D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
