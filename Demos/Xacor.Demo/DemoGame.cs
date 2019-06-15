@@ -136,7 +136,7 @@ namespace Xacor.Demo
             _texturedConstantBuffer = GraphicsFactory.CreateConstantBuffer(_mvp2);
 
             _simpleTexture = _textureFactory.CreateTextureFromFile("Assets/Textures/T_Default_D0.png", false);
-            _simpleSampler = GraphicsFactory.CreateSampler();
+            _simpleSampler = GraphicsFactory.CreateSampler(TextureAddressMode.Clamp, TextureAddressMode.Clamp, Filter.Nearest, ComparisonFunction.Always);
         }
 
         private float _counter = 0.0f;
