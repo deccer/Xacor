@@ -40,7 +40,7 @@ namespace Xacor.Graphics.VK
             throw new NotImplementedException();
         }
 
-        public ISampler CreateSampler()
+        public ISampler CreateSampler(TextureAddressMode addressModeU, TextureAddressMode addressModeV, Filter filter, ComparisonFunction comparisonFunction)
         {
             throw new NotImplementedException();
         }

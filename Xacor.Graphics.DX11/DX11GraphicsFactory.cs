@@ -43,9 +43,9 @@ namespace Xacor.Graphics.DX11
             return new DX11RasterizerState(_graphicsDevice, cullMode, fillMode, isDepthEnabled, isScissorEnabled, isMultiSampleEnabled, isAntialiasedLineEnabled);
         }
 
-        public ISampler CreateSampler()
+        public ISampler CreateSampler(TextureAddressMode addressModeU, TextureAddressMode addressModeV, Filter filter, ComparisonFunction comparisonFunction)
         {
-            return new DX11Sampler(_graphicsDevice);
+            return new DX11Sampler(_graphicsDevice, addressModeU, addressModeV, filter, comparisonFunction);
         }
 
         public Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros)

@@ -3,6 +3,7 @@
     public enum Filter
     {
         Nearest,
-        Linear
+        Linear,
+        Anisotropic
     }
 }

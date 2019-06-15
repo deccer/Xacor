@@ -74,5 +74,62 @@ namespace Xacor.Graphics.DX11
                     throw new ArgumentOutOfRangeException(nameof(blend), blend, null);
             }
         }
+
+        public static SharpDX.Direct3D11.Filter ToSharpDX(this Filter filter)
+        {
+            switch (filter)
+            {
+                case Filter.Nearest:
+                    return SharpDX.Direct3D11.Filter.MinMagMipPoint;
+                case Filter.Linear:
+                    return SharpDX.Direct3D11.Filter.MinMagMipLinear;
+                case Filter.Anisotropic:
+                    return SharpDX.Direct3D11.Filter.Anisotropic;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
+            }
+        }
+
+        public static Comparison ToSharpDX(this ComparisonFunction comparisonFunction)
+        {
+            switch (comparisonFunction)
+            {
+                case ComparisonFunction.Never:
+                    return Comparison.Never;
+                case ComparisonFunction.Less:
+                    return Comparison.Less;
+                case ComparisonFunction.Equal:
+                    return Comparison.Equal;
+                case ComparisonFunction.LessEqual:
+                    return Comparison.LessEqual;
+                case ComparisonFunction.Greater:
+                    return Comparison.Greater;
+                case ComparisonFunction.NotEqual:
+                    return Comparison.NotEqual;
+                case ComparisonFunction.GreaterEqual:
+                    return Comparison.GreaterEqual;
+                case ComparisonFunction.Always:
+                    return Comparison.Always;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(comparisonFunction), comparisonFunction, null);
+            }
+        }
+
+        public static SharpDX.Direct3D11.TextureAddressMode ToSharpDX(this TextureAddressMode textureAddressMode)
+        {
+            switch (textureAddressMode)
+            {
+                case TextureAddressMode.Border:
+                    return SharpDX.Direct3D11.TextureAddressMode.Border;
+                case TextureAddressMode.Clamp:
+                    return SharpDX.Direct3D11.TextureAddressMode.Clamp;
+                case TextureAddressMode.Mirror:
+                    return SharpDX.Direct3D11.TextureAddressMode.Mirror;
+                case TextureAddressMode.Wrap:
+                    return SharpDX.Direct3D11.TextureAddressMode.Wrap;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(textureAddressMode), textureAddressMode, null);
+            }
+        }
     }
 }

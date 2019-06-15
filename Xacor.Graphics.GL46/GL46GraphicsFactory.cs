@@ -39,7 +39,7 @@ namespace Xacor.Graphics.GL46
             throw new System.NotImplementedException();
         }
 
-        public ISampler CreateSampler()
+        public ISampler CreateSampler(TextureAddressMode addressModeU, TextureAddressMode addressModeV, Filter filter, ComparisonFunction comparisonFunction)
         {
             throw new System.NotImplementedException();
         }

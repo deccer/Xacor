@@ -1,4 +1,5 @@
 ﻿using SharpDX.Direct3D11;
+using Xacor.Graphics.DX;
 
 namespace Xacor.Graphics.DX11
 {
@@ -16,9 +17,13 @@ namespace Xacor.Graphics.DX11
             _nativeSamplerState?.Dispose();
         }
 
-        public DX11Sampler(DX11GraphicsDevice graphicsDevice)
+        public DX11Sampler(DX11GraphicsDevice graphicsDevice, TextureAddressMode addressModeU, TextureAddressMode addressModeV, Filter filter, ComparisonFunction comparisonFunction)
         {
             var samplerStateDescription = SamplerStateDescription.Default();
+            samplerStateDescription.AddressU = addressModeU.ToSharpDX();
+            samplerStateDescription.AddressV = addressModeV.ToSharpDX();
+            samplerStateDescription.ComparisonFunction = comparisonFunction.ToSharpDX();
+            samplerStateDescription.Filter = filter.ToSharpDX();
             _nativeSamplerState = new SamplerState(graphicsDevice, samplerStateDescription);
         }
     }
