@@ -69,6 +69,11 @@ namespace Xacor.Graphics.GL46
             throw new System.NotImplementedException();
         }
 
+        public IIndexBuffer CreateIndexBuffer<T>(T[] indices) where T : struct
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Dispose()
         {
             throw new System.NotImplementedException();

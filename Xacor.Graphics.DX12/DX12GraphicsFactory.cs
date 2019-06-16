@@ -71,6 +71,11 @@ namespace Xacor.Graphics.DX12
             throw new System.NotImplementedException();
         }
 
+        public IIndexBuffer CreateIndexBuffer<T>(T[] indices) where T : struct
+        {
+            throw new System.NotImplementedException();
+        }
+
         public DX12GraphicsFactory()
         {
             _graphicsDevice = new DX12GraphicsDevice();

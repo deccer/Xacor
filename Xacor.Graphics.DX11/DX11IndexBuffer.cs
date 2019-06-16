@@ -11,22 +11,22 @@ namespace Xacor.Graphics.DX11
 
         public bool Is16Bit { get; private set; }
 
-        public void Dispose()
-        {
-            _nativeBuffer.Dispose();
-        }
-
         public static implicit operator Buffer(DX11IndexBuffer indexBuffer)
         {
             return indexBuffer._nativeBuffer;
         }
 
-        public static IIndexBuffer Create<T>(DX11GraphicsDevice graphicsDevice, T[] indices) where T : struct
+        public static IIndexBuffer Create<T>(DX11GraphicsDevice graphicsDevice, ref T[] indices) where T : struct
         {
             var indexBuffer = new DX11IndexBuffer(graphicsDevice);
-            indexBuffer.Initialize(indices);
+            indexBuffer.Initialize(ref indices);
             indexBuffer.Is16Bit = typeof(T) == typeof(short) || typeof(T) == typeof(ushort);
             return indexBuffer;
+        }
+
+        public void Dispose()
+        {
+            _nativeBuffer.Dispose();
         }
 
         private DX11IndexBuffer(DX11GraphicsDevice graphicsDevice)
@@ -34,7 +34,7 @@ namespace Xacor.Graphics.DX11
             _graphicsDevice = graphicsDevice;
         }
 
-        private void Initialize<T>(T[] indices) where T : struct
+        private void Initialize<T>(ref T[] indices) where T : struct
         {
             var stride = Marshal.SizeOf<T>();
             var bufferDescription = new BufferDescription(indices.Length * stride, BindFlags.IndexBuffer, ResourceUsage.Default);

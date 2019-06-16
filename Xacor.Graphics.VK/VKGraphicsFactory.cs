@@ -70,6 +70,11 @@ namespace Xacor.Graphics.VK
             throw new NotImplementedException();
         }
 
+        public IIndexBuffer CreateIndexBuffer<T>(T[] indices) where T : struct
+        {
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
         {
             throw new NotImplementedException();

@@ -71,9 +71,12 @@ namespace Xacor.Graphics.DX11
 
         public IVertexBuffer CreateVertexBuffer<T>(T[] vertices) where T: struct
         {
-            var vertexBuffer = new DX11VertexBuffer(_graphicsDevice);
-            vertexBuffer.Initialize(vertices);
-            return vertexBuffer;
+            return DX11VertexBuffer.Create(_graphicsDevice, ref vertices);
+        }
+
+        public IIndexBuffer CreateIndexBuffer<T>(T[] indices) where T : struct
+        {
+            return DX11IndexBuffer.Create(_graphicsDevice, ref indices);
         }
 
         internal DX11InputLayout CreateInputLayout(VertexType vertexType, byte[] shaderByteCode)

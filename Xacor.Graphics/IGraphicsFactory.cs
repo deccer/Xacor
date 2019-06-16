@@ -28,5 +28,7 @@ namespace Xacor.Graphics
         ITextureFactory CreateTextureFactory();
 
         IVertexBuffer CreateVertexBuffer<T>(T[] vertices) where T : struct;
+
+        IIndexBuffer CreateIndexBuffer<T>(T[] indices) where T : struct;
     }
 }

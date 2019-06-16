@@ -15,9 +15,11 @@ namespace Xacor.Graphics.DX11
             return vertexBuffer._vertexBufferBinding;
         }
 
-        public VertexBufferBinding GetVertexBufferBinding()
+        public static IVertexBuffer Create<T>(DX11GraphicsDevice graphicsDevice, ref T[] vertices) where T : struct
         {
-            return _vertexBufferBinding;
+            var vertexBuffer = new DX11VertexBuffer(graphicsDevice);
+            vertexBuffer.Initialize(ref vertices);
+            return vertexBuffer;
         }
 
         public void Dispose()
@@ -25,12 +27,17 @@ namespace Xacor.Graphics.DX11
             _buffer?.Dispose();
         }
 
-        public DX11VertexBuffer(DX11GraphicsDevice graphicsDevice)
+        private DX11VertexBuffer(DX11GraphicsDevice graphicsDevice)
         {
             _graphicsDevice = graphicsDevice;
         }
 
-        public void Initialize<T>(T[] vertices) where T : struct
+        public VertexBufferBinding GetVertexBufferBinding()
+        {
+            return _vertexBufferBinding;
+        }
+
+        private void Initialize<T>(ref T[] vertices) where T : struct
         {
             var stride = Marshal.SizeOf<T>();
             var bufferDescription = new BufferDescription(vertices.Length * stride, BindFlags.VertexBuffer, ResourceUsage.Default);
