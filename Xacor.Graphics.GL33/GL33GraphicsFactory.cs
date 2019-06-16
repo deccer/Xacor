@@ -44,11 +44,6 @@ namespace Xacor.Graphics.GL33
             throw new System.NotImplementedException();
         }
 
-        public IPipeline CreatePipeline()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros)
         {
             throw new System.NotImplementedException();

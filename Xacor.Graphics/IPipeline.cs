@@ -1,6 +1,8 @@
-﻿namespace Xacor.Graphics
+﻿using System;
+
+namespace Xacor.Graphics
 {
-    public interface IPipeline
+    public interface IPipeline : IDisposable
     {
         PrimitiveTopology PrimitiveTopology { get; }
 

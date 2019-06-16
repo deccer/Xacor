@@ -45,11 +45,6 @@ namespace Xacor.Graphics.VK
             throw new NotImplementedException();
         }
 
-        public IPipeline CreatePipeline()
-        {
-            throw new NotImplementedException();
-        }
-
         public Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros)
         {
             throw new NotImplementedException();

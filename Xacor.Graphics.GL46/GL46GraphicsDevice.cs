@@ -4,6 +4,11 @@
     {
         public void Dispose()
         {
+
+        }
+
+        public GL46GraphicsDevice()
+        {
         }
     }
 }

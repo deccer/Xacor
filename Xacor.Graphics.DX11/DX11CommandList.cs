@@ -18,7 +18,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.Begin,
+                Type = CommandType.Begin,
                 PassName = passName
             };
             _commandList.Add(command);
@@ -40,7 +40,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.ClearRenderTarget,
+                Type = CommandType.ClearRenderTarget,
                 RenderTarget = (DX11TextureView)renderTarget,
                 RenderTargetClearColor = new RawColor4(clearColor.X, clearColor.Y, clearColor.Z, clearColor.W)
             };
@@ -51,7 +51,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.ClearDepthStencil,
+                Type = CommandType.ClearDepthStencil,
                 RenderTargetDepthStencil = (DX11TextureView)depthStencilView,
                 DepthClear = depthClear,
                 DepthClearStencil = depthClearStencil
@@ -63,7 +63,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.Draw,
+                Type = CommandType.Draw,
                 VertexCount = vertexCount
             };
             _commandList.Add(command);
@@ -73,7 +73,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.DrawIndexed,
+                Type = CommandType.DrawIndexed,
                 IndexCount = indexCount,
                 IndexOffset = indexOffset,
                 VertexOffset = vertexOffset
@@ -91,7 +91,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.End
+                Type = CommandType.End
             };
             _commandList.Add(command);
         }
@@ -100,7 +100,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetBlendState,
+                Type = CommandType.SetBlendState,
                 BlendState = (DX11BlendState)blendState
             };
             _commandList.Add(command);
@@ -110,7 +110,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetConstantBuffers,
+                Type = CommandType.SetConstantBuffers,
                 ConstantBufferScope = bufferScope,
                 ConstantBuffer = (DX11ConstantBuffer)buffer
             };
@@ -121,7 +121,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetDepthStencilState,
+                Type = CommandType.SetDepthStencilState,
                 DepthStencilState = (DX11DepthStencilState)depthStencilState
             };
             _commandList.Add(command);
@@ -131,7 +131,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetIndexBuffer,
+                Type = CommandType.SetIndexBuffer,
                 IndexBuffer = (DX11IndexBuffer)indexBuffer
             };
             _commandList.Add(command);
@@ -141,7 +141,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetInputLayout,
+                Type = CommandType.SetInputLayout,
                 InputLayout = (DX11InputLayout)inputLayout
             };
             _commandList.Add(command);
@@ -151,7 +151,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetPixelShader,
+                Type = CommandType.SetPixelShader,
                 PixelShader = (PixelShader)(DX11Shader)pixelShader
             };
             _commandList.Add(command);
@@ -161,7 +161,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetRasterizerState,
+                Type = CommandType.SetRasterizerState,
                 RasterizerState = (DX11RasterizerState)rasterizerState
             };
             _commandList.Add(command);
@@ -171,7 +171,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetRenderTarget,
+                Type = CommandType.SetRenderTarget,
                 RenderTarget = (DX11TextureView)renderTarget,
                 RenderTargetDepthStencil = (DX11TextureView)depthStencilView
 
@@ -183,7 +183,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetRenderTargets,
+                Type = CommandType.SetRenderTargets,
                 RenderTargets = renderTargets.Select(rt => (RenderTargetView)(DX11TextureView)rt).ToArray()
             };
             _commandList.Add(command);
@@ -193,7 +193,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetSamplers,
+                Type = CommandType.SetSamplers,
                 Samplers = new[] { (SamplerState)(DX11Sampler)sampler },
                 SamplerCount = 1,
                 SamplersStartSlot = 0
@@ -205,7 +205,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetScissor,
+                Type = CommandType.SetScissor,
                 ScissorRectangle = rectangle.ToSharpDX()
             };
             _commandList.Add(command);
@@ -215,7 +215,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetTextures,
+                Type = CommandType.SetTextures,
                 Textures = new[] { (ShaderResourceView)(DX11TextureView)textureView },
                 TexturesStartSlot = 0,
                 TextureCount = 1
@@ -227,7 +227,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetPrimitiveTopology,
+                Type = CommandType.SetPrimitiveTopology,
                 PrimitiveTopology = primitiveTopology
             };
             _commandList.Add(command);
@@ -237,7 +237,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetVertexBuffer,
+                Type = CommandType.SetVertexBuffer,
                 VertexBufferBinding = (DX11VertexBufferBinding)vertexBuffer.GetVertexBufferBinding()
             };
             _commandList.Add(command);
@@ -247,7 +247,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetVertexShader,
+                Type = CommandType.SetVertexShader,
                 VertexShader = (VertexShader)(DX11Shader)vertexShader
             };
             _commandList.Add(command);
@@ -257,7 +257,7 @@ namespace Xacor.Graphics.DX11
         {
             var command = new DX11Command
             {
-                Type = DX11CommandType.SetViewport,
+                Type = CommandType.SetViewport,
                 Viewport = viewport.ToSharpDX(),
             };
             _commandList.Add(command);
@@ -269,17 +269,17 @@ namespace Xacor.Graphics.DX11
             {
                 switch (command.Type)
                 {
-                    case DX11CommandType.Begin:
+                    case CommandType.Begin:
                         break;
-                    case DX11CommandType.End:
+                    case CommandType.End:
                         break;
-                    case DX11CommandType.Draw:
+                    case CommandType.Draw:
                         _graphicsDevice.NativeDeviceContext.Draw(command.VertexCount, command.VertexOffset);
                         break;
-                    case DX11CommandType.DrawIndexed:
+                    case CommandType.DrawIndexed:
                         _graphicsDevice.NativeDeviceContext.DrawIndexed(command.IndexCount, command.IndexOffset, command.VertexOffset);
                         break;
-                    case DX11CommandType.SetViewport:
+                    case CommandType.SetViewport:
                         var viewport = new RawViewportF();
                         viewport.X = command.Viewport.X;
                         viewport.Y = command.Viewport.Y;
@@ -289,41 +289,41 @@ namespace Xacor.Graphics.DX11
                         viewport.MaxDepth = 1.0f;
                         _graphicsDevice.NativeDeviceContext.Rasterizer.SetViewport(viewport);
                         break;
-                    case DX11CommandType.SetScissor:
+                    case CommandType.SetScissor:
                         _graphicsDevice.NativeDeviceContext.Rasterizer.SetScissorRectangle(command.ScissorRectangle.Left, command.ScissorRectangle.Top, command.ScissorRectangle.Right, command.ScissorRectangle.Bottom);
                         break;
-                    case DX11CommandType.SetPrimitiveTopology:
+                    case CommandType.SetPrimitiveTopology:
                         _graphicsDevice.NativeDeviceContext.InputAssembler.PrimitiveTopology = command.PrimitiveTopology.ToSharpDX();
                         break;
-                    case DX11CommandType.SetInputLayout:
+                    case CommandType.SetInputLayout:
                         _graphicsDevice.NativeDeviceContext.InputAssembler.InputLayout = command.InputLayout;
                         break;
-                    case DX11CommandType.SetDepthStencilState:
+                    case CommandType.SetDepthStencilState:
                         _graphicsDevice.NativeDeviceContext.OutputMerger.DepthStencilState = command.DepthStencilState;
                         break;
-                    case DX11CommandType.SetRasterizerState:
+                    case CommandType.SetRasterizerState:
                         _graphicsDevice.NativeDeviceContext.Rasterizer.State = command.RasterizerState;
                         break;
-                    case DX11CommandType.SetBlendState:
+                    case CommandType.SetBlendState:
                         _graphicsDevice.NativeDeviceContext.OutputMerger.BlendFactor = new RawColor4(0, 0, 0, 0);
                         _graphicsDevice.NativeDeviceContext.OutputMerger.BlendState = command.BlendState;
                         break;
-                    case DX11CommandType.SetVertexBuffer:
+                    case CommandType.SetVertexBuffer:
                         _graphicsDevice.NativeDeviceContext.InputAssembler.SetVertexBuffers(0, command.VertexBufferBinding);
                         break;
-                    case DX11CommandType.SetIndexBuffer:
+                    case CommandType.SetIndexBuffer:
                         _graphicsDevice.NativeDeviceContext.InputAssembler.SetIndexBuffer(command.IndexBuffer, command.IndexBufferFormat.ToSharpDX(), command.IndexOffset);
                         break;
-                    case DX11CommandType.SetVertexShader:
+                    case CommandType.SetVertexShader:
                         _graphicsDevice.NativeDeviceContext.VertexShader.Set(command.VertexShader);
                         break;
-                    case DX11CommandType.SetPixelShader:
+                    case CommandType.SetPixelShader:
                         _graphicsDevice.NativeDeviceContext.PixelShader.Set(command.PixelShader);
                         break;
-                    case DX11CommandType.SetComputeShader:
+                    case CommandType.SetComputeShader:
                         _graphicsDevice.NativeDeviceContext.ComputeShader.Set(command.ComputeShader);
                         break;
-                    case DX11CommandType.SetConstantBuffers:
+                    case CommandType.SetConstantBuffers:
                         switch (command.ConstantBufferScope)
                         {
                             case BufferScope.VertexShader:
@@ -342,22 +342,22 @@ namespace Xacor.Graphics.DX11
                                 throw new ArgumentOutOfRangeException();
                         }
                         break;
-                    case DX11CommandType.SetSamplers:
+                    case CommandType.SetSamplers:
                         _graphicsDevice.NativeDeviceContext.PixelShader.SetSamplers(command.SamplersStartSlot, command.SamplerCount, command.Samplers);
                         break;
-                    case DX11CommandType.SetTextures:
+                    case CommandType.SetTextures:
                         _graphicsDevice.NativeDeviceContext.PixelShader.SetShaderResources(command.TexturesStartSlot, command.TextureCount, command.Textures);
                         break;
-                    case DX11CommandType.SetRenderTarget:
+                    case CommandType.SetRenderTarget:
                         _graphicsDevice.NativeDeviceContext.OutputMerger.SetRenderTargets(command.RenderTargetDepthStencil, command.RenderTarget);
                         break;
-                    case DX11CommandType.SetRenderTargets:
+                    case CommandType.SetRenderTargets:
                         _graphicsDevice.NativeDeviceContext.OutputMerger.SetRenderTargets(command.RenderTargetDepthStencil, command.RenderTargets);
                         break;
-                    case DX11CommandType.ClearRenderTarget:
+                    case CommandType.ClearRenderTarget:
                         _graphicsDevice.NativeDeviceContext.ClearRenderTargetView(command.RenderTarget, command.RenderTargetClearColor);
                         break;
-                    case DX11CommandType.ClearDepthStencil:
+                    case CommandType.ClearDepthStencil:
                         var depthStencilClearFlags = DepthStencilClearFlags.Depth;
                         _graphicsDevice.NativeDeviceContext.ClearDepthStencilView(command.RenderTargetDepthStencil, depthStencilClearFlags, command.DepthClear, command.DepthClearStencil);
                         break;

@@ -12,4 +12,6 @@
     <ProjectReference Include="..\Xacor.Graphics\Xacor.Graphics.csproj" />
   </ItemGroup>
 
+  <Import Project="..\Xacor.Graphics.GL\Xacor.Graphics.GL.projitems" Label="Shared" />
+
 </Project>

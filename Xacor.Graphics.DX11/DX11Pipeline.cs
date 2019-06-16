@@ -18,6 +18,15 @@
 
         public Viewport Viewport { get; }
 
+        public void Dispose()
+        {
+            VertexShader?.Dispose();
+            PixelShader?.Dispose();
+            RasterizerState?.Dispose();
+            DepthStencilState?.Dispose();
+            BlendState?.Dispose();
+        }
+
         public DX11Pipeline(Shader vertexShader, Shader pixelShader, IInputLayout inputLayout,
             IBlendState blendState, IDepthStencilState depthStencilState, IRasterizerState rasterizerState,
             Viewport viewport, PrimitiveTopology primitiveTopology)

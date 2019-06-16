@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using DryIoc;
-using Xacor.Game;
 using Xacor.Graphics;
 using Xacor.Graphics.DX11;
 using Xacor.Graphics.GL46;
@@ -18,16 +17,17 @@ namespace Xacor.Demo
             var container = new Container(rules => rules.WithTrackingDisposableTransients());
             //container.Register<IProfiler>();
             container.RegisterInstance<GraphicsOptions>(new GraphicsOptions(new Size(1920, 1080), WindowState.Windowed));
-            container.Register<Options>();
-            container.Register<IGamePlatformFactory, Win32GamePlatformFactory>();
+            container.Register<Options>(Reuse.Singleton);
+            container.Register<IGamePlatformFactory, Win32GamePlatformFactory>(Reuse.Singleton);
             container.RegisterInstance<DeviceType>(DeviceType.Hardware);
-            container.Register<IGraphicsFactory, DX11GraphicsFactory>();
-            container.Register<DemoGame>();
+            //container.Register<IGraphicsFactory, DX11GraphicsFactory>(Reuse.Singleton);
+            container.Register<IGraphicsFactory, GL46GraphicsFactory>(Reuse.Singleton);
+            container.Register<DemoGame>(Reuse.Singleton);
             return container;
         }
 
         [STAThread]
-        public static /*async Task*/ void Main()
+        public static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

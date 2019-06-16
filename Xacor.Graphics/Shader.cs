@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Xacor.Graphics
 {
@@ -18,16 +17,20 @@ namespace Xacor.Graphics
             }
         }
 
-        protected Shader()
-        {
-            Macros = new Dictionary<string, string>();
-        }
-
         protected abstract void CompileInternal(ShaderStage shaderStage, string filePath, VertexType vertexType);
 
         public void CompileAsync(ShaderStage shaderStage, string filePath, VertexType vertexType)
         {
             CompileInternal(shaderStage, filePath, vertexType);
+        }
+
+        public virtual void Dispose()
+        {
+        }
+
+        protected Shader()
+        {
+            Macros = new Dictionary<string, string>();
         }
     }
 }

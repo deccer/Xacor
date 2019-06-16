@@ -33,9 +33,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{65478F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{4D894059-F529-4EFA-A6FE-9895F003CADF}"
 	ProjectSection(SolutionItems) = preProject
+		Assets\Shaders\_Simple.ps.glsl = Assets\Shaders\_Simple.ps.glsl
 		Assets\Shaders\_Simple.ps.hlsl = Assets\Shaders\_Simple.ps.hlsl
+		Assets\Shaders\_Simple.vs.glsl = Assets\Shaders\_Simple.vs.glsl
 		Assets\Shaders\_Simple.vs.hlsl = Assets\Shaders\_Simple.vs.hlsl
+		Assets\Shaders\_SimpleTextured.ps.glsl = Assets\Shaders\_SimpleTextured.ps.glsl
 		Assets\Shaders\_SimpleTextured.ps.hlsl = Assets\Shaders\_SimpleTextured.ps.hlsl
+		Assets\Shaders\_SimpleTextured.vs.glsl = Assets\Shaders\_SimpleTextured.vs.glsl
 		Assets\Shaders\_SimpleTextured.vs.hlsl = Assets\Shaders\_SimpleTextured.vs.hlsl
 		Assets\Shaders\Common.Buffer.hlsl = Assets\Shaders\Common.Buffer.hlsl
 		Assets\Shaders\Common.hlsl = Assets\Shaders\Common.hlsl
@@ -83,13 +87,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xacor.Input", "Xacor.Input\Xacor.Input.csproj", "{A8B1D4D7-2C28-4133-A704-E2A6C87C8E2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Input", "Xacor.Input\Xacor.Input.csproj", "{A8B1D4D7-2C28-4133-A704-E2A6C87C8E2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xacor.Input.RawInput", "Xacor.Input.RawInput\Xacor.Input.RawInput.csproj", "{7C1448A8-44ED-4D3E-BABB-26853ADF569D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Input.RawInput", "Xacor.Input.RawInput\Xacor.Input.RawInput.csproj", "{7C1448A8-44ED-4D3E-BABB-26853ADF569D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Xacor.Graphics.GL", "Xacor.Graphics.GL\Xacor.Graphics.GL.shproj", "{FB60AADE-1EF7-4D5F-A433-FB950C2E2B55}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Xacor.Graphics.DX\Xacor.Graphics.DX.projitems*{7b7225e0-f6f2-4d96-b304-eecdc4152a26}*SharedItemsImports = 13
+		Xacor.Graphics.GL\Xacor.Graphics.GL.projitems*{fb60aade-1ef7-4d5f-a433-fb950c2e2b55}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

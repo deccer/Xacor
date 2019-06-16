@@ -1,6 +1,6 @@
-﻿namespace Xacor.Graphics.DX11
+﻿namespace Xacor.Graphics
 {
-    internal enum DX11CommandType
+    public enum CommandType
     {
         Begin,
         End,
@@ -24,6 +24,7 @@
         SetRenderTarget,
         SetRenderTargets,
         ClearRenderTarget,
-        ClearDepthStencil
+        ClearDepthStencil,
+        SetPipeline
     }
 }

@@ -4,16 +4,20 @@ namespace Xacor.Graphics.GL33
 {
     internal class GL33GraphicsDevice : IGraphicsDevice
     {
-        public GraphicsContext NativeContext { get; }
+        private readonly GraphicsContext _nativeContext;
 
         public void Dispose()
         {
-            NativeContext?.Dispose();
+            _nativeContext?.Dispose();
         }
 
         public GL33GraphicsDevice()
         {
-            NativeContext = new GraphicsContext(GraphicsMode.Default, null);
+            var graphicsContextFlags = GraphicsContextFlags.Default;
+#if DEBUG
+            graphicsContextFlags |= GraphicsContextFlags.Debug;
+#endif
+            _nativeContext = new GraphicsContext(GraphicsMode.Default, null, null, 3, 3, graphicsContextFlags);
         }
     }
 }

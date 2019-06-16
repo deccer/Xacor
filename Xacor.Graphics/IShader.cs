@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 
 namespace Xacor.Graphics
 {
-    public interface IShader
+    public interface IShader : IDisposable
     {
         IInputLayout InputLayout { get; }
 

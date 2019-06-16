@@ -1,7 +1,8 @@
-﻿namespace Xacor.Graphics
-{
-    public interface IInputLayout
-    {
+﻿using System;
 
+namespace Xacor.Graphics
+{
+    public interface IInputLayout : IDisposable
+    {
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Windows.Media;
 using Xacor.Game;
 using Xacor.Graphics;
 using Xacor.Graphics.DX;
@@ -69,13 +68,13 @@ namespace Xacor.Demo
             _commandList.Draw(3);
             _commandList.End();
 
-            _commandList.Begin("SimpleTextured", _texturedPipeline);
-            _commandList.SetVertexBuffer(_texturedVertexBuffer);
-            _commandList.SetConstantBuffer(_texturedConstantBuffer, BufferScope.VertexShader);
-            _commandList.SetSampler(_simpleSampler);
-            _commandList.SetTexture(_simpleTexture.View);
-            _commandList.Draw(3);
-            _commandList.End();
+            //_commandList.Begin("SimpleTextured", _texturedPipeline);
+            //_commandList.SetVertexBuffer(_texturedVertexBuffer);
+            //_commandList.SetConstantBuffer(_texturedConstantBuffer, BufferScope.VertexShader);
+            //_commandList.SetSampler(_simpleSampler);
+            //_commandList.SetTexture(_simpleTexture.View);
+            //_commandList.Draw(3);
+            //_commandList.End();
 
             _commandList.Submit();
         }
@@ -107,10 +106,10 @@ namespace Xacor.Demo
             _defaultRasterizerState = GraphicsFactory.CreateRasterizerState(CullMode.Back, FillMode.Solid, true, false, false, false);
 
             var macros = new[] { ("TEST", "0") };
-            _simpleVertexShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Vertex, "Assets/Shaders/_Simple.vs.hlsl", VertexType.PositionColor, Enumerable.Empty<(string, string)>());
-            _simplePixelShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Pixel, "Assets/Shaders/_Simple.ps.hlsl", VertexType.PositionColor, macros);
-            _texturedVertexShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Vertex, "Assets/Shaders/_SimpleTextured.vs.hlsl", VertexType.PositionTexture, Enumerable.Empty<(string, string)>());
-            _texturedPixelShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Pixel, "Assets/Shaders/_SimpleTextured.ps.hlsl", VertexType.PositionTexture, macros);
+            _simpleVertexShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Vertex, "Assets/Shaders/_Simple.vs.glsl", VertexType.PositionColor, Enumerable.Empty<(string, string)>());
+            _simplePixelShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Pixel, "Assets/Shaders/_Simple.ps.glsl", VertexType.PositionColor, macros);
+            _texturedVertexShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Vertex, "Assets/Shaders/_SimpleTextured.vs.glsl", VertexType.PositionTexture, Enumerable.Empty<(string, string)>());
+            _texturedPixelShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Pixel, "Assets/Shaders/_SimpleTextured.ps.glsl", VertexType.PositionTexture, macros);
 
             _simplePipeline = GraphicsFactory.CreatePipeline(_simpleVertexShader, _simplePixelShader, _simpleVertexShader.InputLayout, _defaultBlendState, _defaultDepthStencilState, _defaultRasterizerState, _viewport, PrimitiveTopology.TriangleList);
             _texturedPipeline = GraphicsFactory.CreatePipeline(_texturedVertexShader, _texturedPixelShader, _texturedVertexShader.InputLayout, _defaultBlendState, _defaultDepthStencilState, _defaultRasterizerState, _viewport, PrimitiveTopology.TriangleList);

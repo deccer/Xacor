@@ -6,10 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="OpenTK.NetStandard" Version="1.0.4" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0006" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Xacor.Graphics\Xacor.Graphics.csproj" />
   </ItemGroup>
+
+  <Import Project="..\Xacor.Graphics.GL\Xacor.Graphics.GL.projitems" Label="Shared" />
 
 </Project>

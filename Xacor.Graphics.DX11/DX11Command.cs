@@ -5,7 +5,7 @@ namespace Xacor.Graphics.DX11
 {
     internal struct DX11Command
     {
-        public DX11CommandType Type;
+        public CommandType Type;
         public RawColor4 RenderTargetClearColor;
         public RenderTargetView RenderTarget;
         public RenderTargetView[] RenderTargets;
@@ -61,7 +61,7 @@ namespace Xacor.Graphics.DX11
             RasterizerState = null;
             BlendState = null;
 
-            Type = DX11CommandType.Begin;
+            Type = CommandType.Begin;
             TextureCount = 0;
             TexturesStartSlot = 0;
             SamplerCount = 0;
