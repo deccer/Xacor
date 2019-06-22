@@ -1,9 +1,11 @@
-﻿using OpenTK;
+﻿using System.Diagnostics;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
 namespace Xacor.Graphics.GL
 {
+    [DebuggerDisplay("{Type}")]
     public struct GLCommand
     {
         public string Name;
@@ -26,9 +28,13 @@ namespace Xacor.Graphics.GL
 
         public int VertexBuffer;
 
+        public int VertexStride;
+
         public int DrawVertexCount;
 
         public int DrawIndexCount;
+
+        public int DrawIndexOffset;
 
         public int DrawVertexOffset;
 

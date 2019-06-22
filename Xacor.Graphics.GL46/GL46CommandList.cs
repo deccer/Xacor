@@ -13,6 +13,7 @@ namespace Xacor.Graphics.GL46
     {
         private readonly List<GLCommand> _commandList;
         private PrimitiveType _currentPrimitiveType = PrimitiveType.Triangles;
+        private int _currentInputLayout;
 
         public void Begin(string passName, IPipeline pipeline)
         {
@@ -21,13 +22,14 @@ namespace Xacor.Graphics.GL46
                 Type = CommandType.Begin,
                 Name = passName
             };
+
             _commandList.Add(command);
 
             if (pipeline != null)
             {
                 SetViewport(pipeline.Viewport);
-                SetInputLayout(pipeline.InputLayout);
                 SetProgramPipeline((GL46Pipeline)pipeline);
+                SetInputLayout(pipeline.InputLayout);
             }
         }
 
@@ -38,6 +40,7 @@ namespace Xacor.Graphics.GL46
                 Type = CommandType.ClearRenderTarget,
                 ClearColor = new Color4(clearColor.X, clearColor.Y, clearColor.Z, clearColor.W)
             };
+
             _commandList.Add(command);
         }
 
@@ -49,6 +52,7 @@ namespace Xacor.Graphics.GL46
                 ClearStencil = stencilDepth,
                 ClearDepth = clearDepth
             };
+
             _commandList.Add(command);
         }
 
@@ -59,6 +63,7 @@ namespace Xacor.Graphics.GL46
                 Type = CommandType.Draw,
                 DrawVertexCount = vertexCount
             };
+
             _commandList.Add(command);
         }
 
@@ -67,7 +72,9 @@ namespace Xacor.Graphics.GL46
             var command = new GLCommand
             {
                 Type = CommandType.DrawIndexed,
-
+                DrawIndexCount = indexCount,
+                DrawIndexOffset = indexOffset,
+                DrawVertexOffset = vertexOffset,
             };
             _commandList.Add(command);
         }
@@ -78,6 +85,7 @@ namespace Xacor.Graphics.GL46
             {
                 Type = CommandType.End
             };
+
             _commandList.Add(command);
         }
 
@@ -91,8 +99,8 @@ namespace Xacor.Graphics.GL46
             var command = new GLCommand
             {
                 Type = CommandType.SetBlendState,
-
             };
+
             _commandList.Add(command);
         }
 
@@ -103,6 +111,7 @@ namespace Xacor.Graphics.GL46
                 Type = CommandType.SetConstantBuffers,
                 ConstantBuffer = (GL46ConstantBuffer)buffer
             };
+
             _commandList.Add(command);
         }
 
@@ -111,8 +120,8 @@ namespace Xacor.Graphics.GL46
             var command = new GLCommand
             {
                 Type = CommandType.SetDepthStencilState,
-
             };
+
             _commandList.Add(command);
         }
 
@@ -123,6 +132,7 @@ namespace Xacor.Graphics.GL46
                 Type = CommandType.SetIndexBuffer,
                 IndexBuffer = (GL46IndexBuffer)indexBuffer
             };
+
             _commandList.Add(command);
         }
 
@@ -133,6 +143,18 @@ namespace Xacor.Graphics.GL46
                 Type = CommandType.SetInputLayout,
                 InputLayout = (GL46InputLayout)inputLayout
             };
+
+            _commandList.Add(command);
+        }
+
+        private void SetProgramPipeline(GL46Pipeline pipeline)
+        {
+            var command = new GLCommand
+            {
+                Type = CommandType.SetPipeline,
+                Pipeline = pipeline
+            };
+
             _commandList.Add(command);
         }
 
@@ -146,8 +168,9 @@ namespace Xacor.Graphics.GL46
             var command = new GLCommand
             {
                 Type = CommandType.SetPrimitiveTopology,
-                PrimitiveType = PrimitiveType.Triangles
+                PrimitiveType = primitiveTopology.ToOpenTK()
             };
+
             _commandList.Add(command);
         }
 
@@ -178,6 +201,7 @@ namespace Xacor.Graphics.GL46
                 Type = CommandType.SetScissor,
                 ScissorRectangle = new OpenTK.Rectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height)
             };
+
             _commandList.Add(command);
         }
 
@@ -188,6 +212,7 @@ namespace Xacor.Graphics.GL46
                 Type = CommandType.SetTextures,
                 TextureView = ((GL46TextureView)textureView)
             };
+
             _commandList.Add(command);
         }
 
@@ -196,8 +221,11 @@ namespace Xacor.Graphics.GL46
             var command = new GLCommand
             {
                 Type = CommandType.SetVertexBuffer,
-                VertexBuffer = (GL46VertexBuffer)vertexBuffer
+                InputLayout = _currentInputLayout,
+                VertexBuffer = (GL46VertexBuffer)vertexBuffer,
+                VertexStride = vertexBuffer.VertexStride
             };
+
             _commandList.Add(command);
         }
 
@@ -213,6 +241,7 @@ namespace Xacor.Graphics.GL46
                 Type = CommandType.SetViewport,
                 Viewport = viewport.ToOpenTK()
             };
+
             _commandList.Add(command);
         }
 
@@ -220,17 +249,19 @@ namespace Xacor.Graphics.GL46
         {
             foreach (var command in _commandList)
             {
-                Debug.WriteLine(command.Type);
+                //Debug.WriteLine(command.Type);
                 switch (command.Type)
                 {
                     case CommandType.Begin:
                         break;
                     case CommandType.End:
+                        OpenTK.Graphics.OpenGL4.GL.BindVertexArray(0);
                         break;
                     case CommandType.Draw:
                         OpenTK.Graphics.OpenGL4.GL.DrawArrays(_currentPrimitiveType, 0, command.DrawVertexCount);
                         break;
                     case CommandType.DrawIndexed:
+                        OpenTK.Graphics.OpenGL4.GL.DrawElements(_currentPrimitiveType, command.DrawIndexCount, DrawElementsType.UnsignedByte, command.DrawVertexCount);
                         break;
                     case CommandType.SetViewport:
                         OpenTK.Graphics.OpenGL4.GL.Viewport(command.Viewport);
@@ -243,6 +274,7 @@ namespace Xacor.Graphics.GL46
                         break;
                     case CommandType.SetInputLayout:
                         OpenTK.Graphics.OpenGL4.GL.BindVertexArray(command.InputLayout);
+                        _currentInputLayout = command.InputLayout;
                         break;
                     case CommandType.SetDepthStencilState:
                         break;
@@ -251,10 +283,10 @@ namespace Xacor.Graphics.GL46
                     case CommandType.SetBlendState:
                         break;
                     case CommandType.SetVertexBuffer:
-                        OpenTK.Graphics.OpenGL4.GL.BindBuffer(BufferTarget.ArrayBuffer, command.VertexBuffer);
+                        OpenTK.Graphics.OpenGL4.GL.VertexArrayVertexBuffer(_currentInputLayout, 0, command.VertexBuffer, IntPtr.Zero, command.VertexStride);
                         break;
                     case CommandType.SetIndexBuffer:
-                        OpenTK.Graphics.OpenGL4.GL.BindBuffer(BufferTarget.ElementArrayBuffer, command.IndexBuffer);
+                        OpenTK.Graphics.OpenGL4.GL.VertexArrayElementBuffer(_currentInputLayout, command.IndexBuffer);
                         break;
                     case CommandType.SetVertexShader:
                         break;
@@ -263,7 +295,7 @@ namespace Xacor.Graphics.GL46
                     case CommandType.SetComputeShader:
                         break;
                     case CommandType.SetConstantBuffers:
-                        OpenTK.Graphics.OpenGL4.GL.BindBuffer(BufferTarget.UniformBuffer, command.ConstantBuffer);
+                        OpenTK.Graphics.OpenGL4.GL.BindBufferBase(BufferRangeTarget.UniformBuffer, 0, command.ConstantBuffer);
                         break;
                     case CommandType.SetSamplers:
                         break;
@@ -291,16 +323,6 @@ namespace Xacor.Graphics.GL46
             }
 
             _commandList.Clear();
-        }
-
-        private void SetProgramPipeline(GL46Pipeline pipeline)
-        {
-            var command = new GLCommand
-            {
-                Type = CommandType.SetPipeline,
-                Pipeline = pipeline
-            };
-            _commandList.Add(command);
         }
     }
 }
