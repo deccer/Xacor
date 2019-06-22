@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using System.Net;
 using OpenTK.Graphics.OpenGL4;
 
 namespace Xacor.Graphics.GL46
@@ -46,7 +45,6 @@ namespace Xacor.Graphics.GL46
             {
                 OpenTK.Graphics.OpenGL4.GL.GetProgramInfoLog(_nativeShader, out var programLog);
                 OpenTK.Graphics.OpenGL4.GL.DeleteShader(_nativeShader);
-
                 Debug.WriteLine($"GL46Shader contains errors:\n\n{programLog}");
             }
         }

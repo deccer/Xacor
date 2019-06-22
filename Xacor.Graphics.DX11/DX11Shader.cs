@@ -109,7 +109,7 @@ namespace Xacor.Graphics.DX11
 
         private static ShaderBytecode LoadBytecode(ShaderStage shaderStage, string filePath, Include includeHandler, ShaderMacro[] macros)
         {
-            var shaderFlags = ShaderFlags.PackMatrixRowMajor;
+            var shaderFlags = ShaderFlags.None;
 #if DEBUG
             shaderFlags |= ShaderFlags.Debug | ShaderFlags.PreferFlowControl | ShaderFlags.SkipOptimization;
 #endif

@@ -26,29 +26,6 @@ namespace Xacor.Graphics.GL46
             return new Rectangle((int)viewport.X, (int)viewport.Y, (int)viewport.Width, (int)viewport.Height);
         }
 
-        public static VertexAttribType ToOpenTKVertexAttributeType(this Format format)
-        {
-            switch (format)
-            {
-                case Format.R8UNorm:
-                    return VertexAttribType.UnsignedByte;
-                case Format.R16UInt:
-                    return VertexAttribType.UnsignedShort;
-                case Format.R32UInt:
-                    return VertexAttribType.UnsignedInt;
-                case Format.R32Float:
-                    return VertexAttribType.Float;
-                case Format.R32G32Float:
-                    return VertexAttribType.Float;
-                case Format.R32G32B32Float:
-                    return VertexAttribType.Float;
-                case Format.R32G32B32A32Float:
-                    return VertexAttribType.Float;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(format), format, null);
-            }
-        }
-
         public static SizedInternalFormat ToOpenTK(this Format format)
         {
             switch (format)
@@ -118,6 +95,21 @@ namespace Xacor.Graphics.GL46
                     return TextureWrapMode.Repeat;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(textureAddressMode), textureAddressMode, null);
+            }
+        }
+
+        public static PrimitiveType ToOpenTK(this PrimitiveTopology primitiveTopology)
+        {
+            switch (primitiveTopology)
+            {
+                case PrimitiveTopology.TriangleList:
+                    return PrimitiveType.Triangles;
+                case PrimitiveTopology.LineList:
+                    return PrimitiveType.LineLoop;
+                case PrimitiveTopology.NotAssigned:
+                    return PrimitiveType.Triangles;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(primitiveTopology), primitiveTopology, null);
             }
         }
     }
