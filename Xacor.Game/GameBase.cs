@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using Xacor;
 using Xacor.Graphics;
+using Xacor.Graphics.Api;
 using Xacor.Platform;
 
 namespace Xacor.Game

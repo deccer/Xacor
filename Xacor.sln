@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor", "Xacor\Xacor.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Platform.Windows", "Xacor.Platform.Windows\Xacor.Platform.Windows.csproj", "{F37FF8E5-4BC8-49C2-A98B-BDEE2F4DDF29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.DX11", "Xacor.Graphics.DX11\Xacor.Graphics.DX11.csproj", "{D0BF5306-BADF-4140-A10B-2F7186D2DE7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.Api.DX11", "Xacor.Graphics.Api.DX11\Xacor.Graphics.Api.DX11.csproj", "{D0BF5306-BADF-4140-A10B-2F7186D2DE7D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.DX12", "Xacor.Graphics.DX12\Xacor.Graphics.DX12.csproj", "{B4522261-DC6E-496D-9AB1-3E764FD1CEAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.Api.DX12", "Xacor.Graphics.Api.DX12\Xacor.Graphics.Api.DX12.csproj", "{B4522261-DC6E-496D-9AB1-3E764FD1CEAE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics", "Xacor.Graphics\Xacor.Graphics.csproj", "{21F0CFF5-2E7A-4C0C-90D0-93780262E383}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.Api", "Xacor.Graphics.Api\Xacor.Graphics.Api.csproj", "{21F0CFF5-2E7A-4C0C-90D0-93780262E383}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Platform", "Xacor.Platform\Xacor.Platform.csproj", "{DC5A1B7E-7777-4C88-92D0-C78A54D7A6B6}"
 EndProject
@@ -21,13 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Demo", "Demos\Xacor.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Game", "Xacor.Game\Xacor.Game.csproj", "{B7869CCC-5311-4EDA-A99F-9CDEA3EFF1FB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.GL33", "Xacor.Graphics.GL33\Xacor.Graphics.GL33.csproj", "{708CB9B3-A891-4379-81D1-CDEDB91D712C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.Api.GL33", "Xacor.Graphics.Api.GL33\Xacor.Graphics.Api.GL33.csproj", "{708CB9B3-A891-4379-81D1-CDEDB91D712C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.GL46", "Xacor.Graphics.GL46\Xacor.Graphics.GL46.csproj", "{8C089161-7920-406E-8ADD-4C9D8232B457}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.Api.GL46", "Xacor.Graphics.Api.GL46\Xacor.Graphics.Api.GL46.csproj", "{8C089161-7920-406E-8ADD-4C9D8232B457}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Xacor.Graphics.DX", "Xacor.Graphics.DX\Xacor.Graphics.DX.shproj", "{7B7225E0-F6F2-4D96-B304-EECDC4152A26}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Xacor.Graphics.Api.DX", "Xacor.Graphics.Api.DX\Xacor.Graphics.Api.DX.shproj", "{7B7225E0-F6F2-4D96-B304-EECDC4152A26}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.VK", "Xacor.Graphics.VK\Xacor.Graphics.VK.csproj", "{A7553A2E-768C-4CF1-9A44-415CBAFE32CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.Api.VK", "Xacor.Graphics.Api.VK\Xacor.Graphics.Api.VK.csproj", "{A7553A2E-768C-4CF1-9A44-415CBAFE32CB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{65478F32-7D52-42F0-B6F9-873BB208B3B0}"
 EndProject
@@ -91,12 +91,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Input", "Xacor.Input\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Input.RawInput", "Xacor.Input.RawInput\Xacor.Input.RawInput.csproj", "{7C1448A8-44ED-4D3E-BABB-26853ADF569D}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Xacor.Graphics.GL", "Xacor.Graphics.GL\Xacor.Graphics.GL.shproj", "{FB60AADE-1EF7-4D5F-A433-FB950C2E2B55}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Xacor.Graphics.Api.GL", "Xacor.Graphics.Api.GL\Xacor.Graphics.Api.GL.shproj", "{FB60AADE-1EF7-4D5F-A433-FB950C2E2B55}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Xacor.Graphics.DX\Xacor.Graphics.DX.projitems*{7b7225e0-f6f2-4d96-b304-eecdc4152a26}*SharedItemsImports = 13
-		Xacor.Graphics.GL\Xacor.Graphics.GL.projitems*{fb60aade-1ef7-4d5f-a433-fb950c2e2b55}*SharedItemsImports = 13
+		Xacor.Graphics.Api.DX\Xacor.Graphics.Api.DX.projitems*{7b7225e0-f6f2-4d96-b304-eecdc4152a26}*SharedItemsImports = 13
+		Xacor.Graphics.Api.GL\Xacor.Graphics.Api.GL.projitems*{fb60aade-1ef7-4d5f-a433-fb950c2e2b55}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

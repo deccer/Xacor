@@ -5,7 +5,8 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Xacor.Game;
 using Xacor.Graphics;
-using Xacor.Graphics.DX;
+using Xacor.Graphics.Api;
+using Xacor.Graphics.Api.DX;
 using Xacor.Platform;
 
 namespace Xacor.Demo

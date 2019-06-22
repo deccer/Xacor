@@ -5,13 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />
-    <ProjectReference Include="..\Xacor.Platform\Xacor.Platform.csproj" />
-    <ProjectReference Include="..\Xacor\Xacor.csproj" />
   </ItemGroup>
 
 </Project>

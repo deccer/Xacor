@@ -1,1 +1,0 @@
-﻿# Xacor.Graphics.VK
