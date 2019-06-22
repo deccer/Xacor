@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using Xacor.Game;
 using Xacor.Graphics;
 using Xacor.Graphics.DX;
@@ -9,11 +10,12 @@ using Xacor.Platform;
 
 namespace Xacor.Demo
 {
-    struct InputBuffer
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct InputBuffer
     {
-        public Matrix4x4 ModelMatrix;
-        public Matrix4x4 ViewMatrix;
-        public Matrix4x4 ProjectionMatrix;
+        public Matrix4x4 ModelViewProjectionMatrix;
+        public Matrix4x4 Padding1;
+        public Matrix4x4 Padding2;
     }
 
     internal class DemoGame : GameBase
@@ -35,8 +37,8 @@ namespace Xacor.Demo
 
         private IVertexBuffer _simpleVertexBuffer;
         private IVertexBuffer _texturedVertexBuffer;
-        private IConstantBuffer _simpleConstantBuffer;
-        private IConstantBuffer _texturedConstantBuffer;
+        private IConstantBuffer _leftConstantBuffer;
+        private IConstantBuffer _rightConstantBuffer;
 
         private readonly ITextureFactory _textureFactory;
         private ITexture _simpleTexture;
@@ -44,8 +46,8 @@ namespace Xacor.Demo
 
         private Matrix4x4 _viewMatrix;
         private Matrix4x4 _projectionMatrix;
-        private InputBuffer _mvp1;
-        private InputBuffer _mvp2;
+        private InputBuffer _leftMvp;
+        private InputBuffer _rightMvp;
 
         public DemoGame(Options options, IGamePlatformFactory gamePlatformFactory, IGraphicsFactory graphicsFactory)
             : base(options, gamePlatformFactory, graphicsFactory)
@@ -60,21 +62,19 @@ namespace Xacor.Demo
             _commandList.SetRenderTarget(BackBufferView, BackBufferDepthStencilView);
             _commandList.ClearRenderTarget(BackBufferView, new Vector4(0.0863f, 0.0353f, 0.0706f, 1.0f));
             _commandList.ClearDepthStencil(BackBufferDepthStencilView, 1.0f, 1);
-            _commandList.End();
 
-            _commandList.Begin("Simple", _simplePipeline);
             _commandList.SetVertexBuffer(_simpleVertexBuffer);
-            _commandList.SetConstantBuffer(_simpleConstantBuffer, BufferScope.VertexShader);
+            _commandList.SetConstantBuffer(_leftConstantBuffer, BufferScope.VertexShader);
             _commandList.Draw(3);
-            _commandList.End();
+            //_commandList.End();
 
-            //_commandList.Begin("SimpleTextured", _texturedPipeline);
-            //_commandList.SetVertexBuffer(_texturedVertexBuffer);
-            //_commandList.SetConstantBuffer(_texturedConstantBuffer, BufferScope.VertexShader);
+            //_commandList.Begin("SimpleTextured", _simplePipeline);
+            _commandList.SetVertexBuffer(_simpleVertexBuffer);
+            _commandList.SetConstantBuffer(_rightConstantBuffer, BufferScope.VertexShader);
             //_commandList.SetSampler(_simpleSampler);
             //_commandList.SetTexture(_simpleTexture.View);
-            //_commandList.Draw(3);
-            //_commandList.End();
+            _commandList.Draw(3);
+            _commandList.End();
 
             _commandList.Submit();
         }
@@ -85,31 +85,29 @@ namespace Xacor.Demo
 
             Window.Title = "Xacor.Demo";
 
-            _viewMatrix = Matrix4x4.CreateLookAt(new Vector3(0, 0, -4f), Vector3.Zero, Vector3.UnitY);
+            _viewMatrix = Matrix4x4.CreateLookAt(new Vector3(0, 0, 4f), Vector3.Zero, Vector3.UnitY);
             _projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(MathF.PI / 4.0f, _options.Graphics.Resolution.Width / (float)_options.Graphics.Resolution.Height, 0.1f, 4096f);
-            _mvp1 = new InputBuffer
+            _leftMvp = new InputBuffer
             {
-                ModelMatrix = Matrix4x4.Identity,
-                ProjectionMatrix = _projectionMatrix,
-                ViewMatrix = _viewMatrix
+                ModelViewProjectionMatrix = Matrix4x4.CreateTranslation(-1.5f, 1, -0.5f) * _viewMatrix * _projectionMatrix
             };
-            _mvp2 = new InputBuffer
+
+            _rightMvp = new InputBuffer
             {
-                ModelMatrix = Matrix4x4.CreateTranslation(-1, 0, 0),
-                ProjectionMatrix = _projectionMatrix,
-                ViewMatrix = _viewMatrix
+                ModelViewProjectionMatrix = Matrix4x4.CreateTranslation(1.5f, -1, 0.5f) * _viewMatrix * _projectionMatrix
             };
 
             _viewport = new Viewport(0, 0, _options.Graphics.Resolution.Width, _options.Graphics.Resolution.Height, 0.1f, 4096f);
             _defaultBlendState = GraphicsFactory.CreateBlendState(true, Blend.SourceAlpha, Blend.InverseSourceAlpha, BlendOperation.Add, Blend.One, Blend.Zero, BlendOperation.Add);
             _defaultDepthStencilState = GraphicsFactory.CreateDepthStencilState();
-            _defaultRasterizerState = GraphicsFactory.CreateRasterizerState(CullMode.Back, FillMode.Solid, true, false, false, false);
+            _defaultRasterizerState = GraphicsFactory.CreateRasterizerState(CullMode.None, FillMode.Solid, true, false, false, false);
 
             var macros = new[] { ("TEST", "0") };
-            _simpleVertexShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Vertex, "Assets/Shaders/_Simple.vs.glsl", VertexType.PositionColor, Enumerable.Empty<(string, string)>());
-            _simplePixelShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Pixel, "Assets/Shaders/_Simple.ps.glsl", VertexType.PositionColor, macros);
-            _texturedVertexShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Vertex, "Assets/Shaders/_SimpleTextured.vs.glsl", VertexType.PositionTexture, Enumerable.Empty<(string, string)>());
-            _texturedPixelShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Pixel, "Assets/Shaders/_SimpleTextured.ps.glsl", VertexType.PositionTexture, macros);
+            _simpleVertexShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Vertex, "Assets/Shaders/_Simple.vs", VertexType.PositionColor, Enumerable.Empty<(string, string)>());
+            _simplePixelShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Pixel, "Assets/Shaders/_Simple.ps", VertexType.PositionColor, macros);
+
+            _texturedVertexShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Vertex, "Assets/Shaders/_SimpleTextured.vs", VertexType.PositionTexture, Enumerable.Empty<(string, string)>());
+            _texturedPixelShader = GraphicsFactory.CreateShaderFromFile(ShaderStage.Pixel, "Assets/Shaders/_SimpleTextured.ps", VertexType.PositionTexture, macros);
 
             _simplePipeline = GraphicsFactory.CreatePipeline(_simpleVertexShader, _simplePixelShader, _simpleVertexShader.InputLayout, _defaultBlendState, _defaultDepthStencilState, _defaultRasterizerState, _viewport, PrimitiveTopology.TriangleList);
             _texturedPipeline = GraphicsFactory.CreatePipeline(_texturedVertexShader, _texturedPixelShader, _texturedVertexShader.InputLayout, _defaultBlendState, _defaultDepthStencilState, _defaultRasterizerState, _viewport, PrimitiveTopology.TriangleList);
@@ -131,8 +129,8 @@ namespace Xacor.Demo
             _texturedVertexBuffer = GraphicsFactory.CreateVertexBuffer(verticesTextured.ToArray());
 
             _commandList = GraphicsFactory.CreateCommandList();
-            _simpleConstantBuffer = GraphicsFactory.CreateConstantBuffer(_mvp1);
-            _texturedConstantBuffer = GraphicsFactory.CreateConstantBuffer(_mvp2);
+            _leftConstantBuffer = GraphicsFactory.CreateConstantBuffer(_leftMvp);
+            _rightConstantBuffer = GraphicsFactory.CreateConstantBuffer(_rightMvp);
 
             _simpleTexture = _textureFactory.CreateTextureFromFile("Assets/Textures/T_Default_D0.png", false);
             _simpleSampler = GraphicsFactory.CreateSampler(TextureAddressMode.Clamp, TextureAddressMode.Clamp, Filter.Nearest, ComparisonFunction.Always);
@@ -142,13 +140,14 @@ namespace Xacor.Demo
 
         protected override void Update(double deltaTime)
         {
-            _counter += 0.001f;
+            _counter += (float)deltaTime;
 
-            _mvp1.ModelMatrix = Matrix4x4.CreateTranslation(0, 0, (float)Math.Sin(_counter));
-            _simpleConstantBuffer.UpdateBuffer(_mvp1);
+            _leftMvp.ModelViewProjectionMatrix = Matrix4x4.CreateTranslation(0, 0, (float)Math.Sin(_counter)) * _viewMatrix * _projectionMatrix;
+            _leftConstantBuffer.UpdateBuffer(_leftMvp);
 
-            _mvp2.ModelMatrix = Matrix4x4.CreateTranslation((float)Math.Cos(_counter), 1, 0);
-            _texturedConstantBuffer.UpdateBuffer(_mvp2);
+            _rightMvp.ModelViewProjectionMatrix = Matrix4x4.CreateTranslation((float)Math.Cos(_counter), (float)Math.Cos(_counter), 0) * _viewMatrix * _projectionMatrix;
+            //_rightMvp.ModelViewProjectionMatrix = _projectionMatrix * _viewMatrix * Matrix4x4.CreateTranslation((float)Math.Cos(_counter), (float)Math.Cos(_counter), 0);
+            _rightConstantBuffer.UpdateBuffer(_rightMvp);
         }
     }
 }

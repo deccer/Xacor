@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL4;
 
 namespace Xacor.Graphics.GL46
@@ -13,11 +14,11 @@ namespace Xacor.Graphics.GL46
             return constantBuffer._nativeBuffer;
         }
 
-        public static IConstantBuffer Create<T>(T constants) where T : struct
+        public static IConstantBuffer Create<T>(T data) where T : struct
         {
             var size = Marshal.SizeOf<T>();
             var buffer = new GL46ConstantBuffer(size);
-            buffer.Initialize(constants);
+            buffer.Initialize(data);
             return buffer;
         }
 
@@ -33,14 +34,15 @@ namespace Xacor.Graphics.GL46
             OpenTK.Graphics.OpenGL4.GL.CreateBuffers(1, out _nativeBuffer);
         }
 
-        private void Initialize<T>(T constants) where T : struct
+        private void Initialize<T>(T data) where T : struct
         {
-            OpenTK.Graphics.OpenGL4.GL.NamedBufferData(_nativeBuffer, _bufferSize, ref constants, BufferUsageHint.DynamicDraw);
+            OpenTK.Graphics.OpenGL4.GL.NamedBufferStorage(_nativeBuffer, _bufferSize, ref data, BufferStorageFlags.DynamicStorageBit);
         }
 
-        public void UpdateBuffer<T>(T constants) where T : struct
+        public void UpdateBuffer<T>(T data) where T : struct
         {
-            OpenTK.Graphics.OpenGL4.GL.NamedBufferData(_nativeBuffer, _bufferSize, ref constants, BufferUsageHint.DynamicDraw);
+            //OpenTK.Graphics.OpenGL4.GL.NamedBufferData(_nativeBuffer, _bufferSize, ref data, BufferUsageHint.StreamDraw);
+            OpenTK.Graphics.OpenGL4.GL.NamedBufferSubData(_nativeBuffer, IntPtr.Zero, _bufferSize, ref data);
         }
     }
 }

@@ -27,12 +27,14 @@ namespace Xacor.Graphics.GL46
             _nativeContext = new GraphicsContext(GraphicsMode.Default, windowInfo, null, 4, 6, graphicsContextFlags);
             _nativeContext.LoadAll();
             _nativeContext.MakeCurrent(windowInfo);
+            _nativeContext.SwapInterval = 1;
 
-            OpenTK.Graphics.OpenGL4.GL.Enable(EnableCap.CullFace);
-            OpenTK.Graphics.OpenGL4.GL.CullFace(CullFaceMode.FrontAndBack);
-            OpenTK.Graphics.OpenGL4.GL.Enable(EnableCap.DepthTest);
-            OpenTK.Graphics.OpenGL4.GL.Enable(EnableCap.ProgramPointSize);
+            OpenTK.Graphics.OpenGL4.GL.Disable(EnableCap.CullFace);
+            OpenTK.Graphics.OpenGL4.GL.CullFace(CullFaceMode.Back);
+            OpenTK.Graphics.OpenGL4.GL.FrontFace(FrontFaceDirection.Cw);
 
+            OpenTK.Graphics.OpenGL4.GL.Disable(EnableCap.DepthTest);
+            //OpenTK.Graphics.OpenGL4.GL.DepthFunc(DepthFunction.Always);
         }
 
         public void Present()

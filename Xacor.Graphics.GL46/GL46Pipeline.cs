@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using System.Diagnostics;
+using OpenTK.Graphics.OpenGL4;
 
 namespace Xacor.Graphics.GL46
 {
@@ -27,11 +28,13 @@ namespace Xacor.Graphics.GL46
             return pipeline._nativePipeline;
         }
 
-        public GL46Pipeline(Shader vertexShader, Shader pixelShader, IInputLayout inputLayout)
+        public GL46Pipeline(Shader vertexShader, Shader pixelShader, IInputLayout inputLayout, Viewport viewport, PrimitiveTopology primitiveTopology)
         {
             VertexShader = vertexShader;
             PixelShader = pixelShader;
             InputLayout = inputLayout;
+            Viewport = viewport;
+            PrimitiveTopology = primitiveTopology;
 
             OpenTK.Graphics.OpenGL4.GL.CreateProgramPipelines(1, out _nativePipeline);
             OpenTK.Graphics.OpenGL4.GL.UseProgramStages(_nativePipeline, ProgramStageMask.VertexShaderBit, (GL46Shader)vertexShader);
