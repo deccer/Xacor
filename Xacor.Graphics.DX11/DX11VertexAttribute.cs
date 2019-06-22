@@ -1,6 +1,6 @@
-﻿namespace Xacor.Graphics
+﻿namespace Xacor.Graphics.DX11
 {
-    public readonly struct VertexAttribute
+    public readonly struct DX11VertexAttribute
     {
         public readonly string Name;
 
@@ -12,7 +12,7 @@
 
         public readonly Format Format;
 
-        public VertexAttribute(string name, int semanticIndex, int binding, int offset, Format format)
+        public DX11VertexAttribute(string name, int semanticIndex, int binding, int offset, Format format)
         {
             Name = name;
             SemanticIndex = semanticIndex;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenTK.Graphics.OpenGL4;
 
 namespace Xacor.Graphics.GL46
 {
@@ -34,7 +35,7 @@ namespace Xacor.Graphics.GL46
             IDepthStencilState depthStencilState, IRasterizerState rasterizerState, Viewport viewport,
             PrimitiveTopology primitiveTopology)
         {
-            return new GL46Pipeline(vertexShader, pixelShader, inputLayout);
+            return new GL46Pipeline(vertexShader, pixelShader, inputLayout, viewport, primitiveTopology);
         }
 
         public IRasterizerState CreateRasterizerState(CullMode cullMode, FillMode fillMode, bool isDepthEnabled, bool isScissorEnabled,
@@ -55,7 +56,7 @@ namespace Xacor.Graphics.GL46
             {
                 shader.AddMacro(macroName, macroValue);
             }
-            shader.CompileAsync(shaderStage, filePath, vertexType);
+            shader.CompileAsync(shaderStage, filePath + ".glsl", vertexType);
             return shader;
         }
 
@@ -86,26 +87,26 @@ namespace Xacor.Graphics.GL46
 
         internal IInputLayout CreateInputLayout(VertexType vertexType)
         {
-            var attributes = new List<VertexAttribute>();
+            var attributes = new List<GLVertexAttribute>();
 
             switch (vertexType)
             {
                 case VertexType.Position:
-                    attributes.Add(new VertexAttribute("i_position", 0, 12, 0, Format.R32G32B32Float));
+                    attributes.Add(new GLVertexAttribute("i_position", 0, VertexAttribType.Float, 3, 0));
                     break;
                 case VertexType.PositionColor:
-                    attributes.Add(new VertexAttribute("i_position", 0, 12, 0, Format.R32G32B32Float));
-                    attributes.Add(new VertexAttribute("i_color", 1, 16, 12, Format.R32G32B32A32Float));
+                    attributes.Add(new GLVertexAttribute("i_position", 0, VertexAttribType.Float, 3, 0));
+                    attributes.Add(new GLVertexAttribute("i_color", 1, VertexAttribType.Float, 4, 12));
                     break;
                 case VertexType.PositionTexture:
-                    attributes.Add(new VertexAttribute("i_position", 0, 12, 0, Format.R32G32B32Float));
-                    attributes.Add(new VertexAttribute("i_uv", 1, 8, 12, Format.R32G32Float));
+                    attributes.Add(new GLVertexAttribute("i_position", 0, VertexAttribType.Float, 3, 0));
+                    attributes.Add(new GLVertexAttribute("i_uv", 1, VertexAttribType.Float, 2, 12));
                     break;
                 case VertexType.PositionTextureNormalTangent:
-                    attributes.Add(new VertexAttribute("i_position", 0, 12, 0, Format.R32G32B32Float));
-                    attributes.Add(new VertexAttribute("i_uv", 1, 8, 12, Format.R32G32Float));
-                    attributes.Add(new VertexAttribute("i_normal", 2, 12, 20, Format.R32G32B32Float));
-                    attributes.Add(new VertexAttribute("i_tangent", 3, 12, 32, Format.R32G32B32Float));
+                    attributes.Add(new GLVertexAttribute("i_position", 0, VertexAttribType.Float, 3, 0));
+                    attributes.Add(new GLVertexAttribute("i_uv", 1, VertexAttribType.Float, 2, 12));
+                    attributes.Add(new GLVertexAttribute("i_normal", 2, VertexAttribType.Float, 3, 20));
+                    attributes.Add(new GLVertexAttribute("i_tangent", 3, VertexAttribType.Float, 3, 32));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(vertexType), vertexType, null);
