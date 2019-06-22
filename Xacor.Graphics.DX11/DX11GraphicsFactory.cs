@@ -55,7 +55,7 @@ namespace Xacor.Graphics.DX11
             {
                 shader.AddMacro(macroName, macroValue);
             }
-            shader.CompileAsync(shaderStage, filePath, vertexType);
+            shader.CompileAsync(shaderStage, filePath + ".hlsl", vertexType);
             return shader;
         }
 
@@ -81,26 +81,26 @@ namespace Xacor.Graphics.DX11
 
         internal DX11InputLayout CreateInputLayout(VertexType vertexType, byte[] shaderByteCode)
         {
-            var attributes = new List<VertexAttribute>();
+            var attributes = new List<DX11VertexAttribute>();
 
             switch (vertexType)
             {
                 case VertexType.Position:
-                    attributes.Add(new VertexAttribute("POSITION", 0, 0, 0, Format.R32G32B32Float));
+                    attributes.Add(new DX11VertexAttribute("POSITION", 0, 0, 0, Format.R32G32B32Float));
                     break;
                 case VertexType.PositionColor:
-                    attributes.Add(new VertexAttribute("POSITION", 0, 0, 0, Format.R32G32B32Float));
-                    attributes.Add(new VertexAttribute("COLOR", 0, 0, 12, Format.R32G32B32A32Float));
+                    attributes.Add(new DX11VertexAttribute("POSITION", 0, 0, 0, Format.R32G32B32Float));
+                    attributes.Add(new DX11VertexAttribute("COLOR", 0, 0, 12, Format.R32G32B32A32Float));
                     break;
                 case VertexType.PositionTexture:
-                    attributes.Add(new VertexAttribute("POSITION", 0, 0, 0, Format.R32G32B32Float));
-                    attributes.Add(new VertexAttribute("TEXCOORD", 0, 0, 12, Format.R32G32Float));
+                    attributes.Add(new DX11VertexAttribute("POSITION", 0, 0, 0, Format.R32G32B32Float));
+                    attributes.Add(new DX11VertexAttribute("TEXCOORD", 0, 0, 12, Format.R32G32Float));
                     break;
                 case VertexType.PositionTextureNormalTangent:
-                    attributes.Add(new VertexAttribute("POSITION", 0, 0, 0, Format.R32G32B32Float));
-                    attributes.Add(new VertexAttribute("TEXCOORD", 0, 0, 12, Format.R32G32Float));
-                    attributes.Add(new VertexAttribute("NORMAL", 0, 0, 20, Format.R32G32B32Float));
-                    attributes.Add(new VertexAttribute("TANGENT", 0, 0, 32, Format.R32G32B32Float));
+                    attributes.Add(new DX11VertexAttribute("POSITION", 0, 0, 0, Format.R32G32B32Float));
+                    attributes.Add(new DX11VertexAttribute("TEXCOORD", 0, 0, 12, Format.R32G32Float));
+                    attributes.Add(new DX11VertexAttribute("NORMAL", 0, 0, 20, Format.R32G32B32Float));
+                    attributes.Add(new DX11VertexAttribute("TANGENT", 0, 0, 32, Format.R32G32B32Float));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(vertexType), vertexType, null);
