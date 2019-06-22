@@ -10,6 +10,8 @@ namespace Xacor.Graphics.DX11
         private Buffer _buffer;
         private VertexBufferBinding _vertexBufferBinding;
 
+        public int VertexStride { get; private set; }
+
         public static implicit operator VertexBufferBinding(DX11VertexBuffer vertexBuffer)
         {
             return vertexBuffer._vertexBufferBinding;
@@ -39,10 +41,10 @@ namespace Xacor.Graphics.DX11
 
         private void Initialize<T>(ref T[] vertices) where T : struct
         {
-            var stride = Marshal.SizeOf<T>();
-            var bufferDescription = new BufferDescription(vertices.Length * stride, BindFlags.VertexBuffer, ResourceUsage.Default);
+            VertexStride = Marshal.SizeOf<T>();
+            var bufferDescription = new BufferDescription(vertices.Length * VertexStride, BindFlags.VertexBuffer, ResourceUsage.Default);
             _buffer = Buffer.Create(_graphicsDevice, vertices, bufferDescription);
-            _vertexBufferBinding = new DX11VertexBufferBinding(_buffer, stride, 0);
+            _vertexBufferBinding = new DX11VertexBufferBinding(_buffer, VertexStride, 0);
         }
     }
 }
