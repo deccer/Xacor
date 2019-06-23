@@ -67,13 +67,13 @@ namespace Xacor.Demo
             _commandList.SetVertexBuffer(_simpleVertexBuffer);
             _commandList.SetConstantBuffer(_leftConstantBuffer, BufferScope.VertexShader);
             _commandList.Draw(3);
-            //_commandList.End();
+            _commandList.End();
 
-            //_commandList.Begin("SimpleTextured", _simplePipeline);
-            _commandList.SetVertexBuffer(_simpleVertexBuffer);
+            _commandList.Begin("SimpleTextured", _texturedPipeline);
+            _commandList.SetVertexBuffer(_texturedVertexBuffer);
             _commandList.SetConstantBuffer(_rightConstantBuffer, BufferScope.VertexShader);
-            //_commandList.SetSampler(_simpleSampler);
-            //_commandList.SetTexture(_simpleTexture.View);
+            _commandList.SetSampler(_simpleSampler);
+            _commandList.SetTexture(_simpleTexture.View);
             _commandList.Draw(3);
             _commandList.End();
 
@@ -86,7 +86,7 @@ namespace Xacor.Demo
 
             Window.Title = "Xacor.Demo";
 
-            _viewMatrix = Matrix4x4.CreateLookAt(new Vector3(0, 0, 4f), Vector3.Zero, Vector3.UnitY);
+            _viewMatrix = Matrix4x4.CreateLookAt(new Vector3(0, 0, 10f), Vector3.Zero, Vector3.UnitY);
             _projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(MathF.PI / 4.0f, _options.Graphics.Resolution.Width / (float)_options.Graphics.Resolution.Height, 0.1f, 4096f);
             _leftMvp = new InputBuffer
             {
@@ -147,7 +147,6 @@ namespace Xacor.Demo
             _leftConstantBuffer.UpdateBuffer(_leftMvp);
 
             _rightMvp.ModelViewProjectionMatrix = Matrix4x4.CreateTranslation((float)Math.Cos(_counter), (float)Math.Cos(_counter), 0) * _viewMatrix * _projectionMatrix;
-            //_rightMvp.ModelViewProjectionMatrix = _projectionMatrix * _viewMatrix * Matrix4x4.CreateTranslation((float)Math.Cos(_counter), (float)Math.Cos(_counter), 0);
             _rightConstantBuffer.UpdateBuffer(_rightMvp);
         }
     }

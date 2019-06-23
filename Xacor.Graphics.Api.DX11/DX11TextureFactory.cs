@@ -116,7 +116,7 @@ namespace Xacor.Graphics.Api.DX11
             return new Texture3D(_graphicsDevice, texture3dDescription);
         }
 
-        private (Texture2D Resource, int MipLevels, int width, int height) CreateResourceFromFile(Device device, IEnumerable<string> filePaths, bool createMipMaps, bool isTextureCube)
+        private (Texture2D Resource, int MipLevels, int width, int height) CreateResourceFromFile(Device device, IReadOnlyCollection<string> filePaths, bool createMipMaps, bool isTextureCube)
         {
             var mipLevels = 1;
             var width = 0;

@@ -6,6 +6,7 @@
         D32Float,
 
         R8UNorm,
+        R8G8B8UNorm,
         R8G8B8A8UNorm,
         R16UInt,
         R32UInt,

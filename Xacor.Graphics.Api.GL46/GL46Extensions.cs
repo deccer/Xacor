@@ -33,7 +33,7 @@ namespace Xacor.Graphics.Api.GL46
                 case Format.R8UNorm:
                     return SizedInternalFormat.R8ui;
                 case Format.R8G8B8A8UNorm:
-                    return SizedInternalFormat.Rgba16ui;
+                    return SizedInternalFormat.Rgba8ui;
                 case Format.R16UInt:
                     return SizedInternalFormat.R16ui;
                 case Format.R32UInt:

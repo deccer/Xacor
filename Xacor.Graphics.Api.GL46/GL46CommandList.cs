@@ -307,7 +307,7 @@ namespace Xacor.Graphics.Api.GL46
                         break;
                     case CommandType.ClearRenderTarget:
                         OpenTK.Graphics.OpenGL4.GL.ClearColor(command.ClearColor);
-                        OpenTK.Graphics.OpenGL4.GL.Clear(ClearBufferMask.ColorBufferBit);
+                        OpenTK.Graphics.OpenGL4.GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
                         break;
                     case CommandType.ClearDepthStencil:
                         OpenTK.Graphics.OpenGL4.GL.ClearDepth(command.ClearDepth);
