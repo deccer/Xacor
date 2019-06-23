@@ -13,12 +13,12 @@ layout (std140, binding = 0) uniform Matrices
 	mat4 u_mvp;
 };
   
-out vec4 o_vertex_color;
-out vec2 o_vertex_uv;
+out vec4 ps_vertex_color;
+out vec2 ps_vertex_uv;
 
 void main()
 {
     gl_Position = u_mvp * vec4(i_position, 1.0);
-    o_vertex_color = vec4(0.5, 0.0, 0.0, 1.0);
-	o_vertex_uv = i_uv;
+    ps_vertex_color = vec4(0.5, 0.0, 0.0, 1.0);
+	ps_vertex_uv = i_uv;
 }
