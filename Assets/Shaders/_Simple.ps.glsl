@@ -2,9 +2,9 @@
 
 out vec4 o_frag_color;
   
-in vec4 o_vertex_color;
+in vec4 ps_vertex_color;
 
 void main()
 {
-    o_frag_color = o_vertex_color;
+    o_frag_color = ps_vertex_color;
 } 
