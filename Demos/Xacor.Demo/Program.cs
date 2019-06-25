@@ -5,6 +5,8 @@ using DryIoc;
 using Xacor.Graphics.Api;
 using Xacor.Graphics.Api.GL46;
 using Xacor.Graphics.Api.DX11;
+using Xacor.Input;
+using Xacor.Input.DirectInput;
 using Xacor.Platform;
 using Xacor.Platform.Windows;
 
@@ -22,6 +24,7 @@ namespace Xacor.Demo
             container.RegisterInstance<DeviceType>(DeviceType.Hardware);
             //container.Register<IGraphicsFactory, DX11GraphicsFactory>(Reuse.Singleton);
             container.Register<IGraphicsFactory, GL46GraphicsFactory>(Reuse.Singleton);
+            container.Register<IInputFactory, DirectInputInputFactory>();
             container.Register<DemoGame>(Reuse.Singleton);
             return container;
         }

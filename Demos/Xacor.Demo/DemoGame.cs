@@ -4,9 +4,9 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Xacor.Game;
-using Xacor.Graphics;
 using Xacor.Graphics.Api;
 using Xacor.Graphics.Api.DX;
+using Xacor.Input;
 using Xacor.Platform;
 
 namespace Xacor.Demo
@@ -50,11 +50,15 @@ namespace Xacor.Demo
         private InputBuffer _leftMvp;
         private InputBuffer _rightMvp;
 
-        public DemoGame(Options options, IGamePlatformFactory gamePlatformFactory, IGraphicsFactory graphicsFactory)
-            : base(options, gamePlatformFactory, graphicsFactory)
+        private readonly Camera _camera;
+
+        public DemoGame(Options options, IGamePlatformFactory gamePlatformFactory, IGraphicsFactory graphicsFactory, IInputFactory inputFactory)
+            : base(options, gamePlatformFactory, graphicsFactory, inputFactory)
         {
             _options = options;
             _textureFactory = graphicsFactory.CreateTextureFactory();
+
+            _camera = new Camera(new Vector3(0, 0, 5), _options.Graphics.Resolution.Width / (float)_options.Graphics.Resolution.Height);
         }
 
         protected override void Draw()
@@ -137,13 +141,16 @@ namespace Xacor.Demo
             _simpleSampler = GraphicsFactory.CreateSampler(TextureAddressMode.Clamp, TextureAddressMode.Clamp, Filter.Nearest, ComparisonFunction.Always);
         }
 
-        private float _counter = 0.0f;
+        private float _counter;
 
         protected override void Update(double deltaTime)
         {
+            _viewMatrix = _camera.GetViewMatrix();
+            _projectionMatrix = _camera.GetProjectionMatrix();
+
             _counter += (float)deltaTime;
 
-            _leftMvp.ModelViewProjectionMatrix = Matrix4x4.CreateTranslation(0, 0, (float)Math.Sin(_counter)) * _viewMatrix * _projectionMatrix;
+            _leftMvp.ModelViewProjectionMatrix = Matrix4x4.CreateScale(1, 1 + (float)Math.Sin(_counter), 1) * Matrix4x4.CreateTranslation(0, 0, (float)Math.Sin(_counter)) * _viewMatrix * _projectionMatrix;
             _leftConstantBuffer.UpdateBuffer(_leftMvp);
 
             _rightMvp.ModelViewProjectionMatrix = Matrix4x4.CreateTranslation((float)Math.Cos(_counter), (float)Math.Cos(_counter), 0) * _viewMatrix * _projectionMatrix;

@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\Xacor.Graphics.Api.DX11\Xacor.Graphics.Api.DX11.csproj" />
     <ProjectReference Include="..\..\Xacor.Graphics.Api.GL46\Xacor.Graphics.Api.GL46.csproj" />
     <ProjectReference Include="..\..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />
+    <ProjectReference Include="..\..\Xacor.Input.DirectInput\Xacor.Input.DirectInput.csproj" />
     <ProjectReference Include="..\..\Xacor.Platform.Windows\Xacor.Platform.Windows.csproj" />
     <ProjectReference Include="..\..\Xacor.Platform\Xacor.Platform.csproj" />
     <ProjectReference Include="..\..\Xacor\Xacor.csproj" />

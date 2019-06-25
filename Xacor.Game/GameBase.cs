@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Xacor.Graphics;
 using Xacor.Graphics.Api;
+using Xacor.Input;
 using Xacor.Platform;
 
 namespace Xacor.Game
@@ -27,6 +28,8 @@ namespace Xacor.Game
 
         protected TextureView BackBufferDepthStencilView { get; private set; }
 
+        protected IInputFactory InputFactory { get; private set; }
+
         protected virtual void BeginDraw()
         {
 
@@ -34,11 +37,11 @@ namespace Xacor.Game
 
         protected virtual void Cleanup()
         {
-
         }
 
         public void Dispose()
         {
+            InputFactory?.Dispose();
         }
 
         protected virtual void Draw()
@@ -51,11 +54,12 @@ namespace Xacor.Game
 
         }
 
-        protected GameBase(Options options, IGamePlatformFactory gamePlatformFactory, IGraphicsFactory graphicsFactory)
+        protected GameBase(Options options, IGamePlatformFactory gamePlatformFactory, IGraphicsFactory graphicsFactory, IInputFactory inputFactory)
         {
             _options = options;
             _gamePlatformFactory = gamePlatformFactory;
             GraphicsFactory = graphicsFactory;
+            InputFactory = inputFactory;
 
             _gameLoop = _gamePlatformFactory.CreateGameLoop();
         }
@@ -68,6 +72,8 @@ namespace Xacor.Game
             _swapchain = GraphicsFactory.CreateSwapchain(swapChainInfo);
             BackBufferView = _swapchain.TextureView;
             BackBufferDepthStencilView = _swapchain.DepthStencilView;
+
+            InputFactory.Initialize(swapChainInfo.WindowHandle);
         }
 
         protected virtual void Update(double deltaTime)
