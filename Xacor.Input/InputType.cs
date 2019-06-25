@@ -2,7 +2,7 @@
 {
     public enum InputType
     {
-        Button,
+        Keyboard,
         MouseMovement,
         Joystick
     }

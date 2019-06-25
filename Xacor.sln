@@ -93,6 +93,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Input.RawInput", "Xac
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Xacor.Graphics.Api.GL", "Xacor.Graphics.Api.GL\Xacor.Graphics.Api.GL.shproj", "{FB60AADE-1EF7-4D5F-A433-FB950C2E2B55}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics", "Xacor.Graphics\Xacor.Graphics.csproj", "{22FE13B4-DF11-426E-95EE-7138B7EA553F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xacor.Input.DirectInput", "Xacor.Input.DirectInput\Xacor.Input.DirectInput.csproj", "{063DC75F-8473-4CDE-861C-0068E87C37A7}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Xacor.Graphics.Api.DX\Xacor.Graphics.Api.DX.projitems*{7b7225e0-f6f2-4d96-b304-eecdc4152a26}*SharedItemsImports = 13
@@ -155,6 +159,14 @@ Global
 		{7C1448A8-44ED-4D3E-BABB-26853ADF569D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C1448A8-44ED-4D3E-BABB-26853ADF569D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C1448A8-44ED-4D3E-BABB-26853ADF569D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22FE13B4-DF11-426E-95EE-7138B7EA553F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22FE13B4-DF11-426E-95EE-7138B7EA553F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22FE13B4-DF11-426E-95EE-7138B7EA553F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22FE13B4-DF11-426E-95EE-7138B7EA553F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{063DC75F-8473-4CDE-861C-0068E87C37A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{063DC75F-8473-4CDE-861C-0068E87C37A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{063DC75F-8473-4CDE-861C-0068E87C37A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{063DC75F-8473-4CDE-861C-0068E87C37A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,7 +18,7 @@
 
         public static Input CreateKeyboardInput(string name, string positiveButtonName, string negativeButtonName)
         {
-            return new Input(name, InputType.Button, Axis.Horizontal, positiveButtonName, negativeButtonName);
+            return new Input(name, InputType.Keyboard, Axis.Horizontal, positiveButtonName, negativeButtonName);
         }
 
         public static Input CreateMouseMovement(string name, Axis axis)
