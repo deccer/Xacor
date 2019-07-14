@@ -4,6 +4,6 @@ namespace Xacor.Input
 {
     public interface IInputSource : IDisposable
     {
-
+        InputData CollectInputData();
     }
 }

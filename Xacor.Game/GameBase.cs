@@ -16,6 +16,8 @@ namespace Xacor.Game
         private readonly Stopwatch _stopWatch = Stopwatch.StartNew();
         private double _lastUpdate;
 
+        private InputMapper _inputMapper;
+
         private ISwapChain _swapchain;
 
         protected IGraphicsDevice GraphicsDevice { get; }
@@ -28,7 +30,14 @@ namespace Xacor.Game
 
         protected TextureView BackBufferDepthStencilView { get; private set; }
 
-        protected IInputFactory InputFactory { get; private set; }
+        protected IInputFactory InputFactory { get; }
+
+        protected IInputControls Input => _inputMapper;
+
+        protected void AddInputMap(Input.Input input)
+        {
+            _inputMapper.AddMap(input);
+        }
 
         protected virtual void BeginDraw()
         {
@@ -60,6 +69,7 @@ namespace Xacor.Game
             _gamePlatformFactory = gamePlatformFactory;
             GraphicsFactory = graphicsFactory;
             InputFactory = inputFactory;
+            _inputMapper = new InputMapper(InputFactory);
 
             _gameLoop = _gamePlatformFactory.CreateGameLoop();
         }
@@ -72,13 +82,11 @@ namespace Xacor.Game
             _swapchain = GraphicsFactory.CreateSwapchain(swapChainInfo);
             BackBufferView = _swapchain.TextureView;
             BackBufferDepthStencilView = _swapchain.DepthStencilView;
-
-            InputFactory.Initialize(swapChainInfo.WindowHandle);
         }
 
         protected virtual void Update(double deltaTime)
         {
-
+            _inputMapper.UpdateMaps();
         }
 
         public void Run()

@@ -1,16 +1,12 @@
 ﻿using System;
+using System.Linq;
+using SharpDX.DirectInput;
 
 namespace Xacor.Input.DirectInput
 {
     public class DirectInputInputFactory : IInputFactory
     {
-        //private IntPtr _windowHandle;
-        private SharpDX.DirectInput.DirectInput _nativeDirectInput;
-
-        public void Cleanup()
-        {
-            _nativeDirectInput?.Dispose();
-        }
+        private readonly SharpDX.DirectInput.DirectInput _nativeDirectInput;
 
         public IInputSource CreateInputSource(InputType inputType)
         {
@@ -21,7 +17,12 @@ namespace Xacor.Input.DirectInput
                 case InputType.MouseMovement:
                     return new DirectInputMouse(_nativeDirectInput);
                 case InputType.Joystick:
-                    return new DirectInputJoystick(_nativeDirectInput);
+                    var gameDevice = _nativeDirectInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AttachedOnly).FirstOrDefault();
+                    if (gameDevice != null)
+                    {
+                        return new DirectInputJoystick(_nativeDirectInput, gameDevice.ProductGuid);
+                    }
+                    throw new Exception("No attached joystick found.");
                 default:
                     throw new ArgumentOutOfRangeException(nameof(inputType), inputType, null);
             }
@@ -32,9 +33,8 @@ namespace Xacor.Input.DirectInput
             _nativeDirectInput?.Dispose();
         }
 
-        public void Initialize(IntPtr windowHandle)
+        public DirectInputInputFactory()
         {
-            //_windowHandle = windowHandle;
             _nativeDirectInput = new SharpDX.DirectInput.DirectInput();
         }
     }

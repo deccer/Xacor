@@ -8,31 +8,31 @@
 
         public Axis Axis { get; }
 
-        public string PositiveButton { get; }
+        public InputButton Button { get; }
 
-        public string NegativeButton { get; }
+        public InputButton AlternativeButton { get; }
 
         public float Sensitivity { get; set; }
 
         public float DeadZone { get; set; }
 
-        public static Input CreateKeyboardInput(string name, string positiveButtonName, string negativeButtonName)
+        public static Input CreateKeyboardInput(string name, InputButton button, InputButton alternativeButton)
         {
-            return new Input(name, InputType.Keyboard, Axis.Horizontal, positiveButtonName, negativeButtonName);
+            return new Input(name, InputType.Keyboard, Axis.Horizontal, button, alternativeButton);
         }
 
         public static Input CreateMouseMovement(string name, Axis axis)
         {
-            return new Input(name, InputType.MouseMovement, axis, null, null);
+            return new Input(name, InputType.MouseMovement, axis, InputButton.Unassigned, InputButton.Unassigned);
         }
 
-        private Input(string name, InputType inputType, Axis axis, string positiveButtonName, string negativeButtonName)
+        private Input(string name, InputType inputType, Axis axis, InputButton button, InputButton alternativeButton)
         {
             Name = name;
             InputType = inputType;
             Axis = axis;
-            PositiveButton = positiveButtonName;
-            NegativeButton = negativeButtonName;
+            Button = button;
+            AlternativeButton = alternativeButton;
         }
     }
 }

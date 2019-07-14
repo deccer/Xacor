@@ -18,12 +18,13 @@ namespace Xacor.Demo
         {
             var container = new Container(rules => rules.WithTrackingDisposableTransients());
             //container.Register<IProfiler>();
-            container.RegisterInstance<GraphicsOptions>(new GraphicsOptions(new Size(1920, 1080), WindowState.Windowed));
+            container.RegisterInstance(new GraphicsOptions(new Size(1920, 1080), WindowState.Windowed));
             container.Register<Options>(Reuse.Singleton);
             container.Register<IGamePlatformFactory, Win32GamePlatformFactory>(Reuse.Singleton);
-            container.RegisterInstance<DeviceType>(DeviceType.Hardware);
+            container.RegisterInstance(DeviceType.Hardware);
             //container.Register<IGraphicsFactory, DX11GraphicsFactory>(Reuse.Singleton);
             container.Register<IGraphicsFactory, GL46GraphicsFactory>(Reuse.Singleton);
+            container.Register<InputMapper>();
             container.Register<IInputFactory, DirectInputInputFactory>();
             container.Register<DemoGame>(Reuse.Singleton);
             return container;
