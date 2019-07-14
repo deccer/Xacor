@@ -10,7 +10,7 @@ layout (location = 1) in vec3 i_color;
 
 layout (std140, binding = 0) uniform Matrices
 {
-	row_major mat4 u_mvp;
+	mat4 u_mvp;
 };
   
 out vec4 ps_vertex_color;
@@ -18,6 +18,5 @@ out vec4 ps_vertex_color;
 void main()
 {
     gl_Position = u_mvp * vec4(i_position, 1.0);
-    ps_vertex_color = vec4(i_color, 1.0);
     ps_vertex_color = vec4(i_color, 1.0);
 }
