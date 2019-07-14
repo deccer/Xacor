@@ -198,7 +198,7 @@ namespace Xacor.Graphics.Api.GL46
             var command = new GLCommand
             {
                 Type = CommandType.SetScissor,
-                ScissorRectangle = new OpenTK.Rectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height)
+                ScissorRectangle = new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height)
             };
 
             _commandList.Add(command);
