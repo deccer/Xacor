@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using System.Windows.Markup;
 using Xacor.Game;
 using Xacor.Graphics.Api;
 using Xacor.Graphics.Api.DX;
@@ -66,6 +65,28 @@ namespace Xacor.Demo
             _textureFactory = graphicsFactory.CreateTextureFactory();
 
             _camera = new Camera(new Vector3(0, 0, 5), _options.Graphics.Resolution.Width / (float)_options.Graphics.Resolution.Height);
+        }
+
+        protected override void Cleanup()
+        {
+            base.Cleanup();
+
+            _cubeVertexBuffer?.Dispose();
+            _defaultBlendState?.Dispose();
+            _defaultDepthStencilState?.Dispose();
+            _defaultRasterizerState?.Dispose();
+            _leftConstantBuffer?.Dispose();
+            _rightConstantBuffer?.Dispose();
+            _simplePipeline?.Dispose();
+            _simpleVertexBuffer?.Dispose();
+            _simplePixelShader?.Dispose();
+            _simpleSampler?.Dispose();
+            _simpleVertexShader?.Dispose();
+            _textureFactory?.Dispose();
+            _texturedPipeline?.Dispose();
+            _texturedPixelShader?.Dispose();
+            _texturedVertexShader?.Dispose();
+            _texturedVertexBuffer?.Dispose();
         }
 
         protected override void Draw()
@@ -192,29 +213,21 @@ namespace Xacor.Demo
 
             _simpleTexture = _textureFactory.CreateTextureFromFile("Assets/Textures/T_Default_D0.png", false);
             _simpleSampler = GraphicsFactory.CreateSampler(TextureAddressMode.Clamp, TextureAddressMode.Clamp, Filter.Nearest, ComparisonFunction.Always);
-
-            AddInputMap(Xacor.Input.Input.CreateKeyboardInput(MoveForward, InputButton.W, InputButton.Mouse1));
-            AddInputMap(Xacor.Input.Input.CreateKeyboardInput(MoveBackward, InputButton.S, InputButton.Mouse2));
-            AddInputMap(Xacor.Input.Input.CreateKeyboardInput(SlideLeft, InputButton.A, InputButton.Unassigned));
-            AddInputMap(Xacor.Input.Input.CreateKeyboardInput(SlideRight, InputButton.D, InputButton.Unassigned));
-
-            AddInputMap(Xacor.Input.Input.CreateMouseMovement("Horizontal", Axis.Horizontal));
-            AddInputMap(Xacor.Input.Input.CreateMouseMovement("Vertical", Axis.Horizontal));
         }
 
         private float _counter;
 
-        protected override void Update(double deltaTime)
+        protected override void Update(float deltaTime)
         {
             base.Update(deltaTime);
 
             if (Input.IsButtonDown(MoveForward))
             {
-                _camera.Position += _camera.Front * (float)deltaTime;
+                _camera.Position += _camera.Front * deltaTime;
             }
             if (Input.IsButtonDown(MoveBackward))
             {
-                _camera.Position -= _camera.Front * (float)deltaTime;
+                _camera.Position -= _camera.Front * deltaTime;
             }
 
             var horizontalAxis = Input.GetAxis("Horizontal");
@@ -222,11 +235,11 @@ namespace Xacor.Demo
 
             if (Input.IsButtonDown(SlideLeft))
             {
-                _camera.Position -= _camera.Right * (float)deltaTime;
+                _camera.Position -= _camera.Right * deltaTime;
             }
             if (Input.IsButtonDown(SlideRight))
             {
-                _camera.Position += _camera.Right * (float)deltaTime;
+                _camera.Position += _camera.Right * deltaTime;
             }
 
             _viewMatrix = _camera.GetViewMatrix();
