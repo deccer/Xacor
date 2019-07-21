@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Xacor.Graphics.Api.GL33
 {
-    public class GL33GraphicsFactory : IGraphicsFactory
+    public class GL33GraphicsFactory : IGraphicsFactory, IDisposable
     {
         public IBlendState CreateBlendState(bool isBlendEnabled, Blend sourceBlend, Blend destinationBlend,
             BlendOperation blendOperation, Blend sourceAlphaBlend, Blend destinationAlphaBlend,

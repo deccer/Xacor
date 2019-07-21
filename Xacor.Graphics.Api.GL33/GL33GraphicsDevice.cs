@@ -1,8 +1,9 @@
-﻿using OpenTK.Graphics;
+﻿using System;
+using OpenTK.Graphics;
 
 namespace Xacor.Graphics.Api.GL33
 {
-    internal class GL33GraphicsDevice : IGraphicsDevice
+    internal class GL33GraphicsDevice : IGraphicsDevice, IDisposable
     {
         private readonly GraphicsContext _nativeContext;
 

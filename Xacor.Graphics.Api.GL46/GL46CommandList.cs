@@ -175,22 +175,22 @@ namespace Xacor.Graphics.Api.GL46
 
         public void SetRasterizerState(IRasterizerState rasterizerState)
         {
-
+            throw new NotImplementedException();
         }
 
         public void SetRenderTarget(TextureView renderTargets, TextureView depthStencilView)
         {
-
+            //throw new NotImplementedException();
         }
 
         public void SetRenderTargets(TextureView[] renderTargets, TextureView depthStencilView)
         {
-
+            throw new NotImplementedException();
         }
 
         public void SetSampler(ISampler sampler)
         {
-
+            //throw new NotImplementedException();
         }
 
         public void SetScissorRectangle(Rectangle rectangle)

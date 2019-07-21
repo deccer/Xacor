@@ -2,7 +2,7 @@
 
 namespace Xacor.Graphics.Api
 {
-    public interface IGraphicsDevice : IDisposable
+    public interface IGraphicsDevice 
     {
 
     }

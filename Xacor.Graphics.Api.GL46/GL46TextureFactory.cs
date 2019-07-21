@@ -9,7 +9,7 @@ namespace Xacor.Graphics.Api.GL46
     {
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
 
         public ITexture CreateRenderTarget(int width, int height, Format format)

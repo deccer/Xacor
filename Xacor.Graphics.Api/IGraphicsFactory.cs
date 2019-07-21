@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Xacor.Graphics.Api
 {
-    public interface IGraphicsFactory : IDisposable
+    public interface IGraphicsFactory 
     {
         IBlendState CreateBlendState(bool isBlendEnabled, Blend sourceBlend, Blend destinationBlend, BlendOperation blendOperation, Blend sourceAlphaBlend, Blend destinationAlphaBlend, BlendOperation blendOperationAlpha);
 

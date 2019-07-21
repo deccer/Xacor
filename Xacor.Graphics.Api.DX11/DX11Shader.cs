@@ -10,7 +10,7 @@ namespace Xacor.Graphics.Api.DX11
 {
     internal class DX11Shader : Shader
     {
-        public readonly struct VirtualShaderFile
+        public readonly struct VirtualShaderFile : IEquatable<VirtualShaderFile>
         {
             public readonly string Name;
             public readonly string Text;
@@ -19,6 +19,24 @@ namespace Xacor.Graphics.Api.DX11
             {
                 Name = name;
                 Text = text;
+            }
+
+            public bool Equals(VirtualShaderFile other)
+            {
+                return string.Equals(Name, other.Name) && string.Equals(Text, other.Text);
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is VirtualShaderFile other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ (Text != null ? Text.GetHashCode() : 0);
+                }
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using OpenTK.Graphics.OpenGL4;
+﻿using OpenTK.Graphics.OpenGL4;
 
 namespace Xacor.Graphics.Api.GL46
 {

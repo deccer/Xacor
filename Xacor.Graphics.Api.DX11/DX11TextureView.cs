@@ -33,7 +33,7 @@ namespace Xacor.Graphics.Api.DX11
                     shaderResourceViewDescription.Texture1D.MipLevels = mipLevels;
                     shaderResourceViewDescription.Dimension = ShaderResourceViewDimension.Texture3D;
                 }
-                else if (depth == 0 && height > 0 & width > 0)
+                else if (depth == 0 && height > 0 && width > 0)
                 {
                     shaderResourceViewDescription.Format = ((Texture2D)resource).Description.Format;
                     shaderResourceViewDescription.Texture2D.MipLevels = mipLevels;

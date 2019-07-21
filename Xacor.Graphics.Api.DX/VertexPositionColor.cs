@@ -1,10 +1,11 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace Xacor.Graphics.Api.DX
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct VertexPositionColor
+    public struct VertexPositionColor : IEquatable<VertexPositionColor>
     {
         public Vector3 Position { get; set; }
 
@@ -14,6 +15,24 @@ namespace Xacor.Graphics.Api.DX
         {
             Position = position;
             Color = color;
+        }
+
+        public bool Equals(VertexPositionColor other)
+        {
+            return Position.Equals(other.Position) && Color.Equals(other.Color);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is VertexPositionColor other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Position.GetHashCode() * 397) ^ Color.GetHashCode();
+            }
         }
     }
 }

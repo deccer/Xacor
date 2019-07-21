@@ -1,9 +1,10 @@
-﻿using OpenTK.Graphics;
+﻿using System;
+using OpenTK.Graphics;
 using OpenTK.Platform;
 
 namespace Xacor.Graphics.Api.GL33
 {
-    internal class GL33SwapChain : ISwapChain
+    internal class GL33SwapChain : ISwapChain, IDisposable
     {
         private readonly GraphicsContext _nativeContext;
 

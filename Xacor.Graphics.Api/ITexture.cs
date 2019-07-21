@@ -2,7 +2,7 @@
 
 namespace Xacor.Graphics.Api
 {
-    public interface ITexture : IDisposable
+    public interface ITexture
     {
         TextureView View { get; }
     }
