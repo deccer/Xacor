@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Xacor.Graphics;
 using Xacor.Graphics.Api;
 using Xacor.Input;
 using Xacor.Platform;
@@ -12,12 +11,12 @@ namespace Xacor.Game
         private readonly Options _options;
         private readonly IGamePlatformFactory _gamePlatformFactory;
         private readonly IGameLoop _gameLoop;
+        private readonly IInputFactory _inputFactory;
+        private readonly InputMapper _inputMapper;
 
         private readonly Stopwatch _stopWatch = Stopwatch.StartNew();
-        private double _lastUpdate;
-
-        private InputMapper _inputMapper;
-
+        private float _lastUpdate;
+        
         private ISwapChain _swapchain;
 
         protected IGraphicsDevice GraphicsDevice { get; }
@@ -29,8 +28,6 @@ namespace Xacor.Game
         protected TextureView BackBufferView { get; private set; }
 
         protected TextureView BackBufferDepthStencilView { get; private set; }
-
-        protected IInputFactory InputFactory { get; }
 
         protected IInputControls Input => _inputMapper;
 
@@ -50,7 +47,7 @@ namespace Xacor.Game
 
         public void Dispose()
         {
-            InputFactory?.Dispose();
+            _inputFactory?.Dispose();
         }
 
         protected virtual void Draw()
@@ -68,8 +65,8 @@ namespace Xacor.Game
             _options = options;
             _gamePlatformFactory = gamePlatformFactory;
             GraphicsFactory = graphicsFactory;
-            InputFactory = inputFactory;
-            _inputMapper = new InputMapper(InputFactory);
+            _inputFactory = inputFactory;
+            _inputMapper = new InputMapper(_inputFactory);
 
             _gameLoop = _gamePlatformFactory.CreateGameLoop();
         }
@@ -78,13 +75,26 @@ namespace Xacor.Game
         {
             Window = _gamePlatformFactory.CreateGameWindow(_options.Graphics);
 
+            foreach (var inputMapping in _options.Input.InputMappings)
+            {
+                switch (inputMapping)
+                {
+                    case KeyboardInputMapping keyboardInputMapping:
+                        _inputMapper.AddMap(Xacor.Input.Input.CreateKeyboardInput(inputMapping.Name, keyboardInputMapping.Key1, keyboardInputMapping.Key2));
+                        break;
+                    case MouseInputMapping mouseInputMapping:
+                        _inputMapper.AddMap(Xacor.Input.Input.CreateMouseMovement(inputMapping.Name, mouseInputMapping.Axis));
+                        break;
+                }
+            }
+
             var swapChainInfo = CreateSwapChainInfo();
             _swapchain = GraphicsFactory.CreateSwapchain(swapChainInfo);
             BackBufferView = _swapchain.TextureView;
             BackBufferDepthStencilView = _swapchain.DepthStencilView;
         }
 
-        protected virtual void Update(double deltaTime)
+        protected virtual void Update(float deltaTime)
         {
             _inputMapper.UpdateMaps();
         }
@@ -93,7 +103,7 @@ namespace Xacor.Game
         {
             Initialize();
             _stopWatch.Restart();
-            _lastUpdate = _stopWatch.ElapsedMilliseconds / 1000.0;
+            _lastUpdate = _stopWatch.ElapsedMilliseconds / 1000.0f;
             _gameLoop.Run(Window, Tick);
             _stopWatch.Stop();
             Cleanup();
@@ -106,7 +116,7 @@ namespace Xacor.Game
 
         private void Tick()
         {
-            var now = _stopWatch.ElapsedMilliseconds / 1000.0;
+            var now = _stopWatch.ElapsedMilliseconds / 1000.0f;
             var deltaTime = now - _lastUpdate;
             Update(deltaTime);
             _lastUpdate = now;

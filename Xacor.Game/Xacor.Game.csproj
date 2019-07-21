@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />
+    <ProjectReference Include="..\Xacor.Graphics\Xacor.Graphics.csproj" />
     <ProjectReference Include="..\Xacor.Input\Xacor.Input.csproj" />
     <ProjectReference Include="..\Xacor.Platform\Xacor.Platform.csproj" />
     <ProjectReference Include="..\Xacor\Xacor.csproj" />

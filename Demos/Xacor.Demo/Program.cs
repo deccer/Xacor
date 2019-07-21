@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using DryIoc;
@@ -18,6 +19,21 @@ namespace Xacor.Demo
         {
             var container = new Container(rules => rules.WithTrackingDisposableTransients());
             //container.Register<IProfiler>();
+
+
+            var inputMappings = new List<InputMapping>
+            {
+                new KeyboardInputMapping("MoveForward", InputButton.W, InputButton.Mouse1),
+                new KeyboardInputMapping("MoveBackward", InputButton.S, InputButton.Mouse2),
+                new KeyboardInputMapping("SlideLeft", InputButton.A),
+                new KeyboardInputMapping("SlideRight", InputButton.D),
+
+                new MouseInputMapping("Horizontal", Axis.Horizontal),
+                new MouseInputMapping("Vertical", Axis.Vertical),
+            };
+
+            container.RegisterInstance(inputMappings);
+            container.Register<InputOptions>(Reuse.Singleton);
             container.RegisterInstance(new GraphicsOptions(new Size(1920, 1080), WindowState.Windowed));
             container.Register<Options>(Reuse.Singleton);
             container.Register<IGamePlatformFactory, Win32GamePlatformFactory>(Reuse.Singleton);
