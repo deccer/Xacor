@@ -4,9 +4,12 @@
     {
         public GraphicsOptions Graphics { get; }
 
-        public Options(GraphicsOptions graphicsOptions)
+        public InputOptions Input { get; }
+
+        public Options(GraphicsOptions graphicsOptions, InputOptions inputOptions)
         {
             Graphics = graphicsOptions;
+            Input = inputOptions;
         }
     }
 }
