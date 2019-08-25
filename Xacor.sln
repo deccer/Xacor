@@ -95,7 +95,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Xacor.Graphics.Api.GL", "Xa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics", "Xacor.Graphics\Xacor.Graphics.csproj", "{22FE13B4-DF11-426E-95EE-7138B7EA553F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xacor.Input.DirectInput", "Xacor.Input.DirectInput\Xacor.Input.DirectInput.csproj", "{063DC75F-8473-4CDE-861C-0068E87C37A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Input.DirectInput", "Xacor.Input.DirectInput\Xacor.Input.DirectInput.csproj", "{063DC75F-8473-4CDE-861C-0068E87C37A7}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
