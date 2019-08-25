@@ -26,31 +26,31 @@ namespace Xacor.Graphics.Api.DX11
             }
             if (type.HasFlag(TextureViewType.ShaderResource))
             {
-                var shaderResourceViewDescription = new ShaderResourceViewDescription();
+                var srvDescription = new ShaderResourceViewDescription();
                 if (depth > 0 && height > 0 && width > 0)
                 {
-                    shaderResourceViewDescription.Format = ((Texture3D) resource).Description.Format;
-                    shaderResourceViewDescription.Texture1D.MipLevels = mipLevels;
-                    shaderResourceViewDescription.Dimension = ShaderResourceViewDimension.Texture3D;
+                    srvDescription.Format = ((Texture3D) resource).Description.Format;
+                    srvDescription.Texture1D.MipLevels = mipLevels;
+                    srvDescription.Dimension = ShaderResourceViewDimension.Texture3D;
                 }
                 else if (depth == 0 && height > 0 && width > 0)
                 {
-                    shaderResourceViewDescription.Format = ((Texture2D)resource).Description.Format;
-                    shaderResourceViewDescription.Texture2D.MipLevels = mipLevels;
-                    shaderResourceViewDescription.Dimension = ShaderResourceViewDimension.Texture2D;
+                    srvDescription.Format = ((Texture2D)resource).Description.Format;
+                    srvDescription.Texture2D.MipLevels = mipLevels;
+                    srvDescription.Dimension = ShaderResourceViewDimension.Texture2D;
                     if (isCube)
                     {
-                        shaderResourceViewDescription.Dimension = ShaderResourceViewDimension.TextureCube;
+                        srvDescription.Dimension = ShaderResourceViewDimension.TextureCube;
                     }
                 }
                 else if (depth == 0 && height == 0 && width > 0)
                 {
-                    shaderResourceViewDescription.Format = ((Texture1D)resource).Description.Format;
-                    shaderResourceViewDescription.Texture3D.MipLevels = mipLevels;
-                    shaderResourceViewDescription.Dimension = ShaderResourceViewDimension.Texture1D;
+                    srvDescription.Format = ((Texture1D)resource).Description.Format;
+                    srvDescription.Texture3D.MipLevels = mipLevels;
+                    srvDescription.Dimension = ShaderResourceViewDimension.Texture1D;
                 }
                 
-                _nativeShaderResourceView = new ShaderResourceView(graphicsDevice, resource, shaderResourceViewDescription);
+                _nativeShaderResourceView = new ShaderResourceView(graphicsDevice, resource, srvDescription);
             }
             if (type.HasFlag(TextureViewType.DepthStencil))
             {
