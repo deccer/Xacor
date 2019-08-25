@@ -229,7 +229,7 @@ namespace Xacor.Demo
             {
                 _camera.Position -= _camera.Front * deltaTime;
             }
-
+            
             var horizontalAxis = Input.GetAxis("Horizontal");
             //_camera.Position += _camera.Right * (float)deltaTime * horizontalAxis;
 
@@ -245,14 +245,14 @@ namespace Xacor.Demo
             _viewMatrix = _camera.GetViewMatrix();
             _projectionMatrix = _camera.GetProjectionMatrix();
 
-            _counter += (float)deltaTime;
+            _counter += deltaTime;
 
-            _leftMvp.ModelViewProjectionMatrix = Matrix4x4.CreateScale(1, 1 + (float)Math.Sin(_counter) * 0.5f, 1) * 
+            _leftMvp.ModelViewProjectionMatrix = Matrix4x4.CreateScale(1, 1 + (float)System.Math.Sin(_counter) * 0.5f, 1) * 
                                                  Matrix4x4.CreateRotationY(_counter * 2f) *
                                                  Matrix4x4.CreateTranslation(-4, 0, 0) * _viewMatrix * _projectionMatrix;
             _leftConstantBuffer.UpdateBuffer(_leftMvp);
 
-            _rightMvp.ModelViewProjectionMatrix = Matrix4x4.CreateTranslation((float)Math.Cos(_counter), (float)Math.Cos(_counter), 0) * _viewMatrix * _projectionMatrix;
+            _rightMvp.ModelViewProjectionMatrix = Matrix4x4.CreateTranslation((float)System.Math.Cos(_counter), (float)System.Math.Cos(_counter), 0) * _viewMatrix * _projectionMatrix;
             _rightConstantBuffer.UpdateBuffer(_rightMvp);
         }
     }
