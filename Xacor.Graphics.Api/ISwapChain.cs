@@ -2,7 +2,7 @@
 
 namespace Xacor.Graphics.Api
 {
-    public interface ISwapChain
+    public interface ISwapChain : IDisposable
     {
         TextureView TextureView { get; }
 

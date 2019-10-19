@@ -75,11 +75,12 @@ namespace Xacor.Game
 
         private void UpdateVectors()
         {
-            _front.X = (float)Math.Cos(_pitch) * (float)Math.Cos(_yaw);
-            _front.Y = (float)Math.Sin(_pitch);
-            _front.Z = (float)Math.Cos(_pitch) * (float)Math.Sin(_yaw);
+            var x = (float)Math.Cos(_pitch) * (float)Math.Cos(_yaw);
+            var y = (float)Math.Sin(_pitch);
+            var z = (float)Math.Cos(_pitch) * (float)Math.Sin(_yaw);
 
-            _front = Vector3.Normalize(_front);
+            _front = new Vector3(x, y, z);
+            Vector3.Normalize(_front);
 
             _right = Vector3.Normalize(Vector3.Cross(_front, Vector3.UnitY));
             _up = Vector3.Normalize(Vector3.Cross(_right, _front));

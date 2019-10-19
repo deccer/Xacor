@@ -9,7 +9,7 @@ namespace Xacor.Graphics.Api.DX11
     {
         private readonly D3D11Device _nativeDevice;
 
-        public D3D11DeviceContext NativeDeviceContext { get; }
+        internal D3D11DeviceContext NativeDeviceContext { get; }
 
         public void Dispose()
         {

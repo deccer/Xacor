@@ -11,9 +11,10 @@ namespace Xacor.Graphics.Api.GL46
     internal class GL46SwapChain : ISwapChain
     {
         private static readonly DebugProcArb _debugDelegate = ReceiveMessage;
+
         private static GCHandle? _debugDelegateHandle;
         private readonly GraphicsContext _nativeContext;
-        private IWindowInfo _windowInfo;
+        private readonly IWindowInfo _windowInfo;
 
         public TextureView TextureView { get; }
 
@@ -25,19 +26,19 @@ namespace Xacor.Graphics.Api.GL46
             Debug.WriteLine("Source {0}; Type {1}; id {2}; Severity {3}; msg: '{4}'", debugSource, type, id, severity, msg);
         }
         
+        [Conditional("DEBUG")]
         private static void TurnOnDebugging()
         {
             OpenTK.Graphics.OpenGL4.GL.Enable(EnableCap.DebugOutput);
             OpenTK.Graphics.OpenGL4.GL.Enable(EnableCap.DebugOutputSynchronous);
             _debugDelegateHandle = GCHandle.Alloc(_debugDelegate);
-            var nullptr = new IntPtr(0);
-            OpenTK.Graphics.OpenGL4.GL.Arb.DebugMessageCallback(_debugDelegate, nullptr);
+            OpenTK.Graphics.OpenGL4.GL.Arb.DebugMessageCallback(_debugDelegate, IntPtr.Zero);
         }
 
         public void Dispose()
         {
-            _nativeContext?.Dispose();
             _debugDelegateHandle?.Free();
+            _nativeContext?.Dispose();
         }
 
         public GL46SwapChain(SwapChainInfo swapChainInfo)
@@ -55,7 +56,7 @@ namespace Xacor.Graphics.Api.GL46
             _nativeContext.LoadAll();
             TurnOnDebugging();
             _nativeContext.MakeCurrent(_windowInfo);
-            _nativeContext.SwapInterval = 1;
+            _nativeContext.SwapInterval = swapChainInfo.VSync ? 1 : 0;
 
             OpenTK.Graphics.OpenGL4.GL.Enable(EnableCap.CullFace);
             OpenTK.Graphics.OpenGL4.GL.CullFace(CullFaceMode.Back);

@@ -16,7 +16,11 @@ namespace Xacor.Game
 
         private readonly Stopwatch _stopWatch = Stopwatch.StartNew();
         private float _lastUpdate;
-        
+        private int _framesToAverage = 64;
+        private int _frameCounter;
+
+        private float _averageDeltaTime = 0.0f;
+
         private ISwapChain _swapchain;
 
         protected IGraphicsDevice GraphicsDevice { get; }
@@ -111,13 +115,25 @@ namespace Xacor.Game
 
         private SwapChainInfo CreateSwapChainInfo()
         {
-            return new SwapChainInfo(Window.Handle, Window.Width, Window.Height, _options.Graphics.WindowState != WindowState.Fullscreen, SwapEffect.FlipDiscard);
+            return new SwapChainInfo(Window.Handle, Window.Width, Window.Height, _options.Graphics.VSync, _options.Graphics.WindowState != WindowState.Fullscreen, SwapEffect.FlipDiscard);
         }
 
         private void Tick()
         {
             var now = _stopWatch.ElapsedMilliseconds / 1000.0f;
             var deltaTime = now - _lastUpdate;
+
+            _averageDeltaTime += deltaTime;
+            if (_frameCounter == _framesToAverage)
+            {
+                var averageFrameTime = _averageDeltaTime / _frameCounter;
+
+                Window.Title = $"Xacor delta.avg: {averageFrameTime * 1000.0f:000.00}ms, delta.abs: {deltaTime * 1000.0f:000.00}ms, fps: {1.0f / averageFrameTime:0000}";
+
+                _averageDeltaTime = 0.0f;
+                _frameCounter = 0;
+            }
+
             Update(deltaTime);
             _lastUpdate = now;
             BeginDraw();
@@ -125,6 +141,8 @@ namespace Xacor.Game
             EndDraw();
 
             _swapchain.Present();
+
+            _frameCounter++;
         }
     }
 }

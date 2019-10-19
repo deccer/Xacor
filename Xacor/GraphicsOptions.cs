@@ -8,10 +8,13 @@ namespace Xacor
 
         public WindowState WindowState { get; }
 
-        public GraphicsOptions(Size resolution, WindowState windowState)
+        public bool VSync { get; }
+
+        public GraphicsOptions(Size resolution, WindowState windowState, bool vSync)
         {
             Resolution = resolution;
             WindowState = windowState;
+            VSync = vSync;
         }
     }
 }

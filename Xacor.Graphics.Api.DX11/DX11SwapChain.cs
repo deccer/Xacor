@@ -9,6 +9,7 @@ namespace Xacor.Graphics.Api.DX11
 {
     internal class DX11SwapChain : ISwapChain, IDisposable
     {
+        private readonly SwapChainInfo _swapChainInfo;
         private readonly DXGIFactory _factory;
         private readonly SwapChain _swapChain;
 
@@ -18,6 +19,7 @@ namespace Xacor.Graphics.Api.DX11
 
         public DX11SwapChain(DX11GraphicsDevice graphiceDevice, SwapChainInfo swapChainInfo)
         {
+            _swapChainInfo = swapChainInfo;
             _factory = new DXGIFactory();
 
             var swapChainDescription = new SwapChainDescription
@@ -62,7 +64,7 @@ namespace Xacor.Graphics.Api.DX11
 
         public void Present()
         {
-            _swapChain.Present(0, PresentFlags.None);
+            _swapChain.Present(_swapChainInfo.VSync ? 1 : 0, PresentFlags.None);
         }
 
         public void Dispose()

@@ -97,6 +97,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics", "Xacor.Gra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Input.DirectInput", "Xacor.Input.DirectInput\Xacor.Input.DirectInput.csproj", "{063DC75F-8473-4CDE-861C-0068E87C37A7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Mathematics", "Xacor.Mathematics\Xacor.Mathematics.csproj", "{D24EE7C5-B486-4D19-B262-8E52DFE6ACBA}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Xacor.Graphics.Api.DX\Xacor.Graphics.Api.DX.projitems*{7b7225e0-f6f2-4d96-b304-eecdc4152a26}*SharedItemsImports = 13
@@ -167,6 +169,10 @@ Global
 		{063DC75F-8473-4CDE-861C-0068E87C37A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{063DC75F-8473-4CDE-861C-0068E87C37A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{063DC75F-8473-4CDE-861C-0068E87C37A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D24EE7C5-B486-4D19-B262-8E52DFE6ACBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D24EE7C5-B486-4D19-B262-8E52DFE6ACBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D24EE7C5-B486-4D19-B262-8E52DFE6ACBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D24EE7C5-B486-4D19-B262-8E52DFE6ACBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

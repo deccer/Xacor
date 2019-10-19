@@ -15,12 +15,11 @@ namespace Xacor.Demo
 {
     internal static class Program
     {
-        private static IResolver CreateResolver()
+        private static IContainer CreateCompositionRoot()
         {
             var container = new Container(rules => rules.WithTrackingDisposableTransients());
             //container.Register<IProfiler>();
-
-
+            
             var inputMappings = new List<InputMapping>
             {
                 new KeyboardInputMapping("MoveForward", InputButton.W, InputButton.Mouse1),
@@ -34,12 +33,12 @@ namespace Xacor.Demo
 
             container.RegisterInstance(inputMappings);
             container.Register<InputOptions>(Reuse.Singleton);
-            container.RegisterInstance(new GraphicsOptions(new Size(1920, 1080), WindowState.Windowed));
+            container.RegisterInstance(new GraphicsOptions(new Size(1920, 1080), WindowState.Windowed, true));
             container.Register<Options>(Reuse.Singleton);
             container.Register<IGamePlatformFactory, Win32GamePlatformFactory>(Reuse.Singleton);
             container.RegisterInstance(DeviceType.Hardware);
-            //container.Register<IGraphicsFactory, DX11GraphicsFactory>(Reuse.Singleton);
-            container.Register<IGraphicsFactory, GL46GraphicsFactory>(Reuse.Singleton);
+            container.Register<IGraphicsFactory, DX11GraphicsFactory>(Reuse.Singleton);
+            //container.Register<IGraphicsFactory, GL46GraphicsFactory>(Reuse.Singleton);
             container.Register<InputMapper>();
             container.Register<IInputFactory, DirectInputInputFactory>();
             container.Register<DemoGame>(Reuse.Singleton);
@@ -52,9 +51,8 @@ namespace Xacor.Demo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var resolver = CreateResolver();
-
-            using var game = resolver.Resolve<DemoGame>();
+            using var compositionRoot = CreateCompositionRoot();
+            using var game = compositionRoot.Resolve<DemoGame>();
 
             game.Run();
         }

@@ -53,7 +53,7 @@ namespace Xacor.Graphics.Api.DX12
 
         public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
         {
-            return new DX12SwapChain();
+            return new DX12SwapChain(_graphicsDevice, swapChainInfo);
         }
 
         public ITextureFactory CreateTextureFactory()

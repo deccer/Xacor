@@ -145,49 +145,50 @@ namespace Xacor.Demo
             _simplePipeline = GraphicsFactory.CreatePipeline(_simpleVertexShader, _simplePixelShader, _simpleVertexShader.InputLayout, _defaultBlendState, _defaultDepthStencilState, _defaultRasterizerState, _viewport, PrimitiveTopology.TriangleList);
             _texturedPipeline = GraphicsFactory.CreatePipeline(_texturedVertexShader, _texturedPixelShader, _texturedVertexShader.InputLayout, _defaultBlendState, _defaultDepthStencilState, _defaultRasterizerState, _viewport, PrimitiveTopology.TriangleList);
 
+            var cubeColor = new Vector4(112 / 256f, 53 / 256f, 63 / 256f, 1.0f);
             var cubeVertices = new List<VertexPositionColor>
             {
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), new Vector4(1.0f, 0.0f, 0.0f, 1.0f)), // Front 
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), new Vector4(1.0f, 0.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), new Vector4(1.0f, 0.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), new Vector4(1.0f, 0.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), new Vector4(1.0f, 0.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), new Vector4(1.0f, 0.0f, 0.0f, 1.0f)),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor), // Front 
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColor),
                                                   
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), new Vector4(0.0f, 1.0f, 0.0f, 1.0f)), // BACK 
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), new Vector4(0.0f, 1.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), new Vector4(0.0f, 1.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), new Vector4(0.0f, 1.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), new Vector4(0.0f, 1.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), new Vector4(0.0f, 1.0f, 0.0f, 1.0f)),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColor), // BACK 
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor),
                                                   
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), new Vector4(0.0f, 0.0f, 1.0f, 1.0f)), // Top 
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), new Vector4(0.0f, 0.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), new Vector4(0.0f, 0.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), new Vector4(0.0f, 0.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), new Vector4(0.0f, 0.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), new Vector4(0.0f, 0.0f, 1.0f, 1.0f)),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColor), // Top 
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColor),
                                                   
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), new Vector4(1.0f, 1.0f, 0.0f, 1.0f)), // Bottom 
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), new Vector4(1.0f, 1.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), new Vector4(1.0f, 1.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), new Vector4(1.0f, 1.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), new Vector4(1.0f, 1.0f, 0.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), new Vector4(1.0f, 1.0f, 0.0f, 1.0f)),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor), // Bottom 
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColor),
                                                   
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), new Vector4(1.0f, 0.0f, 1.0f, 1.0f)), // Left 
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), new Vector4(1.0f, 0.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), new Vector4(1.0f, 0.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), new Vector4(1.0f, 0.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), new Vector4(1.0f, 0.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), new Vector4(1.0f, 0.0f, 1.0f, 1.0f)),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor), // Left 
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColor),
                                                   
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), new Vector4(0.0f, 1.0f, 1.0f, 1.0f)), // Right 
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), new Vector4(0.0f, 1.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), new Vector4(0.0f, 1.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), new Vector4(0.0f, 1.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), new Vector4(0.0f, 1.0f, 1.0f, 1.0f)),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), new Vector4(0.0f, 1.0f, 1.0f, 1.0f))
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColor), // Right 
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor)
             };
             _cubeVertexBuffer = GraphicsFactory.CreateVertexBuffer(cubeVertices.ToArray());
 
@@ -247,7 +248,7 @@ namespace Xacor.Demo
 
             _counter += deltaTime;
 
-            _leftMvp.ModelViewProjectionMatrix = Matrix4x4.CreateScale(1, 1 + (float)System.Math.Sin(_counter) * 0.5f, 1) * 
+            _leftMvp.ModelViewProjectionMatrix = /*Matrix4x4.CreateScale(1, 1 + (float)System.Math.Sin(_counter) * 0.5f, 1) * */
                                                  Matrix4x4.CreateRotationY(_counter * 2f) *
                                                  Matrix4x4.CreateTranslation(-4, 0, 0) * _viewMatrix * _projectionMatrix;
             _leftConstantBuffer.UpdateBuffer(_leftMvp);
