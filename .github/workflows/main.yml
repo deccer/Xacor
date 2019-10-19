@@ -1,4 +1,4 @@
-name: Xacor CI
+name: Xacor
 
 on: [push]
 
