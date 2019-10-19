@@ -83,6 +83,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Textures", "Textures", "{D0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A595499-8AEF-4F5E-AB84-CF1F69AD7DE3}"
 	ProjectSection(SolutionItems) = preProject
+		.github\actions.yml = .github\actions.yml
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
