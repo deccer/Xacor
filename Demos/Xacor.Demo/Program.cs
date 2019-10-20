@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using DryIoc;
 using Xacor.Graphics.Api;
 using Xacor.Graphics.Api.GL46;
-using Xacor.Graphics.Api.DX11;
+using Xacor.Graphics.Api.D3D11;
 using Xacor.Input;
 using Xacor.Input.DirectInput;
 using Xacor.Platform;
@@ -37,7 +37,7 @@ namespace Xacor.Demo
             container.Register<Options>(Reuse.Singleton);
             container.Register<IGamePlatformFactory, Win32GamePlatformFactory>(Reuse.Singleton);
             container.RegisterInstance(DeviceType.Hardware);
-            container.Register<IGraphicsFactory, DX11GraphicsFactory>(Reuse.Singleton);
+            container.Register<IGraphicsFactory, D3D11GraphicsFactory>(Reuse.Singleton);
             //container.Register<IGraphicsFactory, GL46GraphicsFactory>(Reuse.Singleton);
             container.Register<InputMapper>();
             container.Register<IInputFactory, DirectInputInputFactory>();

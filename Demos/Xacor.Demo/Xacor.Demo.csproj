@@ -8,13 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" Version="4.0.4" />
+    <PackageReference Include="DryIoc.dll" Version="4.0.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Xacor.Game\Xacor.Game.csproj" />
-    <ProjectReference Include="..\..\Xacor.Graphics.Api.DX11\Xacor.Graphics.Api.DX11.csproj" />
+    <ProjectReference Include="..\..\Xacor.Graphics.Api.D3D11\Xacor.Graphics.Api.D3D11.csproj" />
+    <ProjectReference Include="..\..\Xacor.Graphics.Api.D3D12\Xacor.Graphics.Api.D3D12.csproj" />
     <ProjectReference Include="..\..\Xacor.Graphics.Api.GL46\Xacor.Graphics.Api.GL46.csproj" />
+    <ProjectReference Include="..\..\Xacor.Graphics.Api.VK\Xacor.Graphics.Api.VK.csproj" />
     <ProjectReference Include="..\..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />
     <ProjectReference Include="..\..\Xacor.Input.DirectInput\Xacor.Input.DirectInput.csproj" />
     <ProjectReference Include="..\..\Xacor.Platform.Windows\Xacor.Platform.Windows.csproj" />
