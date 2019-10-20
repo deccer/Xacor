@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -12,6 +12,6 @@
     <ProjectReference Include="..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />
   </ItemGroup>
 
-  <Import Project="..\Xacor.Graphics.Api.D3D\Xacor.Graphics.Api.DX.projitems" Label="Shared" />
+  <Import Project="..\Xacor.Graphics.Api.D3D\Xacor.Graphics.Api.D3D.projitems" Label="Shared" />
 
 </Project>

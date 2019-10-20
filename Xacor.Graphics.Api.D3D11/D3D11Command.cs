@@ -35,7 +35,7 @@ namespace Xacor.Graphics.Api.D3D11
         public string PassName;
         public PrimitiveTopology PrimitiveTopology;
 
-        public D3D11VertexBufferBinding VertexBufferBinding;
+        public VertexBufferBinding VertexBufferBinding;
         public int VertexCount;
         public int VertexOffset;
         public Buffer IndexBuffer;
@@ -131,7 +131,7 @@ namespace Xacor.Graphics.Api.D3D11
                 hashCode = (hashCode * 397) ^ DepthClearStencil.GetHashCode();
                 hashCode = (hashCode * 397) ^ (PassName != null ? PassName.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (int) PrimitiveTopology;
-                hashCode = (hashCode * 397) ^ (VertexBufferBinding != null ? VertexBufferBinding.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ VertexBufferBinding.GetHashCode();
                 hashCode = (hashCode * 397) ^ VertexCount;
                 hashCode = (hashCode * 397) ^ VertexOffset;
                 hashCode = (hashCode * 397) ^ (IndexBuffer != null ? IndexBuffer.GetHashCode() : 0);

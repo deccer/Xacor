@@ -8,14 +8,9 @@ namespace Xacor.Graphics.Api.D3D11
     {
         private readonly D3D11GraphicsDevice _graphicsDevice;
         private Buffer _buffer;
-        private VertexBufferBinding _vertexBufferBinding;
+        private VertexBufferBinding _nativeVertexBufferBinding;
 
         public int VertexStride { get; private set; }
-
-        public static implicit operator VertexBufferBinding(D3D11VertexBuffer vertexBuffer)
-        {
-            return vertexBuffer._vertexBufferBinding;
-        }
 
         public static IVertexBuffer Create<T>(D3D11GraphicsDevice graphicsDevice, ref T[] vertices) where T : struct
         {
@@ -36,7 +31,7 @@ namespace Xacor.Graphics.Api.D3D11
 
         public VertexBufferBinding GetVertexBufferBinding()
         {
-            return _vertexBufferBinding;
+            return _nativeVertexBufferBinding;
         }
 
         private void Initialize<T>(ref T[] vertices) where T : struct
@@ -44,7 +39,7 @@ namespace Xacor.Graphics.Api.D3D11
             VertexStride = Marshal.SizeOf<T>();
             var bufferDescription = new BufferDescription(vertices.Length * VertexStride, BindFlags.VertexBuffer, ResourceUsage.Default);
             _buffer = Buffer.Create(_graphicsDevice, vertices, bufferDescription);
-            _vertexBufferBinding = new D3D11VertexBufferBinding(_buffer, VertexStride, 0);
+            _nativeVertexBufferBinding = new VertexBufferBinding(_buffer, VertexStride, 0);
         }
     }
 }

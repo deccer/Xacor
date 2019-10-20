@@ -27,11 +27,6 @@ namespace Xacor.Graphics.Api.GL46
             OpenTK.Graphics.OpenGL4.GL.DeleteBuffer(_nativeBuffer);
         }
 
-        public VertexBufferBinding GetVertexBufferBinding()
-        {
-            throw new NotImplementedException();
-        }
-
         private GL46VertexBuffer()
         {
             OpenTK.Graphics.OpenGL4.GL.CreateBuffers(1, out _nativeBuffer);

@@ -238,7 +238,7 @@ namespace Xacor.Graphics.Api.D3D11
             var command = new D3D11Command
             {
                 Type = CommandType.SetVertexBuffer,
-                VertexBufferBinding = (D3D11VertexBufferBinding)vertexBuffer.GetVertexBufferBinding()
+                VertexBufferBinding = ((D3D11VertexBuffer)vertexBuffer).GetVertexBufferBinding()
             };
             _commandList.Add(command);
         }
