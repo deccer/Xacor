@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Numerics;
 using System.Runtime.InteropServices;
+using Xacor.Mathematics;
 
 namespace Xacor.Graphics.Api
 {

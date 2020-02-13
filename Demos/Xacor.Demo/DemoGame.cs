@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.InteropServices;
 using Xacor.Game;
 using Xacor.Graphics.Api;
+using Xacor.Mathematics;
 using Xacor.Input;
 using Xacor.Platform;
 
@@ -13,9 +13,9 @@ namespace Xacor.Demo
     [StructLayout(LayoutKind.Sequential)]
     internal struct InputBuffer
     {
-        public Matrix4x4 ModelViewProjectionMatrix;
-        public Matrix4x4 Padding1;
-        public Matrix4x4 Padding2;
+        public Matrix ModelViewProjectionMatrix;
+        public Matrix Padding1;
+        public Matrix Padding2;
     }
 
     internal class DemoGame : GameBase
@@ -50,8 +50,8 @@ namespace Xacor.Demo
         private ITexture _simpleTexture;
         private ISampler _simpleSampler;
 
-        private Matrix4x4 _viewMatrix;
-        private Matrix4x4 _projectionMatrix;
+        private Matrix _viewMatrix;
+        private Matrix _projectionMatrix;
         private InputBuffer _leftMvp;
         private InputBuffer _rightMvp;
 
@@ -117,16 +117,16 @@ namespace Xacor.Demo
 
             Window.Title = "Xacor.Demo";
 
-            _viewMatrix = Matrix4x4.CreateLookAt(new Vector3(0, 0, 10f), Vector3.Zero, Vector3.UnitY);
-            _projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(MathF.PI / 4.0f, _options.Graphics.Resolution.Width / (float)_options.Graphics.Resolution.Height, 0.1f, 4096f);
+            _viewMatrix = Matrix.LookAtRH(new Vector3(0, 0, 10f), Vector3.Zero, Vector3.UnitY);
+            _projectionMatrix = Matrix.PerspectiveFovRH(MathF.PI / 4.0f, _options.Graphics.Resolution.Width / (float)_options.Graphics.Resolution.Height, 0.1f, 4096f);
             _leftMvp = new InputBuffer
             {
-                ModelViewProjectionMatrix = Matrix4x4.CreateTranslation(-1.5f, 1, -0.5f) * _viewMatrix * _projectionMatrix
+                ModelViewProjectionMatrix = Matrix.Translation(-1.5f, 1, -0.5f) * _viewMatrix * _projectionMatrix
             };
 
             _rightMvp = new InputBuffer
             {
-                ModelViewProjectionMatrix = Matrix4x4.CreateTranslation(1.5f, -1, 0.5f) * _viewMatrix * _projectionMatrix
+                ModelViewProjectionMatrix = Matrix.Translation(1.5f, -1, 0.5f) * _viewMatrix * _projectionMatrix
             };
 
             _viewport = new Viewport(0, 0, _options.Graphics.Resolution.Width, _options.Graphics.Resolution.Height, 0.1f, 4096f);
@@ -248,11 +248,11 @@ namespace Xacor.Demo
             _counter += deltaTime;
 
             _leftMvp.ModelViewProjectionMatrix = /*Matrix4x4.CreateScale(1, 1 + (float)System.Math.Sin(_counter) * 0.5f, 1) * */
-                                                 Matrix4x4.CreateRotationY(_counter * 2f) *
-                                                 Matrix4x4.CreateTranslation(-4, 0, 0) * _viewMatrix * _projectionMatrix;
+                                                 Matrix.RotationY(_counter * 2f) *
+                                                 Matrix.Translation(-4, 0, 0) * _viewMatrix * _projectionMatrix;
             _leftConstantBuffer.UpdateBuffer(_leftMvp);
 
-            _rightMvp.ModelViewProjectionMatrix = Matrix4x4.CreateTranslation((float)System.Math.Cos(_counter), (float)System.Math.Cos(_counter), 0) * _viewMatrix * _projectionMatrix;
+            _rightMvp.ModelViewProjectionMatrix = Matrix.Translation((float)System.Math.Cos(_counter), (float)System.Math.Cos(_counter), 0) * _viewMatrix * _projectionMatrix;
             _rightConstantBuffer.UpdateBuffer(_rightMvp);
         }
     }

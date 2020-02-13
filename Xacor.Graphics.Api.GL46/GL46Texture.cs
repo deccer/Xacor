@@ -1,8 +1,10 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using System;
+using OpenTK.Graphics.OpenGL4;
+using Xacor.Graphics.Api.GL;
 
 namespace Xacor.Graphics.Api.GL46
 {
-    internal class GL46Texture : ITexture
+    internal class GL46Texture : ITexture, IDisposable
     {
         private readonly int _nativeTexture;
 

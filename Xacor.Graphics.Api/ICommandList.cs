@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using System.Numerics;
+﻿using Xacor.Mathematics;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace Xacor.Graphics.Api
 {

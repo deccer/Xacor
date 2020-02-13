@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Numerics;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using Xacor.Graphics.Api.GL;
+using Xacor.Mathematics;
+using Color4 = OpenTK.Graphics.Color4;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace Xacor.Graphics.Api.GL46
 {

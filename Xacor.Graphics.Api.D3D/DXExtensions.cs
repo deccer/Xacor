@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Drawing;
 using SharpDX.Direct3D;
-using SharpDX.Mathematics.Interop;
+using Xacor.Mathematics;
+using Xacor.Mathematics.Interop;
+using Rectangle = System.Drawing.Rectangle;
+using RectangleF = System.Drawing.RectangleF;
 
 namespace Xacor.Graphics.Api.D3D
 {
@@ -9,79 +11,55 @@ namespace Xacor.Graphics.Api.D3D
     {
         public static DriverType ToSharpDX(this DeviceType deviceType)
         {
-            switch (deviceType)
+            return deviceType switch
             {
-                case DeviceType.Hardware:
-                    return DriverType.Hardware;
-                default:
-                    return DriverType.Unknown;
-            }
+                DeviceType.Hardware => DriverType.Hardware,
+                _ => DriverType.Unknown,
+            };
         }
 
         public static SharpDX.DXGI.SwapEffect ToSharpDX(this SwapEffect swapEffect)
         {
-            switch (swapEffect)
+            return swapEffect switch
             {
-                case SwapEffect.Discard:
-                    return SharpDX.DXGI.SwapEffect.Discard;
-                case SwapEffect.Sequential:
-                    return SharpDX.DXGI.SwapEffect.Sequential;
-                case SwapEffect.FlipSequential:
-                    return SharpDX.DXGI.SwapEffect.FlipSequential;
-                case SwapEffect.FlipDiscard:
-                    return SharpDX.DXGI.SwapEffect.FlipDiscard;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(swapEffect), swapEffect, null);
-            }
+                SwapEffect.Discard => SharpDX.DXGI.SwapEffect.Discard,
+                SwapEffect.Sequential => SharpDX.DXGI.SwapEffect.Sequential,
+                SwapEffect.FlipSequential => SharpDX.DXGI.SwapEffect.FlipSequential,
+                SwapEffect.FlipDiscard => SharpDX.DXGI.SwapEffect.FlipDiscard,
+                _ => throw new ArgumentOutOfRangeException(nameof(swapEffect), swapEffect, null),
+            };
         }
 
         // ReSharper disable once InconsistentNaming
         public static SharpDX.DXGI.Format ToSharpDX(this Format format)
         {
-            switch (format)
+            return format switch
             {
-                case Format.D24UnormS8UInt:
-                    return SharpDX.DXGI.Format.D24_UNorm_S8_UInt;
-                case Format.D32Float:
-                    return SharpDX.DXGI.Format.D32_Float;
-                case Format.R8UNorm:
-                    return SharpDX.DXGI.Format.R8_UNorm;
-                case Format.R8G8B8A8UNorm:
-                    return SharpDX.DXGI.Format.R8G8B8A8_UNorm;
-                case Format.R16UInt:
-                    return SharpDX.DXGI.Format.R16_UInt;
-                case Format.R16G16Float:
-                    return SharpDX.DXGI.Format.R16G16_Float;
-                case Format.R16G16B16A16Float:
-                    return SharpDX.DXGI.Format.R16G16B16A16_Float;
-                case Format.R32UInt:
-                    return SharpDX.DXGI.Format.R32_UInt;
-                case Format.R32Float:
-                    return SharpDX.DXGI.Format.R32_Float;
-                case Format.R32G32Float:
-                    return SharpDX.DXGI.Format.R32G32_Float;
-                case Format.R32G32B32Float:
-                    return SharpDX.DXGI.Format.R32G32B32_Float;
-                case Format.R32G32B32A32Float:
-                    return SharpDX.DXGI.Format.R32G32B32A32_Float;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(format), format, "Format not supported.");
-            }
+                Format.D24UnormS8UInt => SharpDX.DXGI.Format.D24_UNorm_S8_UInt,
+                Format.D32Float => SharpDX.DXGI.Format.D32_Float,
+                Format.R8UNorm => SharpDX.DXGI.Format.R8_UNorm,
+                Format.R8G8B8A8UNorm => SharpDX.DXGI.Format.R8G8B8A8_UNorm,
+                Format.R16UInt => SharpDX.DXGI.Format.R16_UInt,
+                Format.R16G16Float => SharpDX.DXGI.Format.R16G16_Float,
+                Format.R16G16B16A16Float => SharpDX.DXGI.Format.R16G16B16A16_Float,
+                Format.R32UInt => SharpDX.DXGI.Format.R32_UInt,
+                Format.R32Float => SharpDX.DXGI.Format.R32_Float,
+                Format.R32G32Float => SharpDX.DXGI.Format.R32G32_Float,
+                Format.R32G32B32Float => SharpDX.DXGI.Format.R32G32B32_Float,
+                Format.R32G32B32A32Float => SharpDX.DXGI.Format.R32G32B32A32_Float,
+                _ => throw new ArgumentOutOfRangeException(nameof(format), format, "Format not supported."),
+            };
         }
 
         public static SharpDX.Direct3D.PrimitiveTopology ToSharpDX(this PrimitiveTopology primitiveTopology)
         {
-            switch (primitiveTopology)
+            return primitiveTopology switch
             {
-                case PrimitiveTopology.TriangleList:
-                    return SharpDX.Direct3D.PrimitiveTopology.TriangleList;
-                case PrimitiveTopology.LineList:
-                    return SharpDX.Direct3D.PrimitiveTopology.LineList;
-                case PrimitiveTopology.NotAssigned:
-                    return SharpDX.Direct3D.PrimitiveTopology.Undefined;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(primitiveTopology), primitiveTopology, null);
-            }
+                PrimitiveTopology.TriangleList => SharpDX.Direct3D.PrimitiveTopology.TriangleList,
+                PrimitiveTopology.LineList => SharpDX.Direct3D.PrimitiveTopology.LineList,
+                PrimitiveTopology.NotAssigned => SharpDX.Direct3D.PrimitiveTopology.Undefined,
+                _ => throw new ArgumentOutOfRangeException(nameof(primitiveTopology), primitiveTopology, null),
+            };
         }
 
         public static RawViewportF ToSharpDX(this Viewport viewport)

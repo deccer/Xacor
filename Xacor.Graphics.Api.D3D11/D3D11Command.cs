@@ -1,6 +1,6 @@
 ﻿using System;
 using SharpDX.Direct3D11;
-using SharpDX.Mathematics.Interop;
+using Xacor.Mathematics.Interop;
 using Buffer = SharpDX.Direct3D11.Buffer;
 
 namespace Xacor.Graphics.Api.D3D11
@@ -8,7 +8,7 @@ namespace Xacor.Graphics.Api.D3D11
     internal struct D3D11Command : IEquatable<D3D11Command>
     {
         public CommandType Type;
-        public RawColor4 RenderTargetClearColor;
+        public SharpDX.Mathematics.Interop.RawColor4 RenderTargetClearColor;
         public RenderTargetView RenderTarget;
         public RenderTargetView[] RenderTargets;
         public DepthStencilView RenderTargetDepthStencil;
@@ -54,7 +54,7 @@ namespace Xacor.Graphics.Api.D3D11
 
         public void Clear()
         {
-            RenderTargetClearColor = new RawColor4(0, 0, 1, 1.0f);
+            RenderTargetClearColor = new SharpDX.Mathematics.Interop.RawColor4(0, 0, 1, 1.0f);
             RenderTargetDepthStencil = null;
             RenderTarget = null;
             ConstantBuffer = null;

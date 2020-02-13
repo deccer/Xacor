@@ -1,4 +1,6 @@
-﻿namespace Xacor.Graphics.Api.D3D11
+﻿using Xacor.Mathematics;
+
+namespace Xacor.Graphics.Api.D3D11
 {
     internal class D3D11Pipeline : IPipeline
     {

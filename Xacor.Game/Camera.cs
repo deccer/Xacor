@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Numerics;
+using Xacor.Mathematics;
 
 namespace Xacor.Game
 {
@@ -63,14 +63,14 @@ namespace Xacor.Game
             }
         }
 
-        public Matrix4x4 GetViewMatrix()
+        public Matrix GetViewMatrix()
         {
-            return Matrix4x4.CreateLookAt(Position, Position + _front, _up);
+            return Matrix.LookAtRH(Position, Position + _front, _up);
         }
 
-        public Matrix4x4 GetProjectionMatrix()
+        public Matrix GetProjectionMatrix()
         {
-            return Matrix4x4.CreatePerspectiveFieldOfView(_fov, AspectRatio, 0.01f, 100f);
+            return Matrix.PerspectiveFovRH(_fov, AspectRatio, 0.01f, 100f);
         }
 
         private void UpdateVectors()

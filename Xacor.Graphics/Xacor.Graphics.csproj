@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />
+    <ProjectReference Include="..\Xacor.Mathematics\Xacor.Mathematics.csproj" />
+  </ItemGroup>
+
 </Project>

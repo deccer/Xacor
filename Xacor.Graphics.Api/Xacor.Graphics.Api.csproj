@@ -8,4 +8,8 @@
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Xacor.Mathematics\Xacor.Mathematics.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xacor.Mathematics;
 
 namespace Xacor.Graphics.Api.D3D11
 {
-    public class D3D11GraphicsFactory : IGraphicsFactory
+    public sealed class D3D11GraphicsFactory : IGraphicsFactory
     {
         private readonly D3D11GraphicsDevice _graphicsDevice;
 
