@@ -1,13 +1,16 @@
 ﻿namespace Xacor
 {
-    public class Options
+    public sealed class Options
     {
+        public HardwareOptions HardwareOptions { get; }
+
         public GraphicsOptions Graphics { get; }
 
         public InputOptions Input { get; }
 
-        public Options(GraphicsOptions graphicsOptions, InputOptions inputOptions)
+        public Options(HardwareOptions hardwareOptions, GraphicsOptions graphicsOptions, InputOptions inputOptions)
         {
+            HardwareOptions = hardwareOptions;
             Graphics = graphicsOptions;
             Input = inputOptions;
         }

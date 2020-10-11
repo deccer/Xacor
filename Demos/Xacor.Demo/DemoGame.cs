@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.InteropServices;
 using Xacor.Game;
 using Xacor.Graphics.Api;
+using Xacor.Mathematics;
 using Xacor.Input;
 using Xacor.Platform;
 
@@ -13,9 +13,9 @@ namespace Xacor.Demo
     [StructLayout(LayoutKind.Sequential)]
     internal struct InputBuffer
     {
-        public Matrix4x4 ModelViewProjectionMatrix;
-        public Matrix4x4 Padding1;
-        public Matrix4x4 Padding2;
+        public Matrix ModelViewProjectionMatrix;
+        public Matrix Padding1;
+        public Matrix Padding2;
     }
 
     internal class DemoGame : GameBase
@@ -50,8 +50,8 @@ namespace Xacor.Demo
         private ITexture _simpleTexture;
         private ISampler _simpleSampler;
 
-        private Matrix4x4 _viewMatrix;
-        private Matrix4x4 _projectionMatrix;
+        private Matrix _viewMatrix;
+        private Matrix _projectionMatrix;
         private InputBuffer _leftMvp;
         private InputBuffer _rightMvp;
 
@@ -90,24 +90,6 @@ namespace Xacor.Demo
 
         protected override void Draw()
         {
-            _commandList.Begin("Clear", _simplePipeline);
-            _commandList.SetRenderTarget(BackBufferView, BackBufferDepthStencilView);
-            _commandList.ClearRenderTarget(BackBufferView, new Vector4(0.0863f, 0.0353f, 0.0706f, 1.0f));
-            _commandList.ClearDepthStencil(BackBufferDepthStencilView, 1.0f, 1);
-
-            _commandList.SetVertexBuffer(_cubeVertexBuffer);
-            _commandList.SetConstantBuffer(_leftConstantBuffer, BufferScope.VertexShader);
-            _commandList.Draw(36);
-            _commandList.End();
-
-            _commandList.Begin("SimpleTextured", _texturedPipeline);
-            _commandList.SetVertexBuffer(_texturedVertexBuffer);
-            _commandList.SetConstantBuffer(_rightConstantBuffer, BufferScope.VertexShader);
-            _commandList.SetSampler(_simpleSampler);
-            _commandList.SetTexture(_simpleTexture.View);
-            _commandList.Draw(3);
-            _commandList.End();
-
             _commandList.Submit();
         }
 
@@ -117,16 +99,16 @@ namespace Xacor.Demo
 
             Window.Title = "Xacor.Demo";
 
-            _viewMatrix = Matrix4x4.CreateLookAt(new Vector3(0, 0, 10f), Vector3.Zero, Vector3.UnitY);
-            _projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(MathF.PI / 4.0f, _options.Graphics.Resolution.Width / (float)_options.Graphics.Resolution.Height, 0.1f, 4096f);
+            _viewMatrix = Matrix.LookAtRH(new Vector3(0, 0, 10f), Vector3.Zero, Vector3.UnitY);
+            _projectionMatrix = Matrix.PerspectiveFovRH(MathF.PI / 4.0f, _options.Graphics.Resolution.Width / (float)_options.Graphics.Resolution.Height, 0.1f, 4096f);
             _leftMvp = new InputBuffer
             {
-                ModelViewProjectionMatrix = Matrix4x4.CreateTranslation(-1.5f, 1, -0.5f) * _viewMatrix * _projectionMatrix
+                ModelViewProjectionMatrix = Matrix.Translation(-1.5f, 1, -0.5f) * _viewMatrix * _projectionMatrix
             };
 
             _rightMvp = new InputBuffer
             {
-                ModelViewProjectionMatrix = Matrix4x4.CreateTranslation(1.5f, -1, 0.5f) * _viewMatrix * _projectionMatrix
+                ModelViewProjectionMatrix = Matrix.Translation(1.5f, -1, 0.5f) * _viewMatrix * _projectionMatrix
             };
 
             _viewport = new Viewport(0, 0, _options.Graphics.Resolution.Width, _options.Graphics.Resolution.Height, 0.1f, 4096f);
@@ -144,50 +126,55 @@ namespace Xacor.Demo
             _simplePipeline = GraphicsFactory.CreatePipeline(_simpleVertexShader, _simplePixelShader, _simpleVertexShader.InputLayout, _defaultBlendState, _defaultDepthStencilState, _defaultRasterizerState, _viewport, PrimitiveTopology.TriangleList);
             _texturedPipeline = GraphicsFactory.CreatePipeline(_texturedVertexShader, _texturedPixelShader, _texturedVertexShader.InputLayout, _defaultBlendState, _defaultDepthStencilState, _defaultRasterizerState, _viewport, PrimitiveTopology.TriangleList);
 
-            var cubeColor = new Vector4(112 / 256f, 53 / 256f, 63 / 256f, 1.0f);
+            var cubeColorFront = new Vector4(112 / 256f, 53 / 256f, 63 / 256f, 1.0f);
+            var cubeColorBack = new Vector4(100 / 256f, 53 / 256f, 63 / 256f, 1.0f);
+            var cubeColorLeft = new Vector4(132 / 256f, 53 / 256f, 63 / 256f, 1.0f);
+            var cubeColorRight = new Vector4(192 / 256f, 53 / 256f, 63 / 256f, 1.0f);
+            var cubeColorTop = new Vector4(12 / 256f, 53 / 256f, 63 / 256f, 1.0f);
+            var cubeColorBottom = new Vector4(62 / 256f, 53 / 256f, 63 / 256f, 1.0f);
             var cubeVertices = new List<VertexPositionColor>
             {
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor), // Front 
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColorFront), // Front
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColorFront),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColorFront),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColorFront),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColorFront),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColorFront),
                                                   
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColor), // BACK 
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColorBack), // BACK
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColorBack),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColorBack),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColorBack),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColorBack),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColorBack),
                                                   
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColor), // Top 
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColorTop), // Top
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColorTop),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColorTop),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColorTop),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColorTop),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColorTop),
                                                   
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor), // Bottom 
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColorBottom), // Bottom
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColorBottom),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColorBottom),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColorBottom),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColorBottom),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColorBottom),
                                                   
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor), // Left 
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColor),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColorLeft), // Left
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, 1.0f), cubeColorLeft),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColorLeft),
+                new VertexPositionColor(new Vector3(-1.0f, -1.0f, -1.0f), cubeColorLeft),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, 1.0f), cubeColorLeft),
+                new VertexPositionColor(new Vector3(-1.0f, 1.0f, -1.0f), cubeColorLeft),
                                                   
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColor), // Right 
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColor),
-                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColor)
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColorRight), // Right
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColorRight),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, 1.0f), cubeColorRight),
+                new VertexPositionColor(new Vector3(1.0f, -1.0f, -1.0f), cubeColorRight),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, -1.0f), cubeColorRight),
+                new VertexPositionColor(new Vector3(1.0f, 1.0f, 1.0f), cubeColorRight)
             };
             _cubeVertexBuffer = GraphicsFactory.CreateVertexBuffer(cubeVertices.ToArray());
 
@@ -213,6 +200,25 @@ namespace Xacor.Demo
 
             _simpleTexture = _textureFactory.CreateTextureFromFile("Assets/Textures/T_Default_D0.png", false);
             _simpleSampler = GraphicsFactory.CreateSampler(TextureAddressMode.Clamp, TextureAddressMode.Clamp, Filter.Nearest, ComparisonFunction.Always);
+
+
+            _commandList.Begin("Clear", _simplePipeline);
+            _commandList.SetRenderTarget(BackBufferView, BackBufferDepthStencilView);
+            _commandList.ClearRenderTarget(BackBufferView, new Vector4(0.0863f, 0.0353f, 0.0706f, 1.0f));
+            _commandList.ClearDepthStencil(BackBufferDepthStencilView, 1.0f, 1);
+
+            _commandList.SetVertexBuffer(_cubeVertexBuffer);
+            _commandList.SetConstantBuffer(_leftConstantBuffer, BufferScope.VertexShader);
+            _commandList.Draw(36);
+            _commandList.End();
+
+            _commandList.Begin("SimpleTextured", _texturedPipeline);
+            _commandList.SetVertexBuffer(_texturedVertexBuffer);
+            _commandList.SetConstantBuffer(_rightConstantBuffer, BufferScope.VertexShader);
+            _commandList.SetSampler(_simpleSampler);
+            _commandList.SetTexture(_simpleTexture.View);
+            _commandList.Draw(3);
+            _commandList.End();
         }
 
         private float _counter;
@@ -221,13 +227,14 @@ namespace Xacor.Demo
         {
             base.Update(deltaTime);
 
+            const float boost = 5.0f;
             if (Input.IsButtonDown(MoveForward))
             {
-                _camera.Position += _camera.Front * deltaTime;
+                _camera.Position += _camera.Front * deltaTime * boost;
             }
             if (Input.IsButtonDown(MoveBackward))
             {
-                _camera.Position -= _camera.Front * deltaTime;
+                _camera.Position -= _camera.Front * deltaTime * boost;
             }
             
             var horizontalAxis = Input.GetAxis("Horizontal");
@@ -235,11 +242,11 @@ namespace Xacor.Demo
 
             if (Input.IsButtonDown(SlideLeft))
             {
-                _camera.Position -= _camera.Right * deltaTime;
+                _camera.Position -= _camera.Right * deltaTime * boost;
             }
             if (Input.IsButtonDown(SlideRight))
             {
-                _camera.Position += _camera.Right * deltaTime;
+                _camera.Position += _camera.Right * deltaTime * boost;
             }
 
             _viewMatrix = _camera.GetViewMatrix();
@@ -247,12 +254,14 @@ namespace Xacor.Demo
 
             _counter += deltaTime;
 
-            _leftMvp.ModelViewProjectionMatrix = /*Matrix4x4.CreateScale(1, 1 + (float)System.Math.Sin(_counter) * 0.5f, 1) * */
-                                                 Matrix4x4.CreateRotationY(_counter * 2f) *
-                                                 Matrix4x4.CreateTranslation(-4, 0, 0) * _viewMatrix * _projectionMatrix;
+            _leftMvp.ModelViewProjectionMatrix = Matrix.Scaling(1, 1 + (float)Math.Sin(_counter) * 0.5f, 1) *
+                                                 Matrix.RotationY(_counter * 2f) *
+                                                 Matrix.Translation(-4, 0, 0) *
+                                                 Matrix.Translation(0.0f, (float)Math.Sin(_counter) * 4, 0.0f) *
+                                                 _viewMatrix * _projectionMatrix;
             _leftConstantBuffer.UpdateBuffer(_leftMvp);
 
-            _rightMvp.ModelViewProjectionMatrix = Matrix4x4.CreateTranslation((float)System.Math.Cos(_counter), (float)System.Math.Cos(_counter), 0) * _viewMatrix * _projectionMatrix;
+            _rightMvp.ModelViewProjectionMatrix = Matrix.Translation((float)Math.Cos(_counter), (float)Math.Cos(_counter), 0) * _viewMatrix * _projectionMatrix;
             _rightConstantBuffer.UpdateBuffer(_rightMvp);
         }
     }

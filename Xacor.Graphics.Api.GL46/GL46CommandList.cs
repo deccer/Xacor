@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Numerics;
-using OpenTK.Graphics;
+using System.Security.Cryptography;
 using OpenTK.Graphics.OpenGL4;
 using Xacor.Graphics.Api.GL;
+using Xacor.Mathematics;
+using Color4 = OpenTK.Graphics.Color4;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace Xacor.Graphics.Api.GL46
 {
@@ -30,6 +31,11 @@ namespace Xacor.Graphics.Api.GL46
                 SetProgramPipeline((GL46Pipeline)pipeline);
                 SetInputLayout(pipeline.InputLayout);
             }
+        }
+
+        public void Clear()
+        {
+            _commandList.Clear();
         }
 
         public void ClearRenderTarget(TextureView renderTarget, Vector4 clearColor)
@@ -320,8 +326,6 @@ namespace Xacor.Graphics.Api.GL46
                         throw new ArgumentOutOfRangeException();
                 }
             }
-
-            _commandList.Clear();
         }
     }
 }

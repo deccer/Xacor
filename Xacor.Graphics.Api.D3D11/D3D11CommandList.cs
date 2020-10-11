@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Numerics;
 using SharpDX.Direct3D11;
 using SharpDX.Mathematics.Interop;
 using Xacor.Graphics.Api.D3D;
+using Xacor.Mathematics;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace Xacor.Graphics.Api.D3D11
 {
@@ -365,10 +365,9 @@ namespace Xacor.Graphics.Api.D3D11
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            Clear();
         }
 
-        private void Clear()
+        public void Clear()
         {
             _commandList.Clear();
         }

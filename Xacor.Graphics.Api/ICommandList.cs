@@ -1,10 +1,12 @@
-﻿using System.Drawing;
-using System.Numerics;
+﻿using Xacor.Mathematics;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace Xacor.Graphics.Api
 {
     public interface ICommandList
     {
+        void Clear();
+
         void Begin(string passName, IPipeline pipeline);
 
         void ClearRenderTarget(TextureView renderTarget, Vector4 clearColor);

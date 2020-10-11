@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Drawing;
 using SharpDX.Direct3D;
-using SharpDX.Mathematics.Interop;
+using Xacor.Mathematics;
+using Xacor.Mathematics.Interop;
+using Rectangle = System.Drawing.Rectangle;
+using RectangleF = System.Drawing.RectangleF;
 
 namespace Xacor.Graphics.Api.D3D
 {
@@ -13,6 +15,8 @@ namespace Xacor.Graphics.Api.D3D
             {
                 case DeviceType.Hardware:
                     return DriverType.Hardware;
+                case DeviceType.Reference:
+                    return DriverType.Reference;
                 default:
                     return DriverType.Unknown;
             }

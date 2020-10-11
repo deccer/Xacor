@@ -35,7 +35,7 @@ namespace Xacor.Platform.Windows
             _mainView.Dispose();
         }
 
-        public Win32GameWindow(GraphicsOptions graphicsOptions)
+        internal Win32GameWindow(GraphicsOptions graphicsOptions)
         {
             _graphicsOptions = graphicsOptions ?? throw new ArgumentNullException(nameof(graphicsOptions));
 
@@ -43,7 +43,8 @@ namespace Xacor.Platform.Windows
             {
                 Text = WindowTitle,
                 StartPosition = FormStartPosition.CenterScreen,
-                ClientSize = new Size(_graphicsOptions.Resolution.Width, _graphicsOptions.Resolution.Height)
+                ClientSize = new Size(_graphicsOptions.Resolution.Width, _graphicsOptions.Resolution.Height),
+                FormBorderStyle = _graphicsOptions.WindowState == WindowState.Windowed ? FormBorderStyle.FixedSingle : FormBorderStyle.None
             };
 
             _mainView.Closed += (_, __) => { IsOpen = false; };

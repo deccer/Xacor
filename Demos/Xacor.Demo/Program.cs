@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using DryIoc;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using Xacor.Graphics.Api;
 using Xacor.Graphics.Api.GL46;
 using Xacor.Graphics.Api.D3D11;
@@ -15,10 +16,17 @@ namespace Xacor.Demo
 {
     internal static class Program
     {
-        private static IContainer CreateCompositionRoot()
+        private static IServiceProvider CreateCompositionRoot()
         {
-            var container = new Container(rules => rules.WithTrackingDisposableTransients());
-            //container.Register<IProfiler>();
+            var loggerConfiguration = new LoggerConfiguration();
+            loggerConfiguration
+                .WriteTo.Console()
+                .WriteTo.RollingFile("logs\\{date}.log");
+
+            var logger = loggerConfiguration.CreateLogger();
+            var services = new ServiceCollection();
+            services.AddSingleton<ILogger>(logger);
+            //services.AddSingleton<IProfiler>();
             
             var inputMappings = new List<InputMapping>
             {
@@ -31,18 +39,22 @@ namespace Xacor.Demo
                 new MouseInputMapping("Vertical", Axis.Vertical),
             };
 
-            container.RegisterInstance(inputMappings);
-            container.Register<InputOptions>(Reuse.Singleton);
-            container.RegisterInstance(new GraphicsOptions(new Size(1920, 1080), WindowState.Windowed, true));
-            container.Register<Options>(Reuse.Singleton);
-            container.Register<IGamePlatformFactory, Win32GamePlatformFactory>(Reuse.Singleton);
-            container.RegisterInstance(DeviceType.Hardware);
-            container.Register<IGraphicsFactory, D3D11GraphicsFactory>(Reuse.Singleton);
-            //container.Register<IGraphicsFactory, GL46GraphicsFactory>(Reuse.Singleton);
-            container.Register<InputMapper>();
-            container.Register<IInputFactory, DirectInputInputFactory>();
-            container.Register<DemoGame>(Reuse.Singleton);
-            return container;
+            services.AddSingleton(inputMappings);
+            services.AddSingleton<InputOptions>();
+            services.AddSingleton(new GraphicsOptions(new Size(1920, 1080), WindowState.Windowed, false));
+            #if DEBUG
+            services.AddSingleton(new HardwareOptions(true, true));
+            #else
+            services.AddSingleton(new HardwareOptions(true, false));
+            #endif
+            services.AddSingleton<Options>();
+            services.AddSingleton<IGamePlatformFactory, Win32GamePlatformFactory>();
+            //services.AddSingleton<IGraphicsFactory, D3D11GraphicsFactory>();
+            services.AddSingleton<IGraphicsFactory, GL46GraphicsFactory>();
+            services.AddSingleton<InputMapper>();
+            services.AddSingleton<IInputFactory, DirectInputInputFactory>();
+            services.AddSingleton<DemoGame>();
+            return services.BuildServiceProvider();
         }
 
         [STAThread]
@@ -51,8 +63,8 @@ namespace Xacor.Demo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using var compositionRoot = CreateCompositionRoot();
-            using var game = compositionRoot.Resolve<DemoGame>();
+            var compositionRoot = CreateCompositionRoot();
+            using var game = compositionRoot.GetService<DemoGame>();
 
             game.Run();
         }

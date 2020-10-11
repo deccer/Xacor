@@ -115,7 +115,7 @@ namespace Xacor.Game
 
         private SwapChainInfo CreateSwapChainInfo()
         {
-            return new SwapChainInfo(Window.Handle, Window.Width, Window.Height, _options.Graphics.VSync, _options.Graphics.WindowState != WindowState.Fullscreen, SwapEffect.FlipDiscard);
+            return new SwapChainInfo(Window.Handle, Window.Width, Window.Height, _options.Graphics.WindowState != WindowState.Fullscreen, _options.Graphics.VSync, SwapEffect.FlipDiscard);
         }
 
         private void Tick()

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Serilog;
+using Xacor.Mathematics;
 
 namespace Xacor.Graphics.Api.D3D11
 {
     public class D3D11GraphicsFactory : IGraphicsFactory
     {
+        private readonly ILogger _logger;
         private readonly D3D11GraphicsDevice _graphicsDevice;
 
         public IBlendState CreateBlendState(bool isBlendEnabled, Blend sourceBlend, Blend destinationBlend, BlendOperation blendOperation,
@@ -114,9 +117,15 @@ namespace Xacor.Graphics.Api.D3D11
             _graphicsDevice?.Dispose();
         }
 
-        public D3D11GraphicsFactory(DeviceType deviceType)
+        public D3D11GraphicsFactory(ILogger logger, HardwareOptions hardwareOptions)
         {
-            _graphicsDevice = new D3D11GraphicsDevice(deviceType);
+            _logger = logger;
+            _logger.Debug("Creating D3D11 Device...");
+            var deviceType = hardwareOptions.UseHardwareDevice ? DeviceType.Hardware : DeviceType.Reference;
+            var isDebug = hardwareOptions.IsDebug;
+            _logger.Debug($"- DeviceType: {deviceType} IsDebug: {isDebug}");
+            _graphicsDevice = new D3D11GraphicsDevice(deviceType, isDebug);
+            _logger.Debug("Creating D3D11 Device...Done");
         }
 
     }
