@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Numerics;
 using System.Runtime.InteropServices;
+using Xacor.Mathematics;
 
 namespace Xacor.Graphics.Api
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct VertexPositionColor : IEquatable<VertexPositionColor>
+    public readonly struct VertexPositionColor : IEquatable<VertexPositionColor>
     {
-        public Vector3 Position { get; set; }
+        public readonly Vector3 Position;
 
-        public Vector4 Color { get; set; }
+        public readonly Vector4 Color;
 
         public VertexPositionColor(Vector3 position, Vector4 color)
         {

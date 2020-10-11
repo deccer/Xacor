@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Numerics;
 using System.Runtime.InteropServices;
+using Xacor.Mathematics;
 
 namespace Xacor.Graphics.Api
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct VertexPositionTexture : IEquatable<VertexPositionTexture>
+    public readonly struct VertexPositionTexture : IEquatable<VertexPositionTexture>
     {
-        public Vector3 Position { get; set; }
+        public readonly Vector3 Position;
 
-        public Vector2 Uv { get; set; }
+        public readonly Vector2 Uv;
 
         public VertexPositionTexture(Vector3 position, Vector2 uv)
         {

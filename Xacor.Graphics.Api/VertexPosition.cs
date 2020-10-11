@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Numerics;
 using System.Runtime.InteropServices;
+using Xacor.Mathematics;
 
 namespace Xacor.Graphics.Api
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct VertexPosition  : IEquatable<VertexPosition>
+    public readonly struct VertexPosition  : IEquatable<VertexPosition>
     {
-        public Vector3 Position { get; set; }
+        public readonly Vector3 Position;
 
         public VertexPosition(Vector3 position)
         {
