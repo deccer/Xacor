@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />
+    <ProjectReference Include="..\Xacor.Mathematics\Xacor.Mathematics.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.10.0" />
+  </ItemGroup>
+
 </Project>
