@@ -1,4 +1,4 @@
-name: Xacor-macos
+name: build-macos
 
 on:
   push:

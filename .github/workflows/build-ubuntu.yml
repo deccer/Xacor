@@ -1,4 +1,4 @@
-name: Xacor-ubuntu
+name: build-ubuntu
 
 on:
   push:
