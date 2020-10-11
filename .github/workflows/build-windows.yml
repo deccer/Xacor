@@ -1,0 +1,18 @@
+name: Xacor
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.0.402
+    - name: Build Xacor
+      run: dotnet build --configuration Release 
+
