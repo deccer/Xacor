@@ -1,5 +1,6 @@
 # Xacor
 ![build-windows](https://github.com/deccer/Xacor/workflows/build-windows/badge.svg) ![build-ubuntu](https://github.com/deccer/Xacor/workflows/build-ubuntu/badge.svg) ![build-macos](https://github.com/deccer/Xacor/workflows/build-macos/badge.svg)
+[![CodeFactor](https://www.codefactor.io/repository/github/deccer/xacor/badge)](https://www.codefactor.io/repository/github/deccer/xacor)
 
 ![Experimental Game Engine](Resources/AppLogo/Xacor_Logo.png)
 
