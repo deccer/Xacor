@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using OpenTK.Graphics.OpenGL4;
 using Xacor.Graphics.Api.GL;
 using Xacor.Mathematics;

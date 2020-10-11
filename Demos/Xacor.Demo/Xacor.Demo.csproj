@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\Xacor.Game\Xacor.Game.csproj" />
     <ProjectReference Include="..\..\Xacor.Graphics.Api.D3D11\Xacor.Graphics.Api.D3D11.csproj" />
     <ProjectReference Include="..\..\Xacor.Graphics.Api.D3D12\Xacor.Graphics.Api.D3D12.csproj" />
+    <ProjectReference Include="..\..\Xacor.Graphics.Api.GL33\Xacor.Graphics.Api.GL33.csproj" />
     <ProjectReference Include="..\..\Xacor.Graphics.Api.GL46\Xacor.Graphics.Api.GL46.csproj" />
     <ProjectReference Include="..\..\Xacor.Graphics.Api.VK\Xacor.Graphics.Api.VK.csproj" />
     <ProjectReference Include="..\..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />

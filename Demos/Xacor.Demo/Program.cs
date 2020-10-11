@@ -7,6 +7,7 @@ using Serilog;
 using Xacor.Graphics.Api;
 using Xacor.Graphics.Api.GL46;
 using Xacor.Graphics.Api.D3D11;
+using Xacor.Graphics.Api.GL33;
 using Xacor.Input;
 using Xacor.Input.DirectInput;
 using Xacor.Platform;
@@ -38,6 +39,7 @@ namespace Xacor.Demo
                 new MouseInputMapping("Horizontal", Axis.Horizontal),
                 new MouseInputMapping("Vertical", Axis.Vertical),
             };
+
 
             services.AddSingleton(inputMappings);
             services.AddSingleton<InputOptions>();

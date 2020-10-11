@@ -58,7 +58,7 @@ namespace Xacor.Graphics.Api.GL33
 
         public ITextureFactory CreateTextureFactory()
         {
-            throw new System.NotImplementedException();
+            return new GL33TextureFactory();
         }
 
         public IVertexBuffer CreateVertexBuffer<T>(T[] vertices) where T : struct
