@@ -75,7 +75,7 @@ namespace Xacor.Graphics.Api.D3D11
                 Format = format.ToSharpDX(),
                 Width = width,
                 ArraySize = 0,
-                MipLevels = (int)Math.Log2(width),
+                MipLevels = (int)Math.Log(width, 2),
                 OptionFlags = ResourceOptionFlags.None,
                 Usage = ResourceUsage.Default
             };
@@ -92,7 +92,7 @@ namespace Xacor.Graphics.Api.D3D11
                 Width = width,
                 Height = height,
                 ArraySize = 0,
-                MipLevels = (int)Math.Log2(width),
+                MipLevels = (int)Math.Log(width, 2),
                 OptionFlags = ResourceOptionFlags.None,
                 Usage = ResourceUsage.Default
             };
