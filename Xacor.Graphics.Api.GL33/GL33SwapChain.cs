@@ -17,9 +17,9 @@ namespace Xacor.Graphics.Api.GL33
             _nativeContext?.Dispose();
         }
 
-        public GL33SwapChain(SwapChainInfo swapChainInfo)
+        public GL33SwapChain(SwapChainDescriptor swapChainDescriptor)
         {
-            var windowInfo = Utilities.CreateWindowsWindowInfo(swapChainInfo.WindowHandle);
+            var windowInfo = Utilities.CreateWindowsWindowInfo(swapChainDescriptor.WindowHandle);
             _nativeContext = new GraphicsContext(GraphicsMode.Default, windowInfo, null, 3, 3, GraphicsContextFlags.Debug);
         }
 

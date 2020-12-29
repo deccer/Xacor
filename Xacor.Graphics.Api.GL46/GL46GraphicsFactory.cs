@@ -61,9 +61,9 @@ namespace Xacor.Graphics.Api.GL46
             return shader;
         }
 
-        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        public ISwapChain CreateSwapchain(SwapChainDescriptor swapChainDescriptor)
         {
-            return new GL46SwapChain(swapChainInfo);
+            return new GL46SwapChain(swapChainDescriptor);
         }
 
         public ITextureFactory CreateTextureFactory()

@@ -43,11 +43,11 @@ namespace Xacor.Platform.Windows
             {
                 Text = WindowTitle,
                 StartPosition = FormStartPosition.CenterScreen,
-                ClientSize = new Size(_graphicsOptions.Resolution.Width, _graphicsOptions.Resolution.Height),
+                ClientSize = new Size(_graphicsOptions.WindowResolution.Width, _graphicsOptions.WindowResolution.Height),
                 FormBorderStyle = _graphicsOptions.WindowState == WindowState.Windowed ? FormBorderStyle.FixedSingle : FormBorderStyle.None
             };
 
-            _mainView.Closed += (_, __) => { IsOpen = false; };
+            _mainView.Closed += (_, _) => { IsOpen = false; };
 
             Handle = _mainView.Handle;
         }

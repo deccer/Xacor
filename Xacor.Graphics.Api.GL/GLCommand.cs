@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
+using Color4 = OpenTK.Graphics.Color4;
 
 namespace Xacor.Graphics.Api.GL
 {

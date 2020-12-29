@@ -51,7 +51,7 @@ namespace Xacor.Graphics.Api.VK
             throw new NotImplementedException();
         }
 
-        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        public ISwapChain CreateSwapchain(SwapChainDescriptor swapChainDescriptor)
         {
             throw new NotImplementedException();
         }

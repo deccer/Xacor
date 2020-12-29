@@ -17,18 +17,18 @@ namespace Xacor.Graphics.Api.D3D12
 
         public TextureView DepthStencilView { get; }
 
-        public DX12SwapChain(DX12GraphicsDevice graphicsDevice, SwapChainInfo swapChainInfo)
+        public DX12SwapChain(DX12GraphicsDevice graphicsDevice, SwapChainDescriptor swapChainDescriptor)
         {
             _factory = new DXGIFactory();
 
             var swapChainDescription = new SwapChainDescription
             {
-                SwapEffect = swapChainInfo.SwapEffect.ToSharpDX(),
+                SwapEffect = swapChainDescriptor.SwapEffect.ToSharpDX(),
                 BufferCount = 2,
                 Flags = SwapChainFlags.None,
-                IsWindowed = swapChainInfo.IsWindowed,
-                ModeDescription = new ModeDescription(swapChainInfo.Width, swapChainInfo.Height, new Rational(60, 1), Format.R8G8B8A8UNorm.ToSharpDX()),
-                OutputHandle = swapChainInfo.WindowHandle,
+                IsWindowed = swapChainDescriptor.IsWindowed,
+                ModeDescription = new ModeDescription(swapChainDescriptor.Width, swapChainDescriptor.Height, new Rational(60, 1), Format.R8G8B8A8UNorm.ToSharpDX()),
+                OutputHandle = swapChainDescriptor.WindowHandle,
                 SampleDescription = new SampleDescription(1, 0),
                 Usage = Usage.RenderTargetOutput
             };

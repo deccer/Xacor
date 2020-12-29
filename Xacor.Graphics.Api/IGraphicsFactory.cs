@@ -23,7 +23,7 @@ namespace Xacor.Graphics.Api
 
         Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros);
 
-        ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo);
+        ISwapChain CreateSwapchain(SwapChainDescriptor swapChainDescriptor);
 
         ITextureFactory CreateTextureFactory();
 

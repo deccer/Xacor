@@ -52,9 +52,9 @@ namespace Xacor.Graphics.Api.D3D12
             throw new System.NotImplementedException();
         }
 
-        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        public ISwapChain CreateSwapchain(SwapChainDescriptor swapChainDescriptor)
         {
-            return new DX12SwapChain(_graphicsDevice, swapChainInfo);
+            return new DX12SwapChain(_graphicsDevice, swapChainDescriptor);
         }
 
         public ITextureFactory CreateTextureFactory()

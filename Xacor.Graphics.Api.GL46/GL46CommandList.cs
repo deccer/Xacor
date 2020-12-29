@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using Xacor.Graphics.Api.GL;
 using Xacor.Mathematics;
-using Color4 = OpenTK.Graphics.Color4;
 using Rectangle = System.Drawing.Rectangle;
 
 namespace Xacor.Graphics.Api.GL46
@@ -42,7 +41,7 @@ namespace Xacor.Graphics.Api.GL46
             var command = new GLCommand
             {
                 Type = CommandType.ClearRenderTarget,
-                ClearColor = new Color4(clearColor.X, clearColor.Y, clearColor.Z, clearColor.W)
+                ClearColor = new OpenTK.Graphics.Color4(clearColor.X, clearColor.Y, clearColor.Z, clearColor.W)
             };
 
             _commandList.Add(command);

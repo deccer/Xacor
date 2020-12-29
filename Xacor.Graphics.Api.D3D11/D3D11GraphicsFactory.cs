@@ -62,9 +62,9 @@ namespace Xacor.Graphics.Api.D3D11
             return shader;
         }
 
-        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        public ISwapChain CreateSwapchain(SwapChainDescriptor swapChainDescriptor)
         {
-            return new D3D11SwapChain(_graphicsDevice, swapChainInfo);
+            return new D3D11SwapChain(_graphicsDevice, swapChainDescriptor);
         }
 
         public ITextureFactory CreateTextureFactory()

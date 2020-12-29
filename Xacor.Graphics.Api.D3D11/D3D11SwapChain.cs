@@ -9,7 +9,7 @@ namespace Xacor.Graphics.Api.D3D11
 {
     internal class D3D11SwapChain : ISwapChain, IDisposable
     {
-        private readonly SwapChainInfo _swapChainInfo;
+        private readonly SwapChainDescriptor _swapChainDescriptor;
         private readonly DXGIFactory _factory;
         private readonly SwapChain _swapChain;
 
@@ -17,19 +17,19 @@ namespace Xacor.Graphics.Api.D3D11
 
         public TextureView DepthStencilView { get; }
 
-        public D3D11SwapChain(D3D11GraphicsDevice graphiceDevice, SwapChainInfo swapChainInfo)
+        public D3D11SwapChain(D3D11GraphicsDevice graphiceDevice, SwapChainDescriptor swapChainDescriptor)
         {
-            _swapChainInfo = swapChainInfo;
+            _swapChainDescriptor = swapChainDescriptor;
             _factory = new DXGIFactory();
 
             var swapChainDescription = new SwapChainDescription
             {
-                SwapEffect = swapChainInfo.SwapEffect.ToSharpDX(),
+                SwapEffect = swapChainDescriptor.SwapEffect.ToSharpDX(),
                 BufferCount = 2,
                 Flags = SwapChainFlags.None,
-                IsWindowed = swapChainInfo.IsWindowed,
-                ModeDescription = new ModeDescription(swapChainInfo.Width, swapChainInfo.Height, new Rational(60, 1), Format.R8G8B8A8UNorm.ToSharpDX()),
-                OutputHandle = swapChainInfo.WindowHandle,
+                IsWindowed = swapChainDescriptor.IsWindowed,
+                ModeDescription = new ModeDescription(swapChainDescriptor.Width, swapChainDescriptor.Height, new Rational(60, 1), Format.R8G8B8A8UNorm.ToSharpDX()),
+                OutputHandle = swapChainDescriptor.WindowHandle,
                 SampleDescription = new SampleDescription(1, 0),
                 Usage = Usage.RenderTargetOutput
             };
@@ -37,8 +37,8 @@ namespace Xacor.Graphics.Api.D3D11
             _swapChain = new SwapChain(_factory, graphiceDevice, swapChainDescription);
             using var resource = _swapChain.GetBackBuffer<D3D11Texture2D>(0);
 
-            TextureView = new D3D11TextureView(graphiceDevice, resource, swapChainInfo.Width, swapChainInfo.Height, 0, false, 1, TextureViewType.RenderTarget);
-            DepthStencilView = CreateDepthStencilView(graphiceDevice, swapChainInfo.Width, swapChainInfo.Height);
+            TextureView = new D3D11TextureView(graphiceDevice, resource, swapChainDescriptor.Width, swapChainDescriptor.Height, 0, false, 1, TextureViewType.RenderTarget);
+            DepthStencilView = CreateDepthStencilView(graphiceDevice, swapChainDescriptor.Width, swapChainDescriptor.Height);
         }
 
         private static TextureView CreateDepthStencilView(D3D11GraphicsDevice graphicsDevice, int width, int height)
@@ -64,7 +64,7 @@ namespace Xacor.Graphics.Api.D3D11
 
         public void Present()
         {
-            _swapChain.Present(_swapChainInfo.VSync ? 1 : 0, PresentFlags.None);
+            _swapChain.Present(_swapChainDescriptor.VSync ? 1 : 0, PresentFlags.None);
         }
 
         public void Dispose()

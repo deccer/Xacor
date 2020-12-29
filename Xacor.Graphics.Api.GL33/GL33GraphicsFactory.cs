@@ -51,9 +51,9 @@ namespace Xacor.Graphics.Api.GL33
             throw new System.NotImplementedException();
         }
 
-        public ISwapChain CreateSwapchain(SwapChainInfo swapChainInfo)
+        public ISwapChain CreateSwapchain(SwapChainDescriptor swapChainDescriptor)
         {
-            return new GL33SwapChain(swapChainInfo);
+            return new GL33SwapChain(swapChainDescriptor);
         }
 
         public ITextureFactory CreateTextureFactory()
