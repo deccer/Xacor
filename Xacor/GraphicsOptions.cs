@@ -4,15 +4,21 @@ namespace Xacor
 {
     public class GraphicsOptions
     {
-        public Size Resolution { get; }
+        public RenderApi RenderApi { get; }
+
+        public Size WindowResolution { get; }
+
+        public Size RenderResolution { get; }
 
         public WindowState WindowState { get; }
 
         public bool VSync { get; }
 
-        public GraphicsOptions(Size resolution, WindowState windowState, bool vSync)
+        public GraphicsOptions(RenderApi renderApi, Size windowResolution, Size renderResolution, WindowState windowState, bool vSync)
         {
-            Resolution = resolution;
+            RenderApi = renderApi;
+            WindowResolution = windowResolution;
+            RenderResolution = renderResolution;
             WindowState = windowState;
             VSync = vSync;
         }

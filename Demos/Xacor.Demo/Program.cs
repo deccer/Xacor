@@ -7,7 +7,6 @@ using Serilog;
 using Xacor.Graphics.Api;
 using Xacor.Graphics.Api.GL46;
 using Xacor.Graphics.Api.D3D11;
-using Xacor.Graphics.Api.GL33;
 using Xacor.Input;
 using Xacor.Input.DirectInput;
 using Xacor.Platform;
@@ -19,14 +18,15 @@ namespace Xacor.Demo
     {
         private static IServiceProvider CreateCompositionRoot()
         {
-            var loggerConfiguration = new LoggerConfiguration();
-            loggerConfiguration
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .MinimumLevel.Verbose()
                 .WriteTo.Console()
-                .WriteTo.RollingFile("logs\\{date}.log");
+                .WriteTo.RollingFile("logs\\{date}.log")
+                .CreateLogger();
 
-            var logger = loggerConfiguration.CreateLogger();
             var services = new ServiceCollection();
-            services.AddSingleton<ILogger>(logger);
+            services.AddSingleton(Log.Logger);
             //services.AddSingleton<IProfiler>();
             
             var inputMappings = new List<InputMapping>
@@ -40,19 +40,32 @@ namespace Xacor.Demo
                 new MouseInputMapping("Vertical", Axis.Vertical),
             };
 
+            var graphicsOptions = new GraphicsOptions(
+                RenderApi.OpenGL,
+                new Size(1680, 800),
+                new Size(672, 320),
+                WindowState.Windowed,
+                false);
 
             services.AddSingleton(inputMappings);
             services.AddSingleton<InputOptions>();
-            services.AddSingleton(new GraphicsOptions(new Size(1920, 1080), WindowState.Windowed, false));
+            services.AddSingleton(graphicsOptions);
             #if DEBUG
-            services.AddSingleton(new HardwareOptions(true, true));
+            services.AddSingleton(new HardwareOptions(true, false));
             #else
             services.AddSingleton(new HardwareOptions(true, false));
             #endif
             services.AddSingleton<Options>();
             services.AddSingleton<IGamePlatformFactory, Win32GamePlatformFactory>();
-            //services.AddSingleton<IGraphicsFactory, D3D11GraphicsFactory>();
-            services.AddSingleton<IGraphicsFactory, GL46GraphicsFactory>();
+            switch (graphicsOptions.RenderApi)
+            {
+                case RenderApi.D3D11:
+                    services.AddSingleton<IGraphicsFactory, D3D11GraphicsFactory>();
+                    break;
+                case RenderApi.OpenGL:
+                    services.AddSingleton<IGraphicsFactory, GL46GraphicsFactory>();
+                    break;
+            }
             services.AddSingleton<InputMapper>();
             services.AddSingleton<IInputFactory, DirectInputInputFactory>();
             services.AddSingleton<DemoGame>();
