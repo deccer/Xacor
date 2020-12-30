@@ -10,10 +10,19 @@
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" />
   </ItemGroup>
 
   <Import Project="..\Xacor.Graphics.Api.GL\Xacor.Graphics.Api.GL.projitems" Label="Shared" />
