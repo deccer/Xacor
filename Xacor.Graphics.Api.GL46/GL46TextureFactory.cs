@@ -17,6 +17,11 @@ namespace Xacor.Graphics.Api.GL46
             throw new NotImplementedException();
         }
 
+        public ITexture CreateTexture(int width, int height, Format format, bool createMipMaps = true)
+        {
+            throw new NotImplementedException();
+        }
+
         public ITexture CreateTextureFromFile(string filePath, bool createMipMaps)
         {
             using var fileStream = File.OpenRead(filePath);

@@ -6,6 +6,8 @@ namespace Xacor.Graphics.Api
     {
         ITexture CreateRenderTarget(int width, int height, Format format);
 
+        ITexture CreateTexture(int width, int height, Format format, bool createMipMaps = true);
+
         ITexture CreateTextureFromFile(string filePath, bool createMipMaps);
     }
 }

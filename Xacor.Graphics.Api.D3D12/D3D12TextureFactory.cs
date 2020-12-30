@@ -9,6 +9,11 @@
             throw new System.NotImplementedException();
         }
 
+        public ITexture CreateTexture(int width, int height, Format format, bool createMipMaps = true)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public ITexture CreateTextureFromFile(string filePath, bool createMipMaps)
         {
             throw new System.NotImplementedException();

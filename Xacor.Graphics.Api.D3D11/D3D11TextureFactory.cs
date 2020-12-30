@@ -29,9 +29,20 @@ namespace Xacor.Graphics.Api.D3D11
             return new D3D11Texture(_graphicsDevice, resource, width, height, 0, false, 1, type);
         }
 
+        public ITexture CreateTexture(int width, int height, Format format, bool createMipMaps = true)
+        {
+            const TextureViewType type = TextureViewType.ShaderResource;
+            var resource = (Texture2D)Create2DTexture(width, height, format, type, createMipMaps);
+            return new D3D11Texture(_graphicsDevice, resource, width, height, 0, false, resource.Description.MipLevels, type);
+        }
+
         public ITexture CreateTextureFromFile(string filePath, bool createMipMaps)
         {
-            var (resource, mipLevels, width, height) = CreateResourceFromFile(_graphicsDevice, new[] { filePath }, createMipMaps, false);
+            var (resource, mipLevels, width, height) = CreateResourceFromFile(
+                _graphicsDevice,
+                new[] { filePath },
+                createMipMaps,
+                false);
             return new D3D11Texture(_graphicsDevice, resource, width, height, 0, false, mipLevels, TextureViewType.ShaderResource);
         }
 
@@ -82,7 +93,12 @@ namespace Xacor.Graphics.Api.D3D11
             return new Texture1D(_graphicsDevice, texture1dDescription);
         }
 
-        private Resource Create2DTexture(in int width, in int height, Format format, TextureViewType type)
+        private Resource Create2DTexture(
+            in int width,
+            in int height,
+            Format format,
+            TextureViewType type,
+            bool createMipMaps = true)
         {
             var texture2dDescription = new Texture2DDescription
             {
@@ -92,7 +108,9 @@ namespace Xacor.Graphics.Api.D3D11
                 Width = width,
                 Height = height,
                 ArraySize = 0,
-                MipLevels = (int)Math.Log(width, 2),
+                MipLevels = createMipMaps
+                    ? (int)Math.Log(width, 2)
+                    : 1,
                 OptionFlags = ResourceOptionFlags.None,
                 Usage = ResourceUsage.Default
             };

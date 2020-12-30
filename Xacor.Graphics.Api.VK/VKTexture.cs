@@ -8,5 +8,10 @@
         }
 
         public TextureView View { get; }
+
+        public void SetData<T>(T[] data) where T : struct
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
