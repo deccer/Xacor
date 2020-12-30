@@ -16,10 +16,10 @@ namespace Xacor.Game
 
         private readonly Stopwatch _stopWatch = Stopwatch.StartNew();
         private float _lastUpdate;
-        private int _framesToAverage = 64;
+        private int _framesToAverage = 512;
         private int _frameCounter;
 
-        private float _averageDeltaTime = 0.0f;
+        private float _averageDeltaTime;
 
         private ISwapChain _swapchain;
 
@@ -42,7 +42,6 @@ namespace Xacor.Game
 
         protected virtual void BeginDraw()
         {
-
         }
 
         protected virtual void Cleanup()
@@ -56,12 +55,10 @@ namespace Xacor.Game
 
         protected virtual void Draw()
         {
-
         }
 
         protected virtual void EndDraw()
         {
-
         }
 
         protected GameBase(Options options, IGamePlatformFactory gamePlatformFactory, IGraphicsFactory graphicsFactory, IInputFactory inputFactory)
@@ -92,7 +89,7 @@ namespace Xacor.Game
                 }
             }
 
-            var swapChainInfo = CreateSwapChainInfo();
+            var swapChainInfo = CreateSwapChainDescriptor();
             _swapchain = GraphicsFactory.CreateSwapchain(swapChainInfo);
             BackBufferView = _swapchain.TextureView;
             BackBufferDepthStencilView = _swapchain.DepthStencilView;
@@ -113,9 +110,15 @@ namespace Xacor.Game
             Cleanup();
         }
 
-        private SwapChainInfo CreateSwapChainInfo()
+        private SwapChainDescriptor CreateSwapChainDescriptor()
         {
-            return new SwapChainInfo(Window.Handle, Window.Width, Window.Height, _options.Graphics.WindowState != WindowState.Fullscreen, _options.Graphics.VSync, SwapEffect.FlipDiscard);
+            return new SwapChainDescriptor(
+                Window.Handle,
+                _options.Graphics.RenderResolution.Width,
+                _options.Graphics.RenderResolution.Height,
+                _options.Graphics.WindowState != WindowState.Fullscreen,
+                _options.Graphics.VSync,
+                SwapEffect.FlipDiscard);
         }
 
         private void Tick()
@@ -128,7 +131,7 @@ namespace Xacor.Game
             {
                 var averageFrameTime = _averageDeltaTime / _frameCounter;
 
-                Window.Title = $"Xacor delta.avg: {averageFrameTime * 1000.0f:000.00}ms, delta.abs: {deltaTime * 1000.0f:000.00}ms, fps: {1.0f / averageFrameTime:0000}";
+                Window.Title = $"Xacor | {_options.Graphics.RenderApi} | delta.avg: {averageFrameTime * 1000.0f:000.00}ms | delta.abs: {deltaTime * 1000.0f:000.00}ms | fps: {1.0f / averageFrameTime:0000}";
 
                 _averageDeltaTime = 0.0f;
                 _frameCounter = 0;

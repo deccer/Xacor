@@ -5,8 +5,8 @@ using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Xacor.Graphics.Api;
-using Xacor.Graphics.Api.GL46;
 using Xacor.Graphics.Api.D3D11;
+using Xacor.Graphics.Api.GL46;
 using Xacor.Input;
 using Xacor.Input.DirectInput;
 using Xacor.Platform;
@@ -27,8 +27,8 @@ namespace Xacor.Demo
 
             var services = new ServiceCollection();
             services.AddSingleton(Log.Logger);
-            //services.AddSingleton<IProfiler>();
-            
+            // services.AddSingleton<IProfiler>();
+
             var inputMappings = new List<InputMapping>
             {
                 new KeyboardInputMapping("MoveForward", InputButton.W, InputButton.Mouse1),
