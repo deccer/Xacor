@@ -4,6 +4,5 @@ namespace Xacor.Graphics.Api
 {
     public interface IDepthStencilState : IDisposable
     {
-
     }
 }

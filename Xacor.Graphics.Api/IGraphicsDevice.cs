@@ -1,9 +1,6 @@
-﻿using System;
-
-namespace Xacor.Graphics.Api
+﻿namespace Xacor.Graphics.Api
 {
-    public interface IGraphicsDevice 
+    public interface IGraphicsDevice
     {
-
     }
 }
