@@ -46,6 +46,11 @@ namespace Xacor.Graphics.Api.GL33
             throw new System.NotImplementedException();
         }
 
+        public Shader CreateShader(ShaderStage shaderStage, string shaderText, VertexType vertexType, IEnumerable<(string, string)> macros)
+        {
+            throw new NotImplementedException();
+        }
+
         public Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros)
         {
             throw new System.NotImplementedException();

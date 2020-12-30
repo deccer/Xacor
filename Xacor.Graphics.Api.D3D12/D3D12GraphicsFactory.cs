@@ -47,6 +47,11 @@ namespace Xacor.Graphics.Api.D3D12
             throw new System.NotImplementedException();
         }
 
+        public Shader CreateShader(ShaderStage shaderStage, string shaderText, VertexType vertexType, IEnumerable<(string, string)> macros)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros)
         {
             throw new System.NotImplementedException();

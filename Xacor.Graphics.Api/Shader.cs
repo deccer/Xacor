@@ -17,16 +17,21 @@ namespace Xacor.Graphics.Api
             }
         }
 
-        protected abstract void CompileInternal(ShaderStage shaderStage, string filePath, VertexType vertexType);
+        protected abstract void CompileFileInternal(ShaderStage shaderStage, string filePath, VertexType vertexType);
 
-        public void CompileAsync(ShaderStage shaderStage, string filePath, VertexType vertexType)
+        protected abstract void CompileStringInternal(ShaderStage shaderStage, string filePath, VertexType vertexType);
+
+        public void CompileFile(ShaderStage shaderStage, string filePath, VertexType vertexType)
         {
-            CompileInternal(shaderStage, filePath, vertexType);
+            CompileFileInternal(shaderStage, filePath, vertexType);
         }
 
-        public virtual void Dispose()
+        public void CompileString(ShaderStage shaderStage, string shaderText, VertexType vertexType)
         {
+            CompileStringInternal(shaderStage, shaderText, vertexType);
         }
+
+        public abstract void Dispose();
 
         protected Shader()
         {

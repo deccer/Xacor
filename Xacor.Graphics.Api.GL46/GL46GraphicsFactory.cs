@@ -50,6 +50,17 @@ namespace Xacor.Graphics.Api.GL46
             return null;
         }
 
+        public Shader CreateShader(ShaderStage shaderStage, string shaderText, VertexType vertexType, IEnumerable<(string, string)> macros)
+        {
+            var shader = new GL46Shader(this);
+            foreach (var (macroName, macroValue) in macros.ToList())
+            {
+                shader.AddMacro(macroName, macroValue);
+            }
+            shader.CompileString(shaderStage, shaderText, vertexType);
+            return shader;
+        }
+
         public Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros)
         {
             var shader = new GL46Shader(this);
@@ -57,7 +68,7 @@ namespace Xacor.Graphics.Api.GL46
             {
                 shader.AddMacro(macroName, macroValue);
             }
-            shader.CompileAsync(shaderStage, filePath + ".glsl", vertexType);
+            shader.CompileFile(shaderStage, filePath + ".glsl", vertexType);
             return shader;
         }
 

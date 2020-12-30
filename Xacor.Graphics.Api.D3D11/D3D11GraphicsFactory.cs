@@ -51,6 +51,17 @@ namespace Xacor.Graphics.Api.D3D11
             return new D3D11Sampler(_graphicsDevice, addressModeU, addressModeV, filter, comparisonFunction);
         }
 
+        public Shader CreateShader(ShaderStage shaderStage, string shaderText, VertexType vertexType, IEnumerable<(string, string)> macros)
+        {
+            var shader = new D3D11Shader(_graphicsDevice, this);
+            foreach (var (macroName, macroValue) in macros.ToList())
+            {
+                shader.AddMacro(macroName, macroValue);
+            }
+            shader.CompileString(shaderStage, shaderText, vertexType);
+            return shader;
+        }
+
         public Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros)
         {
             var shader = new D3D11Shader(_graphicsDevice, this);
@@ -58,7 +69,7 @@ namespace Xacor.Graphics.Api.D3D11
             {
                 shader.AddMacro(macroName, macroValue);
             }
-            shader.CompileAsync(shaderStage, filePath + ".hlsl", vertexType);
+            shader.CompileFile(shaderStage, filePath + ".hlsl", vertexType);
             return shader;
         }
 

@@ -21,6 +21,8 @@ namespace Xacor.Graphics.Api
 
         ISampler CreateSampler(TextureAddressMode addressModeU, TextureAddressMode addressModeV, Filter filter, ComparisonFunction comparisonFunction);
 
+        Shader CreateShader(ShaderStage shaderStage, string shaderText, VertexType vertexType, IEnumerable<(string, string)> macros);
+
         Shader CreateShaderFromFile(ShaderStage shaderStage, string filePath, VertexType vertexType, IEnumerable<(string, string)> macros);
 
         ISwapChain CreateSwapchain(SwapChainDescriptor swapChainDescriptor);

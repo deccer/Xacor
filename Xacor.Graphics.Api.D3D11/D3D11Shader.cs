@@ -59,7 +59,8 @@ namespace Xacor.Graphics.Api.D3D11
                 VirtualShaderFile? virtualShaderFile = null;
                 if (_virtualShaderFiles != null)
                 {
-                    virtualShaderFile = _virtualShaderFiles.FirstOrDefault(vsf => vsf.Name.ToLower().Equals(fileName.ToLower()));
+                    virtualShaderFile = _virtualShaderFiles
+                        .FirstOrDefault(vsf => vsf.Name.ToLower().Equals(fileName.ToLower()));
                 }
 
                 if (virtualShaderFile == null)
@@ -91,33 +92,31 @@ namespace Xacor.Graphics.Api.D3D11
             _graphicsFactory = graphicsFactory;
         }
 
-        protected override void CompileInternal(ShaderStage shaderStage, string filePath, VertexType vertexType)
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        public override void Dispose()
+        {
+            _shaderBytecode?.Dispose();
+            _shaderObject?.Dispose();
+        }
+
+        protected override void CompileFileInternal(ShaderStage shaderStage, string filePath, VertexType vertexType)
         {
             var macros = Macros.Select(macro => new ShaderMacro(macro.Key, macro.Value)).ToArray();
 
             using var includeHandler = new IncludeHandler(null);
 
-            _shaderBytecode = LoadBytecode(shaderStage, filePath, includeHandler, macros);
+            _shaderBytecode = CreateBytecodeFromFile(shaderStage, filePath, includeHandler, macros);
+            _shaderObject = CreateShader(shaderStage, vertexType);
+        }
 
-            if (shaderStage == ShaderStage.Vertex && vertexType != VertexType.Unknown)
-            {
-                InputLayout = _graphicsFactory.CreateInputLayout(vertexType, _shaderBytecode);
-            }
+        protected override void CompileStringInternal(ShaderStage shaderStage, string shaderText, VertexType vertexType)
+        {
+            var macros = Macros.Select(macro => new ShaderMacro(macro.Key, macro.Value)).ToArray();
 
-            switch (shaderStage)
-            {
-                case ShaderStage.Vertex:
-                    _shaderObject = new VertexShader(_graphicsDevice, _shaderBytecode);
-                    break;
-                case ShaderStage.Pixel:
-                    _shaderObject = new PixelShader(_graphicsDevice, _shaderBytecode);
-                    break;
-                case ShaderStage.Compute:
-                    _shaderObject = new ComputeShader(_graphicsDevice, _shaderBytecode);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(shaderStage), shaderStage, null);
-            }
+            using var includeHandler = new IncludeHandler(null);
+
+            _shaderBytecode = CreateBytecode(shaderStage, shaderText, includeHandler, macros);
+            _shaderObject = CreateShader(shaderStage, vertexType);
         }
 
         public static implicit operator DeviceChild(D3D11Shader shader)
@@ -125,13 +124,44 @@ namespace Xacor.Graphics.Api.D3D11
             return shader._shaderObject;
         }
 
-        private static ShaderBytecode LoadBytecode(ShaderStage shaderStage, string filePath, Include includeHandler, ShaderMacro[] macros)
+        private DeviceChild CreateShader(ShaderStage shaderStage, VertexType vertexType)
+        {
+            if (shaderStage == ShaderStage.Vertex && vertexType != VertexType.Unknown)
+            {
+                InputLayout = _graphicsFactory.CreateInputLayout(vertexType, _shaderBytecode);
+            }
+
+            return shaderStage switch
+            {
+                ShaderStage.Vertex => new VertexShader(_graphicsDevice, _shaderBytecode),
+                ShaderStage.Pixel => new PixelShader(_graphicsDevice, _shaderBytecode),
+                ShaderStage.Compute => new ComputeShader(_graphicsDevice, _shaderBytecode),
+                _ => throw new ArgumentOutOfRangeException(nameof(shaderStage), shaderStage, null)
+            };
+        }
+
+        private static ShaderBytecode CreateBytecodeFromFile(ShaderStage shaderStage, string filePath, Include includeHandler, ShaderMacro[] macros)
         {
             var shaderFlags = ShaderFlags.None;
 #if DEBUG
             shaderFlags |= ShaderFlags.Debug | ShaderFlags.PreferFlowControl | ShaderFlags.SkipOptimization;
 #endif
             var compilationResult = ShaderBytecode.CompileFromFile(filePath, "Main", ShaderStageToProfile(shaderStage), shaderFlags, EffectFlags.None, macros, includeHandler);
+            if (compilationResult.HasErrors)
+            {
+                throw new Exception(compilationResult.Message);
+            }
+
+            return compilationResult.Bytecode;
+        }
+
+        private static ShaderBytecode CreateBytecode(ShaderStage shaderStage, string shaderCode, Include includeHandler, ShaderMacro[] macros)
+        {
+            var shaderFlags = ShaderFlags.None;
+#if DEBUG
+            shaderFlags |= ShaderFlags.Debug | ShaderFlags.PreferFlowControl | ShaderFlags.SkipOptimization;
+#endif
+            var compilationResult = ShaderBytecode.Compile(shaderCode, "Main", ShaderStageToProfile(shaderStage), shaderFlags, EffectFlags.None, macros, includeHandler);
             if (compilationResult.HasErrors)
             {
                 throw new Exception(compilationResult.Message);

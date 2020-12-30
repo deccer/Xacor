@@ -14,10 +14,16 @@ namespace Xacor.Graphics.Api.GL46
             return shader._nativeShader;
         }
 
-        protected override void CompileInternal(ShaderStage shaderStage, string filePath, VertexType vertexType)
+        protected override void CompileFileInternal(ShaderStage shaderStage, string filePath, VertexType vertexType)
         {
-            _nativeShader = OpenTK.Graphics.OpenGL4.GL.CreateShaderProgram(shaderStage.ToOpenTK(), 1, new[] { File.ReadAllText(filePath) });
-            ValidateProgram(filePath);
+            var shaderText = File.ReadAllText(filePath);
+            CompileStringInternal(shaderStage, shaderText, vertexType);
+        }
+
+        protected override void CompileStringInternal(ShaderStage shaderStage, string shaderText, VertexType vertexType)
+        {
+            _nativeShader = OpenTK.Graphics.OpenGL4.GL.CreateShaderProgram(shaderStage.ToOpenTK(), 1, new[] { shaderText });
+            ValidateProgram();
 
             if (shaderStage == ShaderStage.Vertex && vertexType != VertexType.Unknown)
             {
@@ -28,8 +34,6 @@ namespace Xacor.Graphics.Api.GL46
         public override void Dispose()
         {
             OpenTK.Graphics.OpenGL4.GL.DeleteProgram(_nativeShader);
-
-            base.Dispose();
         }
 
         public GL46Shader(GL46GraphicsFactory graphicsFactory)
@@ -37,7 +41,7 @@ namespace Xacor.Graphics.Api.GL46
             _graphicsFactory = graphicsFactory;
         }
 
-        private void ValidateProgram(string filePath)
+        private void ValidateProgram()
         {
             OpenTK.Graphics.OpenGL4.GL.ProgramParameter(_nativeShader, ProgramParameterName.ProgramSeparable, 1);
             OpenTK.Graphics.OpenGL4.GL.GetProgram(_nativeShader, GetProgramParameterName.LinkStatus, out var compiled);
