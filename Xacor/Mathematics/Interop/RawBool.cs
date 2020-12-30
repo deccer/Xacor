@@ -84,9 +84,6 @@ namespace Xacor.Mathematics.Interop
             return new RawBool(boolValue);
         }
 
-        public override string ToString()
-        {
-            return string.Format("{0}", boolValue != 0);
-        }
+        public override string ToString() => $"{boolValue != 0}";
     }
 }

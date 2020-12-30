@@ -102,8 +102,8 @@ namespace Xacor.Mathematics
         /// <returns>An array of converted values.</returns>
         public static float[] ConvertToFloat(Half[] values)
         {            
-            float[] results = new float[values.Length];
-            for(int i = 0; i < results.Length; i++)
+            var results = new float[values.Length];
+            for(var i = 0; i < results.Length; i++)
                 results[i] = HalfUtils.Unpack(values[i].RawValue);
             return results;
         }
@@ -115,8 +115,8 @@ namespace Xacor.Mathematics
         /// <returns>An array of converted values.</returns>
         public static Half[] ConvertToHalf(float[] values)
         {
-            Half[] results = new Half[values.Length];
-            for(int i = 0; i < results.Length; i++)
+            var results = new Half[values.Length];
+            for(var i = 0; i < results.Length; i++)
                 results[i] = new Half(values[i]);
             return results;
         }
@@ -181,8 +181,8 @@ namespace Xacor.Mathematics
         /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode()
         {
-            ushort num = value;
-            return (((num*3)/2) ^ num);
+            var num = value;
+            return (num * 3 / 2) ^ num;
         }
 
         /// <summary>

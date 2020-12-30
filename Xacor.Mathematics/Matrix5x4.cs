@@ -19,7 +19,7 @@ namespace Xacor.Mathematics
         /// <summary>
         /// A <see cref="Matrix5x4"/> with all of its components set to zero.
         /// </summary>
-        public static readonly Matrix5x4 Zero = new Matrix5x4();
+        public static readonly Matrix5x4 Zero;
 
         /// <summary>
         /// The identity <see cref="Matrix5x4"/>.
@@ -372,7 +372,7 @@ namespace Xacor.Mathematics
                 if (column < 0 || column > 3)
                     throw new ArgumentOutOfRangeException(nameof(column), "Columns for matrices run from 0 to 3, inclusive.");
 
-                return this[(row * 4) + column];
+                return this[row * 4 + column];
             }
 
             set
@@ -382,7 +382,7 @@ namespace Xacor.Mathematics
                 if (column < 0 || column > 3)
                     throw new ArgumentOutOfRangeException(nameof(column), "Columns for matrices run from 0 to 3, inclusive.");
 
-                this[(row * 4) + column] = value;
+                this[row * 4 + column] = value;
             }
         }
 
@@ -508,7 +508,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the scaled Matrix5x4.</param>
         public static void Divide(ref Matrix5x4 left, float right, out Matrix5x4 result)
         {
-            float inv = 1.0f / right;
+            var inv = 1.0f / right;
 
             result.M11 = left.M11 * inv;
             result.M12 = left.M12 * inv;
@@ -992,26 +992,26 @@ namespace Xacor.Mathematics
         /// </returns>
         public bool Equals(ref Matrix5x4 other)
         {
-            return (MathUtil.NearEqual(other.M11, M11) &&
-                MathUtil.NearEqual(other.M12, M12) &&
-                MathUtil.NearEqual(other.M13, M13) &&
-                MathUtil.NearEqual(other.M14, M14) &&
-                MathUtil.NearEqual(other.M21, M21) &&
-                MathUtil.NearEqual(other.M22, M22) &&
-                MathUtil.NearEqual(other.M23, M23) &&
-                MathUtil.NearEqual(other.M24, M24) &&
-                MathUtil.NearEqual(other.M31, M31) &&
-                MathUtil.NearEqual(other.M32, M32) &&
-                MathUtil.NearEqual(other.M33, M33) &&
-                MathUtil.NearEqual(other.M34, M34) &&
-                MathUtil.NearEqual(other.M41, M41) &&
-                MathUtil.NearEqual(other.M42, M42) &&
-                MathUtil.NearEqual(other.M43, M43) &&
-                MathUtil.NearEqual(other.M44, M44) &&
-                MathUtil.NearEqual(other.M51, M51) &&
-                MathUtil.NearEqual(other.M52, M52) &&
-                MathUtil.NearEqual(other.M53, M53) &&
-                MathUtil.NearEqual(other.M54, M54));
+            return MathUtil.NearEqual(other.M11, M11) &&
+                   MathUtil.NearEqual(other.M12, M12) &&
+                   MathUtil.NearEqual(other.M13, M13) &&
+                   MathUtil.NearEqual(other.M14, M14) &&
+                   MathUtil.NearEqual(other.M21, M21) &&
+                   MathUtil.NearEqual(other.M22, M22) &&
+                   MathUtil.NearEqual(other.M23, M23) &&
+                   MathUtil.NearEqual(other.M24, M24) &&
+                   MathUtil.NearEqual(other.M31, M31) &&
+                   MathUtil.NearEqual(other.M32, M32) &&
+                   MathUtil.NearEqual(other.M33, M33) &&
+                   MathUtil.NearEqual(other.M34, M34) &&
+                   MathUtil.NearEqual(other.M41, M41) &&
+                   MathUtil.NearEqual(other.M42, M42) &&
+                   MathUtil.NearEqual(other.M43, M43) &&
+                   MathUtil.NearEqual(other.M44, M44) &&
+                   MathUtil.NearEqual(other.M51, M51) &&
+                   MathUtil.NearEqual(other.M52, M52) &&
+                   MathUtil.NearEqual(other.M53, M53) &&
+                   MathUtil.NearEqual(other.M54, M54);
         }
         /// <summary>
         /// Determines whether the specified <see cref="Matrix5x4"/> is equal to this instance.

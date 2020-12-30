@@ -45,7 +45,7 @@ namespace Xacor.Mathematics
         /// The internal representation of the angle.
         /// </summary>
         [FieldOffset(0)]
-        float radians;
+        private float radians;
 
         [FieldOffset(0)]
         private int radiansInt;
@@ -100,7 +100,7 @@ namespace Xacor.Mathematics
         /// </summary>
         public void Wrap()
         {
-            float newangle = (float)Math.IEEERemainder(radians, MathUtil.TwoPi);
+            var newangle = (float)Math.IEEERemainder(radians, MathUtil.TwoPi);
 
             if (newangle <= -MathUtil.Pi)
                 newangle += MathUtil.TwoPi;
@@ -115,7 +115,7 @@ namespace Xacor.Mathematics
         /// </summary>
         public void WrapPositive()
         {
-            float newangle = radians % MathUtil.TwoPi;
+            var newangle = radians % MathUtil.TwoPi;
 
             if (newangle < 0.0)
                 newangle += MathUtil.TwoPi;
@@ -151,23 +151,23 @@ namespace Xacor.Mathematics
         {
             get
             {
-                float degrees = MathUtil.RadiansToDegrees(radians);
+                var degrees = MathUtil.RadiansToDegrees(radians);
 
                 if (degrees < 0)
                 {
-                    float degreesfloor = (float)Math.Ceiling(degrees);
+                    var degreesfloor = (float)Math.Ceiling(degrees);
                     return (degrees - degreesfloor) * 60.0f;
                 }
                 else
                 {
-                    float degreesfloor = (float)Math.Floor(degrees);
+                    var degreesfloor = (float)Math.Floor(degrees);
                     return (degrees - degreesfloor) * 60.0f;
                 }
             }
             set
             {
-                float degrees = MathUtil.RadiansToDegrees(radians);
-                float degreesfloor = (float)Math.Floor(degrees);
+                var degrees = MathUtil.RadiansToDegrees(radians);
+                var degreesfloor = (float)Math.Floor(degrees);
 
                 degreesfloor += value / 60.0f;
                 radians = MathUtil.DegreesToRadians(degreesfloor);
@@ -184,41 +184,41 @@ namespace Xacor.Mathematics
         {
             get
             {
-                float degrees = MathUtil.RadiansToDegrees(radians);
+                var degrees = MathUtil.RadiansToDegrees(radians);
 
                 if (degrees < 0)
                 {
-                    float degreesfloor = (float)Math.Ceiling(degrees);
+                    var degreesfloor = (float)Math.Ceiling(degrees);
 
-                    float minutes = (degrees - degreesfloor) * 60.0f;
-                    float minutesfloor = (float)Math.Ceiling(minutes);
+                    var minutes = (degrees - degreesfloor) * 60.0f;
+                    var minutesfloor = (float)Math.Ceiling(minutes);
 
                     return (minutes - minutesfloor) * 60.0f;
                 }
                 else
                 {
-                    float degreesfloor = (float)Math.Floor(degrees);
+                    var degreesfloor = (float)Math.Floor(degrees);
 
-                    float minutes = (degrees - degreesfloor) * 60.0f;
-                    float minutesfloor = (float)Math.Floor(minutes);
+                    var minutes = (degrees - degreesfloor) * 60.0f;
+                    var minutesfloor = (float)Math.Floor(minutes);
 
                     return (minutes - minutesfloor) * 60.0f;
                 }
             }
             set
             {
-                float degrees = MathUtil.RadiansToDegrees(radians);
-                float degreesfloor = (float)Math.Floor(degrees);
+                var degrees = MathUtil.RadiansToDegrees(radians);
+                var degreesfloor = (float)Math.Floor(degrees);
 
-                float minutes = (degrees - degreesfloor) * 60.0f;
-                float minutesfloor = (float)Math.Floor(minutes);
+                var minutes = (degrees - degreesfloor) * 60.0f;
+                var minutesfloor = (float)Math.Floor(minutes);
 
                 minutesfloor += value / 60.0f;
                 degreesfloor += minutesfloor / 60.0f;
                 radians = MathUtil.DegreesToRadians(degreesfloor);
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the total number of radians this SharpDX.AngleSingle represents.
         /// </summary>
@@ -610,7 +610,7 @@ namespace Xacor.Mathematics
             if (!(other is AngleSingle))
                 throw new ArgumentException("Argument must be of type Angle.", nameof(other));
 
-            float radians = ((AngleSingle)other).radians;
+            var radians = ((AngleSingle)other).radians;
 
             if (this.radians > radians)
                 return 1;
@@ -735,7 +735,7 @@ namespace Xacor.Mathematics
         /// </returns>
         public override bool Equals(object obj)
         {
-            return (obj is AngleSingle) && (this == (AngleSingle)obj);
+            return obj is AngleSingle && this == (AngleSingle)obj;
         }
     }
 }

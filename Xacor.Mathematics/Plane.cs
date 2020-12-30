@@ -75,21 +75,21 @@ namespace Xacor.Mathematics
         /// <param name="point3">Third point of a triangle defining the plane.</param>
         public Plane(Vector3 point1, Vector3 point2, Vector3 point3)
         {
-            float x1 = point2.X - point1.X;
-            float y1 = point2.Y - point1.Y;
-            float z1 = point2.Z - point1.Z;
-            float x2 = point3.X - point1.X;
-            float y2 = point3.Y - point1.Y;
-            float z2 = point3.Z - point1.Z;
-            float yz = (y1 * z2) - (z1 * y2);
-            float xz = (z1 * x2) - (x1 * z2);
-            float xy = (x1 * y2) - (y1 * x2);
-            float invPyth = 1.0f / (float)(Math.Sqrt((yz * yz) + (xz * xz) + (xy * xy)));
+            var x1 = point2.X - point1.X;
+            var y1 = point2.Y - point1.Y;
+            var z1 = point2.Z - point1.Z;
+            var x2 = point3.X - point1.X;
+            var y2 = point3.Y - point1.Y;
+            var z2 = point3.Z - point1.Z;
+            var yz = y1 * z2 - z1 * y2;
+            var xz = z1 * x2 - x1 * z2;
+            var xy = x1 * y2 - y1 * x2;
+            var invPyth = 1.0f / (float)Math.Sqrt(yz * yz + xz * xz + xy * xy);
 
             Normal.X = yz * invPyth;
             Normal.Y = xz * invPyth;
             Normal.Z = xy * invPyth;
-            D = -((Normal.X * point1.X) + (Normal.Y * point1.Y) + (Normal.Z * point1.Z));
+            D = -(Normal.X * point1.X + Normal.Y * point1.Y + Normal.Z * point1.Z);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Xacor.Mathematics
         /// </summary>
         public void Normalize()
         {
-            float magnitude = 1.0f / (float)(Math.Sqrt((Normal.X * Normal.X) + (Normal.Y * Normal.Y) + (Normal.Z * Normal.Z)));
+            var magnitude = 1.0f / (float)Math.Sqrt(Normal.X * Normal.X + Normal.Y * Normal.Y + Normal.Z * Normal.Z);
 
             Normal.X *= magnitude;
             Normal.Y *= magnitude;
@@ -273,24 +273,24 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the reflection matrix.</param>
         public void Reflection(out Matrix result)
         {
-            float x = Normal.X;
-            float y = Normal.Y;
-            float z = Normal.Z;
-            float x2 = -2.0f * x;
-            float y2 = -2.0f * y;
-            float z2 = -2.0f * z;
+            var x = Normal.X;
+            var y = Normal.Y;
+            var z = Normal.Z;
+            var x2 = -2.0f * x;
+            var y2 = -2.0f * y;
+            var z2 = -2.0f * z;
 
-            result.M11 = (x2 * x) + 1.0f;
+            result.M11 = x2 * x + 1.0f;
             result.M12 = y2 * x;
             result.M13 = z2 * x;
             result.M14 = 0.0f;
             result.M21 = x2 * y;
-            result.M22 = (y2 * y) + 1.0f;
+            result.M22 = y2 * y + 1.0f;
             result.M23 = z2 * y;
             result.M24 = 0.0f;
             result.M31 = x2 * z;
             result.M32 = y2 * z;
-            result.M33 = (z2 * z) + 1.0f;
+            result.M33 = z2 * z + 1.0f;
             result.M34 = 0.0f;
             result.M41 = x2 * D;
             result.M42 = y2 * D;
@@ -317,28 +317,28 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the shadow matrix.</param>
         public void Shadow(ref Vector4 light, out Matrix result)
         {
-            float dot = (Normal.X * light.X) + (Normal.Y * light.Y) + (Normal.Z * light.Z) + (D * light.W);
-            float x = -Normal.X;
-            float y = -Normal.Y;
-            float z = -Normal.Z;
-            float d = -D;
+            var dot = Normal.X * light.X + Normal.Y * light.Y + Normal.Z * light.Z + D * light.W;
+            var x = -Normal.X;
+            var y = -Normal.Y;
+            var z = -Normal.Z;
+            var d = -D;
 
-            result.M11 = (x * light.X) + dot;
+            result.M11 = x * light.X + dot;
             result.M21 = y * light.X;
             result.M31 = z * light.X;
             result.M41 = d * light.X;
             result.M12 = x * light.Y;
-            result.M22 = (y * light.Y) + dot;
+            result.M22 = y * light.Y + dot;
             result.M32 = z * light.Y;
             result.M42 = d * light.Y;
             result.M13 = x * light.Z;
             result.M23 = y * light.Z;
-            result.M33 = (z * light.Z) + dot;
+            result.M33 = z * light.Z + dot;
             result.M43 = d * light.Z;
             result.M14 = x * light.W;
             result.M24 = y * light.W;
             result.M34 = z * light.W;
-            result.M44 = (d * light.W) + dot;
+            result.M44 = d * light.W + dot;
         }
 
         /// <summary>
@@ -361,22 +361,22 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the reflection Matrix3x3.</param>
         public void Reflection(out Matrix3x3 result)
         {
-            float x = Normal.X;
-            float y = Normal.Y;
-            float z = Normal.Z;
-            float x2 = -2.0f * x;
-            float y2 = -2.0f * y;
-            float z2 = -2.0f * z;
+            var x = Normal.X;
+            var y = Normal.Y;
+            var z = Normal.Z;
+            var x2 = -2.0f * x;
+            var y2 = -2.0f * y;
+            var z2 = -2.0f * z;
 
-            result.M11 = (x2 * x) + 1.0f;
+            result.M11 = x2 * x + 1.0f;
             result.M12 = y2 * x;
             result.M13 = z2 * x;
             result.M21 = x2 * y;
-            result.M22 = (y2 * y) + 1.0f;
+            result.M22 = y2 * y + 1.0f;
             result.M23 = z2 * y;
             result.M31 = x2 * z;
             result.M32 = y2 * z;
-            result.M33 = (z2 * z) + 1.0f;
+            result.M33 = z2 * z + 1.0f;
         }
 
         /// <summary>
@@ -399,21 +399,21 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the shadow Matrix3x3.</param>
         public static void Shadow(ref Vector4 light, ref Plane plane, out Matrix3x3 result)
         {
-            float dot = (plane.Normal.X * light.X) + (plane.Normal.Y * light.Y) + (plane.Normal.Z * light.Z) + (plane.D * light.W);
-            float x = -plane.Normal.X;
-            float y = -plane.Normal.Y;
-            float z = -plane.Normal.Z;
-            float d = -plane.D;
+            var dot = plane.Normal.X * light.X + plane.Normal.Y * light.Y + plane.Normal.Z * light.Z + plane.D * light.W;
+            var x = -plane.Normal.X;
+            var y = -plane.Normal.Y;
+            var z = -plane.Normal.Z;
+            var d = -plane.D;
 
-            result.M11 = (x * light.X) + dot;
+            result.M11 = x * light.X + dot;
             result.M21 = y * light.X;
             result.M31 = z * light.X;
             result.M12 = x * light.Y;
-            result.M22 = (y * light.Y) + dot;
+            result.M22 = y * light.Y + dot;
             result.M32 = z * light.Y;
             result.M13 = x * light.Z;
             result.M23 = y * light.Z;
-            result.M33 = (z * light.Z) + dot;
+            result.M33 = z * light.Z + dot;
         }
 
         /// <summary>
@@ -463,7 +463,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the dot product of the specified plane and vector.</param>
         public static void Dot(ref Plane left, ref Vector4 right, out float result)
         {
-            result = (left.Normal.X * right.X) + (left.Normal.Y * right.Y) + (left.Normal.Z * right.Z) + (left.D * right.W);
+            result = left.Normal.X * right.X + left.Normal.Y * right.Y + left.Normal.Z * right.Z + left.D * right.W;
         }
 
         /// <summary>
@@ -474,7 +474,7 @@ namespace Xacor.Mathematics
         /// <returns>The dot product of the specified plane and vector.</returns>
         public static float Dot(Plane left, Vector4 right)
         {
-            return (left.Normal.X * right.X) + (left.Normal.Y * right.Y) + (left.Normal.Z * right.Z) + (left.D * right.W);
+            return left.Normal.X * right.X + left.Normal.Y * right.Y + left.Normal.Z * right.Z + left.D * right.W;
         }
 
         /// <summary>
@@ -485,7 +485,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the dot product of a specified vector and the normal of the Plane plus the distance value of the plane.</param>
         public static void DotCoordinate(ref Plane left, ref Vector3 right, out float result)
         {
-            result = (left.Normal.X * right.X) + (left.Normal.Y * right.Y) + (left.Normal.Z * right.Z) + left.D;
+            result = left.Normal.X * right.X + left.Normal.Y * right.Y + left.Normal.Z * right.Z + left.D;
         }
 
         /// <summary>
@@ -496,7 +496,7 @@ namespace Xacor.Mathematics
         /// <returns>The dot product of a specified vector and the normal of the Plane plus the distance value of the plane.</returns>
         public static float DotCoordinate(Plane left, Vector3 right)
         {
-            return (left.Normal.X * right.X) + (left.Normal.Y * right.Y) + (left.Normal.Z * right.Z) + left.D;
+            return left.Normal.X * right.X + left.Normal.Y * right.Y + left.Normal.Z * right.Z + left.D;
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the dot product of the specified vector and the normal of the plane.</param>
         public static void DotNormal(ref Plane left, ref Vector3 right, out float result)
         {
-            result = (left.Normal.X * right.X) + (left.Normal.Y * right.Y) + (left.Normal.Z * right.Z);
+            result = left.Normal.X * right.X + left.Normal.Y * right.Y + left.Normal.Z * right.Z;
         }
 
         /// <summary>
@@ -518,7 +518,7 @@ namespace Xacor.Mathematics
         /// <returns>The dot product of the specified vector and the normal of the plane.</returns>
         public static float DotNormal(Plane left, Vector3 right)
         {
-            return (left.Normal.X * right.X) + (left.Normal.Y * right.Y) + (left.Normal.Z * right.Z);
+            return left.Normal.X * right.X + left.Normal.Y * right.Y + left.Normal.Z * right.Z;
         }
 
         /// <summary>
@@ -528,7 +528,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the normalized plane.</param>
         public static void Normalize(ref Plane plane, out Plane result)
         {
-            float magnitude = 1.0f / (float)(Math.Sqrt((plane.Normal.X * plane.Normal.X) + (plane.Normal.Y * plane.Normal.Y) + (plane.Normal.Z * plane.Normal.Z)));
+            var magnitude = 1.0f / (float)Math.Sqrt(plane.Normal.X * plane.Normal.X + plane.Normal.Y * plane.Normal.Y + plane.Normal.Z * plane.Normal.Z);
 
             result.Normal.X = plane.Normal.X * magnitude;
             result.Normal.Y = plane.Normal.Y * magnitude;
@@ -543,7 +543,7 @@ namespace Xacor.Mathematics
         /// <returns>The normalized plane.</returns>
         public static Plane Normalize(Plane plane)
         {
-            float magnitude = 1.0f / (float)(Math.Sqrt((plane.Normal.X * plane.Normal.X) + (plane.Normal.Y * plane.Normal.Y) + (plane.Normal.Z * plane.Normal.Z)));
+            var magnitude = 1.0f / (float)Math.Sqrt(plane.Normal.X * plane.Normal.X + plane.Normal.Y * plane.Normal.Y + plane.Normal.Z * plane.Normal.Z);
             return new Plane(plane.Normal.X * magnitude, plane.Normal.Y * magnitude, plane.Normal.Z * magnitude, plane.D * magnitude);
         }
 
@@ -555,26 +555,26 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the transformed plane.</param>
         public static void Transform(ref Plane plane, ref Quaternion rotation, out Plane result)
         {
-            float x2 = rotation.X + rotation.X;
-            float y2 = rotation.Y + rotation.Y;
-            float z2 = rotation.Z + rotation.Z;
-            float wx = rotation.W * x2;
-            float wy = rotation.W * y2;
-            float wz = rotation.W * z2;
-            float xx = rotation.X * x2;
-            float xy = rotation.X * y2;
-            float xz = rotation.X * z2;
-            float yy = rotation.Y * y2;
-            float yz = rotation.Y * z2;
-            float zz = rotation.Z * z2;
+            var x2 = rotation.X + rotation.X;
+            var y2 = rotation.Y + rotation.Y;
+            var z2 = rotation.Z + rotation.Z;
+            var wx = rotation.W * x2;
+            var wy = rotation.W * y2;
+            var wz = rotation.W * z2;
+            var xx = rotation.X * x2;
+            var xy = rotation.X * y2;
+            var xz = rotation.X * z2;
+            var yy = rotation.Y * y2;
+            var yz = rotation.Y * z2;
+            var zz = rotation.Z * z2;
 
-            float x = plane.Normal.X;
-            float y = plane.Normal.Y;
-            float z = plane.Normal.Z;
+            var x = plane.Normal.X;
+            var y = plane.Normal.Y;
+            var z = plane.Normal.Z;
 
-            result.Normal.X = ((x * ((1.0f - yy) - zz)) + (y * (xy - wz))) + (z * (xz + wy));
-            result.Normal.Y = ((x * (xy + wz)) + (y * ((1.0f - xx) - zz))) + (z * (yz - wx));
-            result.Normal.Z = ((x * (xz - wy)) + (y * (yz + wx))) + (z * ((1.0f - xx) - yy));
+            result.Normal.X = x * (1.0f - yy - zz) + y * (xy - wz) + z * (xz + wy);
+            result.Normal.Y = x * (xy + wz) + y * (1.0f - xx - zz) + z * (yz - wx);
+            result.Normal.Z = x * (xz - wy) + y * (yz + wx) + z * (1.0f - xx - yy);
             result.D = plane.D;
         }
 
@@ -587,26 +587,26 @@ namespace Xacor.Mathematics
         public static Plane Transform(Plane plane, Quaternion rotation)
         {
             Plane result;
-            float x2 = rotation.X + rotation.X;
-            float y2 = rotation.Y + rotation.Y;
-            float z2 = rotation.Z + rotation.Z;
-            float wx = rotation.W * x2;
-            float wy = rotation.W * y2;
-            float wz = rotation.W * z2;
-            float xx = rotation.X * x2;
-            float xy = rotation.X * y2;
-            float xz = rotation.X * z2;
-            float yy = rotation.Y * y2;
-            float yz = rotation.Y * z2;
-            float zz = rotation.Z * z2;
+            var x2 = rotation.X + rotation.X;
+            var y2 = rotation.Y + rotation.Y;
+            var z2 = rotation.Z + rotation.Z;
+            var wx = rotation.W * x2;
+            var wy = rotation.W * y2;
+            var wz = rotation.W * z2;
+            var xx = rotation.X * x2;
+            var xy = rotation.X * y2;
+            var xz = rotation.X * z2;
+            var yy = rotation.Y * y2;
+            var yz = rotation.Y * z2;
+            var zz = rotation.Z * z2;
 
-            float x = plane.Normal.X;
-            float y = plane.Normal.Y;
-            float z = plane.Normal.Z;
+            var x = plane.Normal.X;
+            var y = plane.Normal.Y;
+            var z = plane.Normal.Z;
 
-            result.Normal.X = ((x * ((1.0f - yy) - zz)) + (y * (xy - wz))) + (z * (xz + wy));
-            result.Normal.Y = ((x * (xy + wz)) + (y * ((1.0f - xx) - zz))) + (z * (yz - wx));
-            result.Normal.Z = ((x * (xz - wy)) + (y * (yz + wx))) + (z * ((1.0f - xx) - yy));
+            result.Normal.X = x * (1.0f - yy - zz) + y * (xy - wz) + z * (xz + wy);
+            result.Normal.Y = x * (xy + wz) + y * (1.0f - xx - zz) + z * (yz - wx);
+            result.Normal.Z = x * (xz - wy) + y * (yz + wx) + z * (1.0f - xx - yy);
             result.D = plane.D;
 
             return result;
@@ -623,32 +623,32 @@ namespace Xacor.Mathematics
             if (planes == null)
                 throw new ArgumentNullException(nameof(planes));
 
-            float x2 = rotation.X + rotation.X;
-            float y2 = rotation.Y + rotation.Y;
-            float z2 = rotation.Z + rotation.Z;
-            float wx = rotation.W * x2;
-            float wy = rotation.W * y2;
-            float wz = rotation.W * z2;
-            float xx = rotation.X * x2;
-            float xy = rotation.X * y2;
-            float xz = rotation.X * z2;
-            float yy = rotation.Y * y2;
-            float yz = rotation.Y * z2;
-            float zz = rotation.Z * z2;
+            var x2 = rotation.X + rotation.X;
+            var y2 = rotation.Y + rotation.Y;
+            var z2 = rotation.Z + rotation.Z;
+            var wx = rotation.W * x2;
+            var wy = rotation.W * y2;
+            var wz = rotation.W * z2;
+            var xx = rotation.X * x2;
+            var xy = rotation.X * y2;
+            var xz = rotation.X * z2;
+            var yy = rotation.Y * y2;
+            var yz = rotation.Y * z2;
+            var zz = rotation.Z * z2;
 
-            for (int i = 0; i < planes.Length; ++i)
+            for (var i = 0; i < planes.Length; ++i)
             {
-                float x = planes[i].Normal.X;
-                float y = planes[i].Normal.Y;
-                float z = planes[i].Normal.Z;
+                var x = planes[i].Normal.X;
+                var y = planes[i].Normal.Y;
+                var z = planes[i].Normal.Z;
 
                 /*
                  * Note:
                  * Factor common arithmetic out of loop.
                 */
-                planes[i].Normal.X = ((x * ((1.0f - yy) - zz)) + (y * (xy - wz))) + (z * (xz + wy));
-                planes[i].Normal.Y = ((x * (xy + wz)) + (y * ((1.0f - xx) - zz))) + (z * (yz - wx));
-                planes[i].Normal.Z = ((x * (xz - wy)) + (y * (yz + wx))) + (z * ((1.0f - xx) - yy));
+                planes[i].Normal.X = x * (1.0f - yy - zz) + y * (xy - wz) + z * (xz + wy);
+                planes[i].Normal.Y = x * (xy + wz) + y * (1.0f - xx - zz) + z * (yz - wx);
+                planes[i].Normal.Z = x * (xz - wy) + y * (yz + wx) + z * (1.0f - xx - yy);
             }
         }
 
@@ -660,17 +660,17 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the transformed plane.</param>
         public static void Transform(ref Plane plane, ref Matrix transformation, out Plane result)
         {
-            float x = plane.Normal.X;
-            float y = plane.Normal.Y;
-            float z = plane.Normal.Z;
-            float d = plane.D;
+            var x = plane.Normal.X;
+            var y = plane.Normal.Y;
+            var z = plane.Normal.Z;
+            var d = plane.D;
 
             Matrix.Invert(ref transformation, out var inverse);
 
-            result.Normal.X = (((x * inverse.M11) + (y * inverse.M12)) + (z * inverse.M13)) + (d * inverse.M14);
-            result.Normal.Y = (((x * inverse.M21) + (y * inverse.M22)) + (z * inverse.M23)) + (d * inverse.M24);
-            result.Normal.Z = (((x * inverse.M31) + (y * inverse.M32)) + (z * inverse.M33)) + (d * inverse.M34);
-            result.D = (((x * inverse.M41) + (y * inverse.M42)) + (z * inverse.M43)) + (d * inverse.M44);
+            result.Normal.X = x * inverse.M11 + y * inverse.M12 + z * inverse.M13 + d * inverse.M14;
+            result.Normal.Y = x * inverse.M21 + y * inverse.M22 + z * inverse.M23 + d * inverse.M24;
+            result.Normal.Z = x * inverse.M31 + y * inverse.M32 + z * inverse.M33 + d * inverse.M34;
+            result.D = x * inverse.M41 + y * inverse.M42 + z * inverse.M43 + d * inverse.M44;
         }
 
         /// <summary>
@@ -682,16 +682,16 @@ namespace Xacor.Mathematics
         public static Plane Transform(Plane plane, Matrix transformation)
         {
             Plane result;
-            float x = plane.Normal.X;
-            float y = plane.Normal.Y;
-            float z = plane.Normal.Z;
-            float d = plane.D;
+            var x = plane.Normal.X;
+            var y = plane.Normal.Y;
+            var z = plane.Normal.Z;
+            var d = plane.D;
 
             transformation.Invert();
-            result.Normal.X = (((x * transformation.M11) + (y * transformation.M12)) + (z * transformation.M13)) + (d * transformation.M14);
-            result.Normal.Y = (((x * transformation.M21) + (y * transformation.M22)) + (z * transformation.M23)) + (d * transformation.M24);
-            result.Normal.Z = (((x * transformation.M31) + (y * transformation.M32)) + (z * transformation.M33)) + (d * transformation.M34);
-            result.D = (((x * transformation.M41) + (y * transformation.M42)) + (z * transformation.M43)) + (d * transformation.M44);
+            result.Normal.X = x * transformation.M11 + y * transformation.M12 + z * transformation.M13 + d * transformation.M14;
+            result.Normal.Y = x * transformation.M21 + y * transformation.M22 + z * transformation.M23 + d * transformation.M24;
+            result.Normal.Z = x * transformation.M31 + y * transformation.M32 + z * transformation.M33 + d * transformation.M34;
+            result.D = x * transformation.M41 + y * transformation.M42 + z * transformation.M43 + d * transformation.M44;
 
             return result;
         }
@@ -709,7 +709,7 @@ namespace Xacor.Mathematics
 
             Matrix.Invert(ref transformation, out var inverse);
 
-            for (int i = 0; i < planes.Length; ++i)
+            for (var i = 0; i < planes.Length; ++i)
             {
                 Transform(ref planes[i], ref transformation, out planes[i]);
             }

@@ -17,10 +17,8 @@ namespace Xacor.Platform.Windows
 
         private void OnHandleCreated(object sender, EventArgs e)
         {
-            using (var iconStream = new MemoryStream(Resources.AppLogo_AppIcon))
-            {
-                Icon = new Icon(iconStream);
-            }
+            using var iconStream = new MemoryStream(Resources.AppLogo_AppIcon);
+            Icon = new Icon(iconStream);
         }
     }
 }

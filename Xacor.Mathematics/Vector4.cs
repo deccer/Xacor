@@ -20,7 +20,7 @@ namespace Xacor.Mathematics
         /// <summary>
         /// A <see cref="Vector4"/> with all of its components set to zero.
         /// </summary>
-        public static readonly Vector4 Zero = new Vector4();
+        public static readonly Vector4 Zero;
 
         /// <summary>
         /// The X unit <see cref="Vector4"/> (1, 0, 0, 0).
@@ -145,7 +145,7 @@ namespace Xacor.Mathematics
         /// </summary>
         public bool IsNormalized
         {
-            get { return MathUtil.IsOne((X * X) + (Y * Y) + (Z * Z) + (W * W)); }
+            get { return MathUtil.IsOne(X * X + Y * Y + Z * Z + W * W); }
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Xacor.Mathematics
         /// </remarks>
         public float Length()
         {
-            return (float)Math.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
+            return (float)Math.Sqrt(X * X + Y * Y + Z * Z + W * W);
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace Xacor.Mathematics
         /// </remarks>
         public float LengthSquared()
         {
-            return (X * X) + (Y * Y) + (Z * Z) + (W * W);
+            return X * X + Y * Y + Z * Z + W * W;
         }
 
         /// <summary>
@@ -222,10 +222,10 @@ namespace Xacor.Mathematics
         /// </summary>
         public void Normalize()
         {
-            float length = Length();
+            var length = Length();
             if (!MathUtil.IsZero(length))
             {
-                float inverse = 1.0f / length;
+                var inverse = 1.0f / length;
                 X *= inverse;
                 Y *= inverse;
                 Z *= inverse;
@@ -471,10 +471,10 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the 4D Cartesian coordinates of the specified point.</param>
         public static void Barycentric(ref Vector4 value1, ref Vector4 value2, ref Vector4 value3, float amount1, float amount2, out Vector4 result)
         {
-            result = new Vector4((value1.X + (amount1 * (value2.X - value1.X))) + (amount2 * (value3.X - value1.X)),
-                (value1.Y + (amount1 * (value2.Y - value1.Y))) + (amount2 * (value3.Y - value1.Y)),
-                (value1.Z + (amount1 * (value2.Z - value1.Z))) + (amount2 * (value3.Z - value1.Z)),
-                (value1.W + (amount1 * (value2.W - value1.W))) + (amount2 * (value3.W - value1.W)));
+            result = new Vector4(value1.X + amount1 * (value2.X - value1.X) + amount2 * (value3.X - value1.X),
+                value1.Y + amount1 * (value2.Y - value1.Y) + amount2 * (value3.Y - value1.Y),
+                value1.Z + amount1 * (value2.Z - value1.Z) + amount2 * (value3.Z - value1.Z),
+                value1.W + amount1 * (value2.W - value1.W) + amount2 * (value3.W - value1.W));
         }
 
         /// <summary>
@@ -501,21 +501,21 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the clamped value.</param>
         public static void Clamp(ref Vector4 value, ref Vector4 min, ref Vector4 max, out Vector4 result)
         {
-            float x = value.X;
-            x = (x > max.X) ? max.X : x;
-            x = (x < min.X) ? min.X : x;
+            var x = value.X;
+            x = x > max.X ? max.X : x;
+            x = x < min.X ? min.X : x;
 
-            float y = value.Y;
-            y = (y > max.Y) ? max.Y : y;
-            y = (y < min.Y) ? min.Y : y;
+            var y = value.Y;
+            y = y > max.Y ? max.Y : y;
+            y = y < min.Y ? min.Y : y;
 
-            float z = value.Z;
-            z = (z > max.Z) ? max.Z : z;
-            z = (z < min.Z) ? min.Z : z;
+            var z = value.Z;
+            z = z > max.Z ? max.Z : z;
+            z = z < min.Z ? min.Z : z;
 
-            float w = value.W;
-            w = (w > max.W) ? max.W : w;
-            w = (w < min.W) ? min.W : w;
+            var w = value.W;
+            w = w > max.W ? max.W : w;
+            w = w < min.W ? min.W : w;
 
             result = new Vector4(x, y, z, w);
         }
@@ -545,12 +545,12 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static void Distance(ref Vector4 value1, ref Vector4 value2, out float result)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
-            float z = value1.Z - value2.Z;
-            float w = value1.W - value2.W;
+            var x = value1.X - value2.X;
+            var y = value1.Y - value2.Y;
+            var z = value1.Z - value2.Z;
+            var w = value1.W - value2.W;
 
-            result = (float)Math.Sqrt((x * x) + (y * y) + (z * z) + (w * w));
+            result = (float)Math.Sqrt(x * x + y * y + z * z + w * w);
         }
 
         /// <summary>
@@ -565,12 +565,12 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static float Distance(Vector4 value1, Vector4 value2)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
-            float z = value1.Z - value2.Z;
-            float w = value1.W - value2.W;
+            var x = value1.X - value2.X;
+            var y = value1.Y - value2.Y;
+            var z = value1.Z - value2.Z;
+            var w = value1.W - value2.W;
 
-            return (float)Math.Sqrt((x * x) + (y * y) + (z * z) + (w * w));
+            return (float)Math.Sqrt(x * x + y * y + z * z + w * w);
         }
 
         /// <summary>
@@ -579,21 +579,21 @@ namespace Xacor.Mathematics
         /// <param name="value1">The first vector.</param>
         /// <param name="value2">The second vector.</param>
         /// <param name="result">When the method completes, contains the squared distance between the two vectors.</param>
-        /// <remarks>Distance squared is the value before taking the square root. 
-        /// Distance squared can often be used in place of distance if relative comparisons are being made. 
-        /// For example, consider three points A, B, and C. To determine whether B or C is further from A, 
-        /// compare the distance between A and B to the distance between A and C. Calculating the two distances 
-        /// involves two square roots, which are computationally expensive. However, using distance squared 
+        /// <remarks>Distance squared is the value before taking the square root.
+        /// Distance squared can often be used in place of distance if relative comparisons are being made.
+        /// For example, consider three points A, B, and C. To determine whether B or C is further from A,
+        /// compare the distance between A and B to the distance between A and C. Calculating the two distances
+        /// involves two square roots, which are computationally expensive. However, using distance squared
         /// provides the same information and avoids calculating two square roots.
         /// </remarks>
         public static void DistanceSquared(ref Vector4 value1, ref Vector4 value2, out float result)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
-            float z = value1.Z - value2.Z;
-            float w = value1.W - value2.W;
+            var x = value1.X - value2.X;
+            var y = value1.Y - value2.Y;
+            var z = value1.Z - value2.Z;
+            var w = value1.W - value2.W;
 
-            result = (x * x) + (y * y) + (z * z) + (w * w);
+            result = x * x + y * y + z * z + w * w;
         }
 
         /// <summary>
@@ -602,21 +602,21 @@ namespace Xacor.Mathematics
         /// <param name="value1">The first vector.</param>
         /// <param name="value2">The second vector.</param>
         /// <returns>The squared distance between the two vectors.</returns>
-        /// <remarks>Distance squared is the value before taking the square root. 
-        /// Distance squared can often be used in place of distance if relative comparisons are being made. 
-        /// For example, consider three points A, B, and C. To determine whether B or C is further from A, 
-        /// compare the distance between A and B to the distance between A and C. Calculating the two distances 
-        /// involves two square roots, which are computationally expensive. However, using distance squared 
+        /// <remarks>Distance squared is the value before taking the square root.
+        /// Distance squared can often be used in place of distance if relative comparisons are being made.
+        /// For example, consider three points A, B, and C. To determine whether B or C is further from A,
+        /// compare the distance between A and B to the distance between A and C. Calculating the two distances
+        /// involves two square roots, which are computationally expensive. However, using distance squared
         /// provides the same information and avoids calculating two square roots.
         /// </remarks>
         public static float DistanceSquared(Vector4 value1, Vector4 value2)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
-            float z = value1.Z - value2.Z;
-            float w = value1.W - value2.W;
+            var x = value1.X - value2.X;
+            var y = value1.Y - value2.Y;
+            var z = value1.Z - value2.Z;
+            var w = value1.W - value2.W;
 
-            return (x * x) + (y * y) + (z * z) + (w * w);
+            return x * x + y * y + z * z + w * w;
         }
 
         /// <summary>
@@ -627,7 +627,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the dot product of the two vectors.</param>
         public static void Dot(ref Vector4 left, ref Vector4 right, out float result)
         {
-            result = (left.X * right.X) + (left.Y * right.Y) + (left.Z * right.Z) + (left.W * right.W);
+            result = left.X * right.X + left.Y * right.Y + left.Z * right.Z + left.W * right.W;
         }
 
         /// <summary>
@@ -638,7 +638,7 @@ namespace Xacor.Mathematics
         /// <returns>The dot product of the two vectors.</returns>
         public static float Dot(Vector4 left, Vector4 right)
         {
-            return (left.X * right.X) + (left.Y * right.Y) + (left.Z * right.Z) + (left.W * right.W);
+            return left.X * right.X + left.Y * right.Y + left.Z * right.Z + left.W * right.W;
         }
 
         /// <summary>
@@ -648,7 +648,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the normalized vector.</param>
         public static void Normalize(ref Vector4 value, out Vector4 result)
         {
-            Vector4 temp = value;
+            var temp = value;
             result = temp;
             result.Normalize();
         }
@@ -672,7 +672,7 @@ namespace Xacor.Mathematics
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
         /// <param name="result">When the method completes, contains the linear interpolation of the two vectors.</param>
         /// <remarks>
-        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned. 
+        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned.
         /// </remarks>
         public static void Lerp(ref Vector4 start, ref Vector4 end, float amount, out Vector4 result)
         {
@@ -690,7 +690,7 @@ namespace Xacor.Mathematics
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
         /// <returns>The linear interpolation of the two vectors.</returns>
         /// <remarks>
-        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned. 
+        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned.
         /// </remarks>
         public static Vector4 Lerp(Vector4 start, Vector4 end, float amount)
         {
@@ -735,17 +735,17 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the result of the Hermite spline interpolation.</param>
         public static void Hermite(ref Vector4 value1, ref Vector4 tangent1, ref Vector4 value2, ref Vector4 tangent2, float amount, out Vector4 result)
         {
-            float squared = amount * amount;
-            float cubed = amount * squared;
-            float part1 = ((2.0f * cubed) - (3.0f * squared)) + 1.0f;
-            float part2 = (-2.0f * cubed) + (3.0f * squared);
-            float part3 = (cubed - (2.0f * squared)) + amount;
-            float part4 = cubed - squared;
+            var squared = amount * amount;
+            var cubed = amount * squared;
+            var part1 = 2.0f * cubed - 3.0f * squared + 1.0f;
+            var part2 = -2.0f * cubed + 3.0f * squared;
+            var part3 = cubed - 2.0f * squared + amount;
+            var part4 = cubed - squared;
 
-            result = new Vector4((((value1.X * part1) + (value2.X * part2)) + (tangent1.X * part3)) + (tangent2.X * part4),
-                (((value1.Y * part1) + (value2.Y * part2)) + (tangent1.Y * part3)) + (tangent2.Y * part4),
-                (((value1.Z * part1) + (value2.Z * part2)) + (tangent1.Z * part3)) + (tangent2.Z * part4),
-                (((value1.W * part1) + (value2.W * part2)) + (tangent1.W * part3)) + (tangent2.W * part4));
+            result = new Vector4(value1.X * part1 + value2.X * part2 + tangent1.X * part3 + tangent2.X * part4,
+                value1.Y * part1 + value2.Y * part2 + tangent1.Y * part3 + tangent2.Y * part4,
+                value1.Z * part1 + value2.Z * part2 + tangent1.Z * part3 + tangent2.Z * part4,
+                value1.W * part1 + value2.W * part2 + tangent1.W * part3 + tangent2.W * part4);
         }
 
         /// <summary>
@@ -774,13 +774,13 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the result of the Catmull-Rom interpolation.</param>
         public static void CatmullRom(ref Vector4 value1, ref Vector4 value2, ref Vector4 value3, ref Vector4 value4, float amount, out Vector4 result)
         {
-            float squared = amount * amount;
-            float cubed = amount * squared;
+            var squared = amount * amount;
+            var cubed = amount * squared;
 
-            result.X = 0.5f * ((((2.0f * value2.X) + ((-value1.X + value3.X) * amount)) + (((((2.0f * value1.X) - (5.0f * value2.X)) + (4.0f * value3.X)) - value4.X) * squared)) + ((((-value1.X + (3.0f * value2.X)) - (3.0f * value3.X)) + value4.X) * cubed));
-            result.Y = 0.5f * ((((2.0f * value2.Y) + ((-value1.Y + value3.Y) * amount)) + (((((2.0f * value1.Y) - (5.0f * value2.Y)) + (4.0f * value3.Y)) - value4.Y) * squared)) + ((((-value1.Y + (3.0f * value2.Y)) - (3.0f * value3.Y)) + value4.Y) * cubed));
-            result.Z = 0.5f * ((((2.0f * value2.Z) + ((-value1.Z + value3.Z) * amount)) + (((((2.0f * value1.Z) - (5.0f * value2.Z)) + (4.0f * value3.Z)) - value4.Z) * squared)) + ((((-value1.Z + (3.0f * value2.Z)) - (3.0f * value3.Z)) + value4.Z) * cubed));
-            result.W = 0.5f * ((((2.0f * value2.W) + ((-value1.W + value3.W) * amount)) + (((((2.0f * value1.W) - (5.0f * value2.W)) + (4.0f * value3.W)) - value4.W) * squared)) + ((((-value1.W + (3.0f * value2.W)) - (3.0f * value3.W)) + value4.W) * cubed));
+            result.X = 0.5f * (2.0f * value2.X + (-value1.X + value3.X) * amount + (2.0f * value1.X - 5.0f * value2.X + 4.0f * value3.X - value4.X) * squared + (-value1.X + 3.0f * value2.X - 3.0f * value3.X + value4.X) * cubed);
+            result.Y = 0.5f * (2.0f * value2.Y + (-value1.Y + value3.Y) * amount + (2.0f * value1.Y - 5.0f * value2.Y + 4.0f * value3.Y - value4.Y) * squared + (-value1.Y + 3.0f * value2.Y - 3.0f * value3.Y + value4.Y) * cubed);
+            result.Z = 0.5f * (2.0f * value2.Z + (-value1.Z + value3.Z) * amount + (2.0f * value1.Z - 5.0f * value2.Z + 4.0f * value3.Z - value4.Z) * squared + (-value1.Z + 3.0f * value2.Z - 3.0f * value3.Z + value4.Z) * cubed);
+            result.W = 0.5f * (2.0f * value2.W + (-value1.W + value3.W) * amount + (2.0f * value1.W - 5.0f * value2.W + 4.0f * value3.W - value4.W) * squared + (-value1.W + 3.0f * value2.W - 3.0f * value3.W + value4.W) * cubed);
         }
 
         /// <summary>
@@ -806,10 +806,10 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains an new vector composed of the largest components of the source vectors.</param>
         public static void Max(ref Vector4 left, ref Vector4 right, out Vector4 result)
         {
-            result.X = (left.X > right.X) ? left.X : right.X;
-            result.Y = (left.Y > right.Y) ? left.Y : right.Y;
-            result.Z = (left.Z > right.Z) ? left.Z : right.Z;
-            result.W = (left.W > right.W) ? left.W : right.W;
+            result.X = left.X > right.X ? left.X : right.X;
+            result.Y = left.Y > right.Y ? left.Y : right.Y;
+            result.Z = left.Z > right.Z ? left.Z : right.Z;
+            result.W = left.W > right.W ? left.W : right.W;
         }
 
         /// <summary>
@@ -832,10 +832,10 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains an new vector composed of the smallest components of the source vectors.</param>
         public static void Min(ref Vector4 left, ref Vector4 right, out Vector4 result)
         {
-            result.X = (left.X < right.X) ? left.X : right.X;
-            result.Y = (left.Y < right.Y) ? left.Y : right.Y;
-            result.Z = (left.Z < right.Z) ? left.Z : right.Z;
-            result.W = (left.W < right.W) ? left.W : right.W;
+            result.X = left.X < right.X ? left.X : right.X;
+            result.Y = left.Y < right.Y ? left.Y : right.Y;
+            result.Z = left.Z < right.Z ? left.Z : right.Z;
+            result.W = left.W < right.W ? left.W : right.W;
         }
 
         /// <summary>
@@ -882,13 +882,13 @@ namespace Xacor.Mathematics
             if (destination.Length < source.Length)
                 throw new ArgumentOutOfRangeException(nameof(destination), "The destination array must be of same length or larger length than the source array.");
 
-            for (int i = 0; i < source.Length; ++i)
+            for (var i = 0; i < source.Length; ++i)
             {
-                Vector4 newvector = source[i];
+                var newvector = source[i];
 
-                for (int r = 0; r < i; ++r)
+                for (var r = 0; r < i; ++r)
                 {
-                    newvector -= (Dot(destination[r], newvector) / Dot(destination[r], destination[r])) * destination[r];
+                    newvector -= Dot(destination[r], newvector) / Dot(destination[r], destination[r]) * destination[r];
                 }
 
                 destination[i] = newvector;
@@ -929,11 +929,11 @@ namespace Xacor.Mathematics
             if (destination.Length < source.Length)
                 throw new ArgumentOutOfRangeException(nameof(destination), "The destination array must be of same length or larger length than the source array.");
 
-            for (int i = 0; i < source.Length; ++i)
+            for (var i = 0; i < source.Length; ++i)
             {
-                Vector4 newvector = source[i];
+                var newvector = source[i];
 
-                for (int r = 0; r < i; ++r)
+                for (var r = 0; r < i; ++r)
                 {
                     newvector -= Dot(destination[r], newvector) * destination[r];
                 }
@@ -951,23 +951,23 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the transformed <see cref="Vector4"/>.</param>
         public static void Transform(ref Vector4 vector, ref Quaternion rotation, out Vector4 result)
         {
-            float x = rotation.X + rotation.X;
-            float y = rotation.Y + rotation.Y;
-            float z = rotation.Z + rotation.Z;
-            float wx = rotation.W * x;
-            float wy = rotation.W * y;
-            float wz = rotation.W * z;
-            float xx = rotation.X * x;
-            float xy = rotation.X * y;
-            float xz = rotation.X * z;
-            float yy = rotation.Y * y;
-            float yz = rotation.Y * z;
-            float zz = rotation.Z * z;
+            var x = rotation.X + rotation.X;
+            var y = rotation.Y + rotation.Y;
+            var z = rotation.Z + rotation.Z;
+            var wx = rotation.W * x;
+            var wy = rotation.W * y;
+            var wz = rotation.W * z;
+            var xx = rotation.X * x;
+            var xy = rotation.X * y;
+            var xz = rotation.X * z;
+            var yy = rotation.Y * y;
+            var yz = rotation.Y * z;
+            var zz = rotation.Z * z;
 
             result = new Vector4(
-                ((vector.X * ((1.0f - yy) - zz)) + (vector.Y * (xy - wz))) + (vector.Z * (xz + wy)),
-                ((vector.X * (xy + wz)) + (vector.Y * ((1.0f - xx) - zz))) + (vector.Z * (yz - wx)),
-                ((vector.X * (xz - wy)) + (vector.Y * (yz + wx))) + (vector.Z * ((1.0f - xx) - yy)),
+                vector.X * (1.0f - yy - zz) + vector.Y * (xy - wz) + vector.Z * (xz + wy),
+                vector.X * (xy + wz) + vector.Y * (1.0f - xx - zz) + vector.Z * (yz - wx),
+                vector.X * (xz - wy) + vector.Y * (yz + wx) + vector.Z * (1.0f - xx - yy),
                 vector.W);
         }
 
@@ -1001,35 +1001,35 @@ namespace Xacor.Mathematics
             if (destination.Length < source.Length)
                 throw new ArgumentOutOfRangeException(nameof(destination), "The destination array must be of same length or larger length than the source array.");
 
-            float x = rotation.X + rotation.X;
-            float y = rotation.Y + rotation.Y;
-            float z = rotation.Z + rotation.Z;
-            float wx = rotation.W * x;
-            float wy = rotation.W * y;
-            float wz = rotation.W * z;
-            float xx = rotation.X * x;
-            float xy = rotation.X * y;
-            float xz = rotation.X * z;
-            float yy = rotation.Y * y;
-            float yz = rotation.Y * z;
-            float zz = rotation.Z * z;
+            var x = rotation.X + rotation.X;
+            var y = rotation.Y + rotation.Y;
+            var z = rotation.Z + rotation.Z;
+            var wx = rotation.W * x;
+            var wy = rotation.W * y;
+            var wz = rotation.W * z;
+            var xx = rotation.X * x;
+            var xy = rotation.X * y;
+            var xz = rotation.X * z;
+            var yy = rotation.Y * y;
+            var yz = rotation.Y * z;
+            var zz = rotation.Z * z;
 
-            float num1 = ((1.0f - yy) - zz);
-            float num2 = (xy - wz);
-            float num3 = (xz + wy);
-            float num4 = (xy + wz);
-            float num5 = ((1.0f - xx) - zz);
-            float num6 = (yz - wx);
-            float num7 = (xz - wy);
-            float num8 = (yz + wx);
-            float num9 = ((1.0f - xx) - yy);
+            var num1 = 1.0f - yy - zz;
+            var num2 = xy - wz;
+            var num3 = xz + wy;
+            var num4 = xy + wz;
+            var num5 = 1.0f - xx - zz;
+            var num6 = yz - wx;
+            var num7 = xz - wy;
+            var num8 = yz + wx;
+            var num9 = 1.0f - xx - yy;
 
-            for (int i = 0; i < source.Length; ++i)
+            for (var i = 0; i < source.Length; ++i)
             {
                 destination[i] = new Vector4(
-                    ((source[i].X * num1) + (source[i].Y * num2)) + (source[i].Z * num3),
-                    ((source[i].X * num4) + (source[i].Y * num5)) + (source[i].Z * num6),
-                    ((source[i].X * num7) + (source[i].Y * num8)) + (source[i].Z * num9),
+                    source[i].X * num1 + source[i].Y * num2 + source[i].Z * num3,
+                    source[i].X * num4 + source[i].Y * num5 + source[i].Z * num6,
+                    source[i].X * num7 + source[i].Y * num8 + source[i].Z * num9,
                     source[i].W);
             }
         }
@@ -1043,10 +1043,10 @@ namespace Xacor.Mathematics
         public static void Transform(ref Vector4 vector, ref Matrix transform, out Vector4 result)
         {
             result = new Vector4(
-                (vector.X * transform.M11) + (vector.Y * transform.M21) + (vector.Z * transform.M31) + (vector.W * transform.M41),
-                (vector.X * transform.M12) + (vector.Y * transform.M22) + (vector.Z * transform.M32) + (vector.W * transform.M42),
-                (vector.X * transform.M13) + (vector.Y * transform.M23) + (vector.Z * transform.M33) + (vector.W * transform.M43),
-                (vector.X * transform.M14) + (vector.Y * transform.M24) + (vector.Z * transform.M34) + (vector.W * transform.M44));
+                vector.X * transform.M11 + vector.Y * transform.M21 + vector.Z * transform.M31 + vector.W * transform.M41,
+                vector.X * transform.M12 + vector.Y * transform.M22 + vector.Z * transform.M32 + vector.W * transform.M42,
+                vector.X * transform.M13 + vector.Y * transform.M23 + vector.Z * transform.M33 + vector.W * transform.M43,
+                vector.X * transform.M14 + vector.Y * transform.M24 + vector.Z * transform.M34 + vector.W * transform.M44);
         }
 
         /// <summary>
@@ -1070,10 +1070,10 @@ namespace Xacor.Mathematics
         public static void Transform(ref Vector4 vector, ref Matrix5x4 transform, out Vector4 result)
         {
             result = new Vector4(
-                (vector.X * transform.M11) + (vector.Y * transform.M21) + (vector.Z * transform.M31) + (vector.W * transform.M41) + transform.M51,
-                (vector.X * transform.M12) + (vector.Y * transform.M22) + (vector.Z * transform.M32) + (vector.W * transform.M42) + transform.M52,
-                (vector.X * transform.M13) + (vector.Y * transform.M23) + (vector.Z * transform.M33) + (vector.W * transform.M43) + transform.M53,
-                (vector.X * transform.M14) + (vector.Y * transform.M24) + (vector.Z * transform.M34) + (vector.W * transform.M44) + transform.M54);
+                vector.X * transform.M11 + vector.Y * transform.M21 + vector.Z * transform.M31 + vector.W * transform.M41 + transform.M51,
+                vector.X * transform.M12 + vector.Y * transform.M22 + vector.Z * transform.M32 + vector.W * transform.M42 + transform.M52,
+                vector.X * transform.M13 + vector.Y * transform.M23 + vector.Z * transform.M33 + vector.W * transform.M43 + transform.M53,
+                vector.X * transform.M14 + vector.Y * transform.M24 + vector.Z * transform.M34 + vector.W * transform.M44 + transform.M54);
         }
 
         /// <summary>
@@ -1106,7 +1106,7 @@ namespace Xacor.Mathematics
             if (destination.Length < source.Length)
                 throw new ArgumentOutOfRangeException(nameof(destination), "The destination array must be of same length or larger length than the source array.");
 
-            for (int i = 0; i < source.Length; ++i)
+            for (var i = 0; i < source.Length; ++i)
             {
                 Transform(ref source[i], ref transform, out destination[i]);
             }
@@ -1391,10 +1391,10 @@ namespace Xacor.Mathematics
         /// </returns>
         public bool Equals(ref Vector4 other)
         {
-            return (MathUtil.NearEqual(other.X, X) &&
-                MathUtil.NearEqual(other.Y, Y) &&
-                MathUtil.NearEqual(other.Z, Z) &&
-                MathUtil.NearEqual(other.W, W));
+            return MathUtil.NearEqual(other.X, X) &&
+                   MathUtil.NearEqual(other.Y, Y) &&
+                   MathUtil.NearEqual(other.Z, Z) &&
+                   MathUtil.NearEqual(other.W, W);
         }
 
         /// <summary>

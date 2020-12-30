@@ -19,7 +19,7 @@ namespace Xacor.Mathematics
         /// <summary>
         /// A <see cref="Matrix3x3"/> with all of its components set to zero.
         /// </summary>
-        public static readonly Matrix3x3 Zero = new Matrix3x3();
+        public static readonly Matrix3x3 Zero;
 
         /// <summary>
         /// The identity <see cref="Matrix3x3"/>.
@@ -266,7 +266,7 @@ namespace Xacor.Mathematics
                 if (column < 0 || column > 2)
                     throw new ArgumentOutOfRangeException(nameof(column), "Rows and columns for matrices run from 0 to 2, inclusive.");
 
-                return this[(row * 3) + column];
+                return this[row * 3 + column];
             }
 
             set
@@ -276,7 +276,7 @@ namespace Xacor.Mathematics
                 if (column < 0 || column > 2)
                     throw new ArgumentOutOfRangeException(nameof(column), "Rows and columns for matrices run from 0 to 2, inclusive.");
 
-                this[(row * 3) + column] = value;
+                this[row * 3 + column] = value;
             }
         }
 
@@ -352,7 +352,7 @@ namespace Xacor.Mathematics
         /// <param name="R">When the method completes, contains the right triangular Matrix3x3 of the decomposition.</param>
         public void DecomposeQR(out Matrix3x3 Q, out Matrix3x3 R)
         {
-            Matrix3x3 temp = this;
+            var temp = this;
             temp.Transpose();
             Orthonormalize(ref temp, out Q);
             Q.Transpose();
@@ -379,10 +379,10 @@ namespace Xacor.Mathematics
 
             L = new Matrix3x3();
             L.M11 = Vector3.Dot(Q.Row1, Row1);
-            
+
             L.M21 = Vector3.Dot(Q.Row1, Row2);
             L.M22 = Vector3.Dot(Q.Row2, Row2);
-            
+
             L.M31 = Vector3.Dot(Q.Row1, Row3);
             L.M32 = Vector3.Dot(Q.Row2, Row3);
             L.M33 = Vector3.Dot(Q.Row3, Row3);
@@ -400,11 +400,11 @@ namespace Xacor.Mathematics
         {
             //Source: Unknown
             //References: http://www.gamedev.net/community/forums/topic.asp?topic_id=441695
-            
+
             //Scaling is the length of the rows.
-            scale.X = (float)Math.Sqrt((M11 * M11) + (M12 * M12) + (M13 * M13));
-            scale.Y = (float)Math.Sqrt((M21 * M21) + (M22 * M22) + (M23 * M23));
-            scale.Z = (float)Math.Sqrt((M31 * M31) + (M32 * M32) + (M33 * M33));
+            scale.X = (float)Math.Sqrt(M11 * M11 + M12 * M12 + M13 * M13);
+            scale.Y = (float)Math.Sqrt(M21 * M21 + M22 * M22 + M23 * M23);
+            scale.Z = (float)Math.Sqrt(M31 * M31 + M32 * M32 + M33 * M33);
 
             //If any of the scaling factors are zero, than the rotation Matrix3x3 can not exist.
             if (MathUtil.IsZero(scale.X) ||
@@ -416,7 +416,7 @@ namespace Xacor.Mathematics
             }
 
             //The rotation is the left over Matrix3x3 after dividing out the scaling.
-            Matrix3x3 rotationMatrix3x3 = new Matrix3x3();
+            var rotationMatrix3x3 = new Matrix3x3();
             rotationMatrix3x3.M11 = M11 / scale.X;
             rotationMatrix3x3.M12 = M12 / scale.X;
             rotationMatrix3x3.M13 = M13 / scale.X;
@@ -445,7 +445,7 @@ namespace Xacor.Mathematics
         public bool DecomposeUniformScale(out float scale, out Quaternion rotation)
         {
             //Scaling is the length of the rows. ( just take one row since this is a uniform matrix)
-            scale = (float)Math.Sqrt((M11 * M11) + (M12 * M12) + (M13 * M13));
+            scale = (float)Math.Sqrt(M11 * M11 + M12 * M12 + M13 * M13);
             var inv_scale = 1f / scale;
 
             //If any of the scaling factors are zero, then the rotation matrix can not exist.
@@ -456,7 +456,7 @@ namespace Xacor.Mathematics
             }
 
             //The rotation is the left over matrix after dividing out the scaling.
-            Matrix3x3 rotationmatrix = new Matrix3x3();
+            var rotationmatrix = new Matrix3x3();
             rotationmatrix.M11 = M11 * inv_scale;
             rotationmatrix.M12 = M12 * inv_scale;
             rotationmatrix.M13 = M13 * inv_scale;
@@ -492,9 +492,9 @@ namespace Xacor.Mathematics
             if (firstRow == secondRow)
                 return;
 
-            float temp0 = this[secondRow, 0];
-            float temp1 = this[secondRow, 1];
-            float temp2 = this[secondRow, 2];
+            var temp0 = this[secondRow, 0];
+            var temp1 = this[secondRow, 1];
+            var temp2 = this[secondRow, 2];
 
             this[secondRow, 0] = this[firstRow, 0];
             this[secondRow, 1] = this[firstRow, 1];
@@ -524,9 +524,9 @@ namespace Xacor.Mathematics
             if (firstColumn == secondColumn)
                 return;
 
-            float temp0 = this[0, secondColumn];
-            float temp1 = this[1, secondColumn];
-            float temp2 = this[2, secondColumn];
+            var temp0 = this[0, secondColumn];
+            var temp1 = this[1, secondColumn];
+            var temp2 = this[2, secondColumn];
 
             this[0, secondColumn] = this[0, firstColumn];
             this[1, secondColumn] = this[1, firstColumn];
@@ -647,16 +647,16 @@ namespace Xacor.Mathematics
         /// <param name="result">The product of the two matrices.</param>
         public static void Multiply(ref Matrix3x3 left, ref Matrix3x3 right, out Matrix3x3 result)
         {
-            Matrix3x3 temp = new Matrix3x3();
-            temp.M11 = (left.M11 * right.M11) + (left.M12 * right.M21) + (left.M13 * right.M31);
-            temp.M12 = (left.M11 * right.M12) + (left.M12 * right.M22) + (left.M13 * right.M32);
-            temp.M13 = (left.M11 * right.M13) + (left.M12 * right.M23) + (left.M13 * right.M33);
-            temp.M21 = (left.M21 * right.M11) + (left.M22 * right.M21) + (left.M23 * right.M31);
-            temp.M22 = (left.M21 * right.M12) + (left.M22 * right.M22) + (left.M23 * right.M32);
-            temp.M23 = (left.M21 * right.M13) + (left.M22 * right.M23) + (left.M23 * right.M33);
-            temp.M31 = (left.M31 * right.M11) + (left.M32 * right.M21) + (left.M33 * right.M31);
-            temp.M32 = (left.M31 * right.M12) + (left.M32 * right.M22) + (left.M33 * right.M32);
-            temp.M33 = (left.M31 * right.M13) + (left.M32 * right.M23) + (left.M33 * right.M33);
+            var temp = new Matrix3x3();
+            temp.M11 = left.M11 * right.M11 + left.M12 * right.M21 + left.M13 * right.M31;
+            temp.M12 = left.M11 * right.M12 + left.M12 * right.M22 + left.M13 * right.M32;
+            temp.M13 = left.M11 * right.M13 + left.M12 * right.M23 + left.M13 * right.M33;
+            temp.M21 = left.M21 * right.M11 + left.M22 * right.M21 + left.M23 * right.M31;
+            temp.M22 = left.M21 * right.M12 + left.M22 * right.M22 + left.M23 * right.M32;
+            temp.M23 = left.M21 * right.M13 + left.M22 * right.M23 + left.M23 * right.M33;
+            temp.M31 = left.M31 * right.M11 + left.M32 * right.M21 + left.M33 * right.M31;
+            temp.M32 = left.M31 * right.M12 + left.M32 * right.M22 + left.M33 * right.M32;
+            temp.M33 = left.M31 * right.M13 + left.M32 * right.M23 + left.M33 * right.M33;
             result = temp;
         }
 
@@ -680,7 +680,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the scaled Matrix3x3.</param>
         public static void Divide(ref Matrix3x3 left, float right, out Matrix3x3 result)
         {
-            float inv = 1.0f / right;
+            var inv = 1.0f / right;
 
             result.M11 = left.M11 * inv;
             result.M12 = left.M12 * inv;
@@ -763,8 +763,8 @@ namespace Xacor.Mathematics
                 return;
             }
 
-            Matrix3x3 identity = Identity;
-            Matrix3x3 temp = value;
+            var identity = Identity;
+            var temp = value;
 
             while (true)
             {
@@ -832,7 +832,7 @@ namespace Xacor.Mathematics
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
         /// <param name="result">When the method completes, contains the linear interpolation of the two matrices.</param>
         /// <remarks>
-        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned. 
+        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned.
         /// </remarks>
         public static void Lerp(ref Matrix3x3 start, ref Matrix3x3 end, float amount, out Matrix3x3 result)
         {
@@ -855,7 +855,7 @@ namespace Xacor.Mathematics
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
         /// <returns>The linear interpolation of the two matrices.</returns>
         /// <remarks>
-        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned. 
+        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned.
         /// </remarks>
         public static Matrix3x3 Lerp(Matrix3x3 start, Matrix3x3 end, float amount)
         {
@@ -896,7 +896,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the transpose of the specified Matrix3x3.</param>
         public static void Transpose(ref Matrix3x3 value, out Matrix3x3 result)
         {
-            Matrix3x3 temp = new Matrix3x3();
+            var temp = new Matrix3x3();
             temp.M11 = value.M11;
             temp.M12 = value.M21;
             temp.M13 = value.M31;
@@ -946,11 +946,11 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the inverse of the specified Matrix3x3.</param>
         public static void Invert(ref Matrix3x3 value, out Matrix3x3 result)
         {
-            float d11 = value.M22 * value.M33 + value.M23 * -value.M32;
-            float d12 = value.M21 * value.M33 + value.M23 * -value.M31;
-            float d13 = value.M21 * value.M32 + value.M22 * -value.M31;
+            var d11 = value.M22 * value.M33 + value.M23 * -value.M32;
+            var d12 = value.M21 * value.M33 + value.M23 * -value.M31;
+            var d13 = value.M21 * value.M32 + value.M22 * -value.M31;
 
-            float det = value.M11 * d11 - value.M12 * d12 + value.M13 * d13;
+            var det = value.M11 * d11 - value.M12 * d12 + value.M13 * d13;
             if (Math.Abs(det) == 0.0f)
             {
                 result = Zero;
@@ -959,13 +959,13 @@ namespace Xacor.Mathematics
 
             det = 1f / det;
 
-            float d21 = value.M12 * value.M33 + value.M13 * -value.M32;
-            float d22 = value.M11 * value.M33 + value.M13 * -value.M31;
-            float d23 = value.M11 * value.M32 + value.M12 * -value.M31;
+            var d21 = value.M12 * value.M33 + value.M13 * -value.M32;
+            var d22 = value.M11 * value.M33 + value.M13 * -value.M31;
+            var d23 = value.M11 * value.M32 + value.M12 * -value.M31;
 
-            float d31 = (value.M12 * value.M23) - (value.M13 * value.M22);
-            float d32 = (value.M11 * value.M23) - (value.M13 * value.M21);
-            float d33 = (value.M11 * value.M22) - (value.M12 * value.M21);
+            var d31 = value.M12 * value.M23 - value.M13 * value.M22;
+            var d32 = value.M11 * value.M23 - value.M13 * value.M21;
+            var d33 = value.M11 * value.M22 - value.M12 * value.M21;
 
             result.M11 = +d11 * det; result.M12 = -d21 * det; result.M13 = +d31 * det;
             result.M21 = -d12 * det; result.M22 = +d22 * det; result.M23 = -d32 * det;
@@ -1009,10 +1009,10 @@ namespace Xacor.Mathematics
             //By separating the above algorithm into multiple lines, we actually increase accuracy.
             result = value;
 
-            result.Row2 = result.Row2 - (Vector3.Dot(result.Row1, result.Row2) / Vector3.Dot(result.Row1, result.Row1)) * result.Row1;
+            result.Row2 = result.Row2 - Vector3.Dot(result.Row1, result.Row2) / Vector3.Dot(result.Row1, result.Row1) * result.Row1;
 
-            result.Row3 = result.Row3 - (Vector3.Dot(result.Row1, result.Row3) / Vector3.Dot(result.Row1, result.Row1)) * result.Row1;
-            result.Row3 = result.Row3 - (Vector3.Dot(result.Row2, result.Row3) / Vector3.Dot(result.Row2, result.Row2)) * result.Row2;
+            result.Row3 = result.Row3 - Vector3.Dot(result.Row1, result.Row3) / Vector3.Dot(result.Row1, result.Row1) * result.Row1;
+            result.Row3 = result.Row3 - Vector3.Dot(result.Row2, result.Row3) / Vector3.Dot(result.Row2, result.Row2) * result.Row2;
         }
 
         /// <summary>
@@ -1116,16 +1116,16 @@ namespace Xacor.Mathematics
         {
             //Adapted from the row echelon code.
             result = value;
-            int lead = 0;
-            int rowcount = 3;
-            int columncount = 3;
+            var lead = 0;
+            var rowcount = 3;
+            var columncount = 3;
 
-            for (int r = 0; r < rowcount; ++r)
+            for (var r = 0; r < rowcount; ++r)
             {
                 if (columncount <= lead)
                     return;
 
-                int i = r;
+                var i = r;
 
                 while (MathUtil.IsZero(result[i, lead]))
                 {
@@ -1146,7 +1146,7 @@ namespace Xacor.Mathematics
                     result.ExchangeRows(i, r);
                 }
 
-                float multiplier = 1f / result[r, lead];
+                var multiplier = 1f / result[r, lead];
 
                 for (; i < rowcount; ++i)
                 {
@@ -1193,19 +1193,19 @@ namespace Xacor.Mathematics
         public static void LowerTriangularForm(ref Matrix3x3 value, out Matrix3x3 result)
         {
             //Adapted from the row echelon code.
-            Matrix3x3 temp = value;
+            var temp = value;
             Transpose(ref temp, out result);
 
-            int lead = 0;
-            int rowcount = 3;
-            int columncount = 3;
+            var lead = 0;
+            var rowcount = 3;
+            var columncount = 3;
 
-            for (int r = 0; r < rowcount; ++r)
+            for (var r = 0; r < rowcount; ++r)
             {
                 if (columncount <= lead)
                     return;
 
-                int i = r;
+                var i = r;
 
                 while (MathUtil.IsZero(result[i, lead]))
                 {
@@ -1226,7 +1226,7 @@ namespace Xacor.Mathematics
                     result.ExchangeRows(i, r);
                 }
 
-                float multiplier = 1f / result[r, lead];
+                var multiplier = 1f / result[r, lead];
 
                 for (; i < rowcount; ++i)
                 {
@@ -1272,16 +1272,16 @@ namespace Xacor.Mathematics
             //Reference: http://en.wikipedia.org/wiki/Row_echelon_form#Pseudocode
 
             result = value;
-            int lead = 0;
-            int rowcount = 3;
-            int columncount = 3;
+            var lead = 0;
+            var rowcount = 3;
+            var columncount = 3;
 
-            for (int r = 0; r < rowcount; ++r)
+            for (var r = 0; r < rowcount; ++r)
             {
                 if (columncount <= lead)
                     return;
 
-                int i = r;
+                var i = r;
 
                 while (MathUtil.IsZero(result[i, lead]))
                 {
@@ -1302,7 +1302,7 @@ namespace Xacor.Mathematics
                     result.ExchangeRows(i, r);
                 }
 
-                float multiplier = 1f / result[r, lead];
+                var multiplier = 1f / result[r, lead];
                 result[r, 0] *= multiplier;
                 result[r, 1] *= multiplier;
                 result[r, 2] *= multiplier;
@@ -1342,9 +1342,9 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the created billboard Matrix3x3.</param>
         public static void BillboardLH(ref Vector3 objectPosition, ref Vector3 cameraPosition, ref Vector3 cameraUpVector, ref Vector3 cameraForwardVector, out Matrix3x3 result)
         {
-            Vector3 difference = cameraPosition - objectPosition;
+            var difference = cameraPosition - objectPosition;
 
-            float lengthSq = difference.LengthSquared();
+            var lengthSq = difference.LengthSquared();
             if (MathUtil.IsZero(lengthSq))
                 difference = -cameraForwardVector;
             else
@@ -1389,9 +1389,9 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the created billboard Matrix3x3.</param>
         public static void BillboardRH(ref Vector3 objectPosition, ref Vector3 cameraPosition, ref Vector3 cameraUpVector, ref Vector3 cameraForwardVector, out Matrix3x3 result)
         {
-            Vector3 difference = objectPosition - cameraPosition;
+            var difference = objectPosition - cameraPosition;
 
-            float lengthSq = difference.LengthSquared();
+            var lengthSq = difference.LengthSquared();
             if (MathUtil.IsZero(lengthSq))
                 difference = -cameraForwardVector;
             else
@@ -1568,8 +1568,8 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the created rotation Matrix3x3.</param>
         public static void RotationX(float angle, out Matrix3x3 result)
         {
-            float cos = (float)Math.Cos(angle);
-            float sin = (float)Math.Sin(angle);
+            var cos = (float)Math.Cos(angle);
+            var sin = (float)Math.Sin(angle);
 
             result = Identity;
             result.M22 = cos;
@@ -1596,8 +1596,8 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the created rotation Matrix3x3.</param>
         public static void RotationY(float angle, out Matrix3x3 result)
         {
-            float cos = (float)Math.Cos(angle);
-            float sin = (float)Math.Sin(angle);
+            var cos = (float)Math.Cos(angle);
+            var sin = (float)Math.Sin(angle);
 
             result = Identity;
             result.M11 = cos;
@@ -1624,8 +1624,8 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the created rotation Matrix3x3.</param>
         public static void RotationZ(float angle, out Matrix3x3 result)
         {
-            float cos = (float)Math.Cos(angle);
-            float sin = (float)Math.Sin(angle);
+            var cos = (float)Math.Cos(angle);
+            var sin = (float)Math.Sin(angle);
 
             result = Identity;
             result.M11 = cos;
@@ -1653,28 +1653,28 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the created rotation Matrix3x3.</param>
         public static void RotationAxis(ref Vector3 axis, float angle, out Matrix3x3 result)
         {
-            float x = axis.X;
-            float y = axis.Y;
-            float z = axis.Z;
-            float cos = (float)Math.Cos(angle);
-            float sin = (float)Math.Sin(angle);
-            float xx = x * x;
-            float yy = y * y;
-            float zz = z * z;
-            float xy = x * y;
-            float xz = x * z;
-            float yz = y * z;
+            var x = axis.X;
+            var y = axis.Y;
+            var z = axis.Z;
+            var cos = (float)Math.Cos(angle);
+            var sin = (float)Math.Sin(angle);
+            var xx = x * x;
+            var yy = y * y;
+            var zz = z * z;
+            var xy = x * y;
+            var xz = x * z;
+            var yz = y * z;
 
             result = Identity;
-            result.M11 = xx + (cos * (1.0f - xx));
-            result.M12 = (xy - (cos * xy)) + (sin * z);
-            result.M13 = (xz - (cos * xz)) - (sin * y);
-            result.M21 = (xy - (cos * xy)) - (sin * z);
-            result.M22 = yy + (cos * (1.0f - yy));
-            result.M23 = (yz - (cos * yz)) + (sin * x);
-            result.M31 = (xz - (cos * xz)) + (sin * y);
-            result.M32 = (yz - (cos * yz)) - (sin * x);
-            result.M33 = zz + (cos * (1.0f - zz));
+            result.M11 = xx + cos * (1.0f - xx);
+            result.M12 = xy - cos * xy + sin * z;
+            result.M13 = xz - cos * xz - sin * y;
+            result.M21 = xy - cos * xy - sin * z;
+            result.M22 = yy + cos * (1.0f - yy);
+            result.M23 = yz - cos * yz + sin * x;
+            result.M31 = xz - cos * xz + sin * y;
+            result.M32 = yz - cos * yz - sin * x;
+            result.M33 = zz + cos * (1.0f - zz);
         }
 
         /// <summary>
@@ -1696,26 +1696,26 @@ namespace Xacor.Mathematics
         /// <param name="result">The created rotation Matrix3x3.</param>
         public static void RotationQuaternion(ref Quaternion rotation, out Matrix3x3 result)
         {
-            float xx = rotation.X * rotation.X;
-            float yy = rotation.Y * rotation.Y;
-            float zz = rotation.Z * rotation.Z;
-            float xy = rotation.X * rotation.Y;
-            float zw = rotation.Z * rotation.W;
-            float zx = rotation.Z * rotation.X;
-            float yw = rotation.Y * rotation.W;
-            float yz = rotation.Y * rotation.Z;
-            float xw = rotation.X * rotation.W;
+            var xx = rotation.X * rotation.X;
+            var yy = rotation.Y * rotation.Y;
+            var zz = rotation.Z * rotation.Z;
+            var xy = rotation.X * rotation.Y;
+            var zw = rotation.Z * rotation.W;
+            var zx = rotation.Z * rotation.X;
+            var yw = rotation.Y * rotation.W;
+            var yz = rotation.Y * rotation.Z;
+            var xw = rotation.X * rotation.W;
 
             result = Identity;
-            result.M11 = 1.0f - (2.0f * (yy + zz));
+            result.M11 = 1.0f - 2.0f * (yy + zz);
             result.M12 = 2.0f * (xy + zw);
             result.M13 = 2.0f * (zx - yw);
             result.M21 = 2.0f * (xy - zw);
-            result.M22 = 1.0f - (2.0f * (zz + xx));
+            result.M22 = 1.0f - 2.0f * (zz + xx);
             result.M23 = 2.0f * (yz + xw);
             result.M31 = 2.0f * (zx + yw);
             result.M32 = 2.0f * (yz - xw);
-            result.M33 = 1.0f - (2.0f * (yy + xx));
+            result.M33 = 1.0f - 2.0f * (yy + xx);
         }
 
         /// <summary>
@@ -1738,7 +1738,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the created rotation Matrix3x3.</param>
         public static void RotationYawPitchRoll(float yaw, float pitch, float roll, out Matrix3x3 result)
         {
-            Quaternion quaternion = new Quaternion();
+            var quaternion = new Quaternion();
             Quaternion.RotationYawPitchRoll(yaw, pitch, roll, out quaternion);
             RotationQuaternion(ref quaternion, out result);
         }
@@ -2008,15 +2008,15 @@ namespace Xacor.Mathematics
         /// </returns>
         public bool Equals(ref Matrix3x3 other)
         {
-            return (MathUtil.NearEqual(other.M11, M11) &&
-                MathUtil.NearEqual(other.M12, M12) &&
-                MathUtil.NearEqual(other.M13, M13) &&
-                MathUtil.NearEqual(other.M21, M21) &&
-                MathUtil.NearEqual(other.M22, M22) &&
-                MathUtil.NearEqual(other.M23, M23) &&
-                MathUtil.NearEqual(other.M31, M31) &&
-                MathUtil.NearEqual(other.M32, M32) &&
-                MathUtil.NearEqual(other.M33, M33));
+            return MathUtil.NearEqual(other.M11, M11) &&
+                   MathUtil.NearEqual(other.M12, M12) &&
+                   MathUtil.NearEqual(other.M13, M13) &&
+                   MathUtil.NearEqual(other.M21, M21) &&
+                   MathUtil.NearEqual(other.M22, M22) &&
+                   MathUtil.NearEqual(other.M23, M23) &&
+                   MathUtil.NearEqual(other.M31, M31) &&
+                   MathUtil.NearEqual(other.M32, M32) &&
+                   MathUtil.NearEqual(other.M33, M33);
         }
 
         /// <summary>

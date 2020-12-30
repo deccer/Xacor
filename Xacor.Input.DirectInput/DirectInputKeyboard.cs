@@ -16,10 +16,10 @@ namespace Xacor.Input.DirectInput
         {
             _keyMap = new Dictionary<Key, InputButton>
             {
-                {Key.W, InputButton.W},
-                {Key.A, InputButton.A},
-                {Key.S, InputButton.S},
-                {Key.D, InputButton.D}
+                { Key.W, InputButton.W },
+                { Key.A, InputButton.A },
+                { Key.S, InputButton.S },
+                { Key.D, InputButton.D }
             };
         }
 
@@ -39,9 +39,12 @@ namespace Xacor.Input.DirectInput
         {
             var currentState = _nativeKeyboard.GetCurrentState();
 
-            var inputData = new InputData();
-            inputData.AxisData = EmptyAxisData;
-            inputData.Keys = currentState.AllKeys.Select(key => _keyMap.TryGetValue(key, out var inputButton) ? (inputButton, currentState.IsPressed(key)) : (InputButton.Unassigned, false)).ToArray();
+            var inputData = new InputData
+            {
+                AxisData = EmptyAxisData,
+                Keys = currentState.AllKeys.Select(key =>
+                    _keyMap.TryGetValue(key, out var inputButton) ? (inputButton, currentState.IsPressed(key)) : (InputButton.Unassigned, false)).ToArray()
+            };
 
             _previousState = currentState;
 

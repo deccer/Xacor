@@ -215,7 +215,7 @@ namespace Xacor.Mathematics
             value |= R << 16;
             value |= A << 24;
 
-            return (int)value;
+            return value;
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Xacor.Mathematics
             value |= B << 16;
             value |= A << 24;
 
-            return (int)value;
+            return value;
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Xacor.Mathematics
         /// <returns>A four-element array containing the components of the color in BGRA order.</returns>
         public byte[] ToArray()
         {
-            return new [] { B, G , R, A };
+            return new[] { B, G, R, A };
         }
 
         /// <summary>
@@ -274,13 +274,12 @@ namespace Xacor.Mathematics
         /// <returns>The Hue-Saturation-Brightness (HSB) saturation for this <see cref="DXPlayground.Mathematics.Color"/></returns>
         public float GetBrightness()
         {
-            float r = (float)R / 255.0f;
-            float g = (float)G / 255.0f;
-            float b = (float)B / 255.0f;
+            var r = R / 255.0f;
+            var g = G / 255.0f;
+            var b = B / 255.0f;
 
-            float max, min;
-
-            max = r; min = r;
+            var max = r;
+            var min = r;
 
             if (g > max) max = g;
             if (b > max) max = b;
@@ -300,15 +299,14 @@ namespace Xacor.Mathematics
             if (R == G && G == B)
                 return 0; // 0 makes as good an UNDEFINED value as any
 
-            float r = (float)R / 255.0f;
-            float g = (float)G / 255.0f;
-            float b = (float)B / 255.0f;
+            var r = R / 255.0f;
+            var g = G / 255.0f;
+            var b = B / 255.0f;
 
-            float max, min;
-            float delta;
-            float hue = 0.0f;
+            var hue = 0.0f;
 
-            max = r; min = r;
+            var max = r;
+            var min = r;
 
             if (g > max) max = g;
             if (b > max) max = b;
@@ -316,7 +314,7 @@ namespace Xacor.Mathematics
             if (g < min) min = g;
             if (b < min) min = b;
 
-            delta = max - min;
+            var delta = max - min;
 
             if (r == max)
             {
@@ -345,14 +343,14 @@ namespace Xacor.Mathematics
         /// <returns>The Hue-Saturation-Brightness (HSB) saturation for this <see cref="DXPlayground.Mathematics.Color"/></returns>
         public float GetSaturation()
         {
-            float r = (float)R / 255.0f;
-            float g = (float)G / 255.0f;
-            float b = (float)B / 255.0f;
+            var r = R / 255.0f;
+            var g = G / 255.0f;
+            var b = B / 255.0f;
 
-            float max, min;
-            float l, s = 0;
+            float s = 0;
 
-            max = r; min = r;
+            var max = r;
+            var min = r;
 
             if (g > max) max = g;
             if (b > max) max = b;
@@ -362,10 +360,9 @@ namespace Xacor.Mathematics
 
             // if max == min, then there is no color and
             // the saturation is zero.
-            //
             if (max != min)
             {
-                l = (max + min) / 2;
+                var l = (max + min) / 2;
 
                 if (l <= .5)
                 {
@@ -551,21 +548,21 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the clamped value.</param>
         public static void Clamp(ref ColorBGRA value, ref ColorBGRA min, ref ColorBGRA max, out ColorBGRA result)
         {
-            byte alpha = value.A;
-            alpha = (alpha > max.A) ? max.A : alpha;
-            alpha = (alpha < min.A) ? min.A : alpha;
+            var alpha = value.A;
+            alpha = alpha > max.A ? max.A : alpha;
+            alpha = alpha < min.A ? min.A : alpha;
 
-            byte red = value.R;
-            red = (red > max.R) ? max.R : red;
-            red = (red < min.R) ? min.R : red;
+            var red = value.R;
+            red = red > max.R ? max.R : red;
+            red = red < min.R ? min.R : red;
 
-            byte green = value.G;
-            green = (green > max.G) ? max.G : green;
-            green = (green < min.G) ? min.G : green;
+            var green = value.G;
+            green = green > max.G ? max.G : green;
+            green = green < min.G ? min.G : green;
 
-            byte blue = value.B;
-            blue = (blue > max.B) ? max.B : blue;
-            blue = (blue < min.B) ? min.B : blue;
+            var blue = value.B;
+            blue = blue > max.B ? max.B : blue;
+            blue = blue < min.B ? min.B : blue;
 
             result = new ColorBGRA(red, green, blue, alpha);
         }
@@ -651,10 +648,10 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains an new color composed of the largest components of the source colorss.</param>
         public static void Max(ref ColorBGRA left, ref ColorBGRA right, out ColorBGRA result)
         {
-            result.A = (left.A > right.A) ? left.A : right.A;
-            result.R = (left.R > right.R) ? left.R : right.R;
-            result.G = (left.G > right.G) ? left.G : right.G;
-            result.B = (left.B > right.B) ? left.B : right.B;
+            result.A = left.A > right.A ? left.A : right.A;
+            result.R = left.R > right.R ? left.R : right.R;
+            result.G = left.G > right.G ? left.G : right.G;
+            result.B = left.B > right.B ? left.B : right.B;
         }
 
         /// <summary>
@@ -677,10 +674,10 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains an new color composed of the smallest components of the source colors.</param>
         public static void Min(ref ColorBGRA left, ref ColorBGRA right, out ColorBGRA result)
         {
-            result.A = (left.A < right.A) ? left.A : right.A;
-            result.R = (left.R < right.R) ? left.R : right.R;
-            result.G = (left.G < right.G) ? left.G : right.G;
-            result.B = (left.B < right.B) ? left.B : right.B;
+            result.A = left.A < right.A ? left.A : right.A;
+            result.R = left.R < right.R ? left.R : right.R;
+            result.G = left.G < right.G ? left.G : right.G;
+            result.B = left.B < right.B ? left.B : right.B;
         }
 
         /// <summary>
@@ -717,10 +714,10 @@ namespace Xacor.Mathematics
         /// <returns>The adjusted color.</returns>
         public static ColorBGRA AdjustContrast(ColorBGRA value, float contrast)
         {
-            return new ColorBGRA(                
+            return new ColorBGRA(
                 ToByte(0.5f + contrast * (value.R / 255.0f - 0.5f)),
                 ToByte(0.5f + contrast * (value.G / 255.0f - 0.5f)),
-                ToByte(0.5f + contrast * (value.B / 255.0f- 0.5f)),
+                ToByte(0.5f + contrast * (value.B / 255.0f - 0.5f)),
                 value.A);
         }
 
@@ -732,7 +729,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the adjusted color.</param>
         public static void AdjustSaturation(ref ColorBGRA value, float saturation, out ColorBGRA result)
         {
-            float grey = value.R  / 255.0f * 0.2125f + value.G / 255.0f * 0.7154f + value.B / 255.0f * 0.0721f;
+            var grey = value.R / 255.0f * 0.2125f + value.G / 255.0f * 0.7154f + value.B / 255.0f * 0.0721f;
 
             result.A = value.A;
             result.R = ToByte(grey + saturation * (value.R / 255.0f - grey));
@@ -748,9 +745,9 @@ namespace Xacor.Mathematics
         /// <returns>The adjusted color.</returns>
         public static ColorBGRA AdjustSaturation(ColorBGRA value, float saturation)
         {
-            float grey = value.R / 255.0f * 0.2125f + value.G / 255.0f * 0.7154f + value.B / 255.0f * 0.0721f;
+            var grey = value.R / 255.0f * 0.2125f + value.G / 255.0f * 0.7154f + value.B / 255.0f * 0.0721f;
 
-            return new ColorBGRA(                
+            return new ColorBGRA(
                 ToByte(grey + saturation * (value.R / 255.0f - grey)),
                 ToByte(grey + saturation * (value.G / 255.0f - grey)),
                 ToByte(grey + saturation * (value.B / 255.0f - grey)),
@@ -918,7 +915,7 @@ namespace Xacor.Mathematics
         /// <returns>The result of the conversion.</returns>
         public static explicit operator Color4(ColorBGRA value)
         {
-            return new Color4(value.R/255.0f, value.G/255.0f, value.B/255.0f, value.A/255.0f);
+            return new Color4(value.R / 255.0f, value.G / 255.0f, value.B / 255.0f, value.A / 255.0f);
         }
 
         /// <summary>
@@ -928,7 +925,7 @@ namespace Xacor.Mathematics
         /// <returns>The result of the conversion.</returns>
         public static explicit operator ColorBGRA(Vector3 value)
         {
-            return new ColorBGRA(value.X/255.0f, value.Y/255.0f, value.Z/255.0f, 1.0f);
+            return new ColorBGRA(value.X / 255.0f, value.Y / 255.0f, value.Z / 255.0f, 1.0f);
         }
 
         /// <summary>
@@ -1132,7 +1129,7 @@ namespace Xacor.Mathematics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public unsafe static implicit operator RawColorBGRA(ColorBGRA value)
+        public static unsafe implicit operator RawColorBGRA(ColorBGRA value)
         {
             return *(RawColorBGRA*)&value;
         }
@@ -1142,7 +1139,7 @@ namespace Xacor.Mathematics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public unsafe static implicit operator ColorBGRA(RawColorBGRA value)
+        public static unsafe implicit operator ColorBGRA(RawColorBGRA value)
         {
             return *(ColorBGRA*)&value;
         }

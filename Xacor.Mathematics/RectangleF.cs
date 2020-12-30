@@ -145,7 +145,7 @@ namespace Xacor.Mathematics
         /// <value>
         /// The center.
         /// </value>
-        public Vector2 Center => new Vector2(X + (Width / 2), Y + (Height / 2));
+        public Vector2 Center => new Vector2(X + Width / 2, Y + Height / 2);
 
         /// <summary>
         /// Gets a value that indicates whether the rectangle is empty.
@@ -153,7 +153,7 @@ namespace Xacor.Mathematics
         /// <value>
         ///   <c>true</c> if [is empty]; otherwise, <c>false</c>.
         /// </value>
-        public bool IsEmpty => (Width == 0.0f) && (Height == 0.0f) && (X == 0.0f) && (Y == 0.0f);
+        public bool IsEmpty => Width == 0.0f && Height == 0.0f && X == 0.0f && Y == 0.0f;
 
         /// <summary>
         /// Gets or sets the size of the rectangle.
@@ -232,14 +232,14 @@ namespace Xacor.Mathematics
         /// <param name="result">[OutAttribute] true if the specified Point is contained within this rectangle; false otherwise.</param>
         public void Contains(ref Vector2 value, out bool result)
         {
-            result = (value.X >= Left && value.X <= Right && value.Y >= Top && value.Y <= Bottom);
+            result = value.X >= Left && value.X <= Right && value.Y >= Top && value.Y <= Bottom;
         }
 
         /// <summary>Determines whether this rectangle entirely contains a specified rectangle.</summary>
         /// <param name="value">The rectangle to evaluate.</param>
         public bool Contains(Rectangle value)
         {
-            return (X <= value.X) && (value.Right <= Right) && (Y <= value.Y) && (value.Bottom <= Bottom);
+            return X <= value.X && value.Right <= Right && Y <= value.Y && value.Bottom <= Bottom;
         }
 
         /// <summary>Determines whether this rectangle entirely contains a specified rectangle.</summary>
@@ -247,7 +247,7 @@ namespace Xacor.Mathematics
         /// <param name="result">[OutAttribute] On exit, is true if this rectangle entirely contains the specified rectangle, or false if not.</param>
         public void Contains(ref RectangleF value, out bool result)
         {
-            result = (X <= value.X) && (value.Right <= Right) && (Y <= value.Y) && (value.Bottom <= Bottom);
+            result = X <= value.X && value.Right <= Right && Y <= value.Y && value.Bottom <= Bottom;
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace Xacor.Mathematics
         /// <returns><c>true</c> if point is inside <see cref="RectangleF"/>, otherwise <c>false</c>.</returns>
         public bool Contains(float x, float y)
         {
-            return (x >= Left && x <= Right && y >= Top && y <= Bottom);
+            return x >= Left && x <= Right && y >= Top && y <= Bottom;
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace Xacor.Mathematics
         /// <param name="result">[OutAttribute] true if the specified rectangle intersects with this one; false otherwise.</param>
         public void Intersects(ref RectangleF value, out bool result)
         {
-            result = (value.X < Right) && (X < value.Right) && (value.Y < Bottom) && (Y < value.Bottom);
+            result = value.X < Right && X < value.Right && value.Y < Bottom && Y < value.Bottom;
         }
 
         /// <summary>
@@ -317,11 +317,11 @@ namespace Xacor.Mathematics
         /// <param name="result">[OutAttribute] The area where the two first parameters overlap.</param>
         public static void Intersect(ref RectangleF value1, ref RectangleF value2, out RectangleF result)
         {
-            float newLeft = (value1.X > value2.X) ? value1.X : value2.X;
-            float newTop = (value1.Y > value2.Y) ? value1.Y : value2.Y;
-            float newRight = (value1.Right < value2.Right) ? value1.Right : value2.Right;
-            float newBottom = (value1.Bottom < value2.Bottom) ? value1.Bottom : value2.Bottom;
-            if ((newRight > newLeft) && (newBottom > newTop))
+            var newLeft = value1.X > value2.X ? value1.X : value2.X;
+            var newTop = value1.Y > value2.Y ? value1.Y : value2.Y;
+            var newRight = value1.Right < value2.Right ? value1.Right : value2.Right;
+            var newBottom = value1.Bottom < value2.Bottom ? value1.Bottom : value2.Bottom;
+            if (newRight > newLeft && newBottom > newTop)
             {
                 result = new RectangleF(newLeft, newTop, newRight - newLeft, newBottom - newTop);
             }
@@ -412,7 +412,7 @@ namespace Xacor.Mathematics
         {
             unchecked
             {
-                int result = Left.GetHashCode();
+                var result = Left.GetHashCode();
                 result = (result * 397) ^ Top.GetHashCode();
                 result = (result * 397) ^ Right.GetHashCode();
                 result = (result * 397) ^ Bottom.GetHashCode();

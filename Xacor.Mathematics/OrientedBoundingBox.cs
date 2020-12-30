@@ -63,10 +63,10 @@ namespace Xacor.Mathematics
             if (points == null || points.Length == 0)
                 throw new ArgumentNullException(nameof(points));
 
-            Vector3 minimum = new Vector3(float.MaxValue);
-            Vector3 maximum = new Vector3(float.MinValue);
+            var minimum = new Vector3(float.MaxValue);
+            var maximum = new Vector3(float.MinValue);
 
-            for (int i = 0; i < points.Length; ++i)
+            for (var i = 0; i < points.Length; ++i)
             {
                 Vector3.Min(ref minimum, ref points[i], out minimum);
                 Vector3.Max(ref maximum, ref points[i], out maximum);
@@ -288,7 +288,7 @@ namespace Xacor.Mathematics
             var containsAll = true;
             var containsAny = false;
 
-            for (int i = 0; i < points.Length; i++)
+            for (var i = 0; i < points.Length; i++)
             {
                 Vector3.TransformCoordinate(ref points[i], ref invTrans, out var locPoint);
 
@@ -338,22 +338,20 @@ namespace Xacor.Mathematics
             else
             {
                 // Transform sphere radius into the obb coordinates
-                Vector3 vRadius = Vector3.UnitX * sphere.Radius;
+                var vRadius = Vector3.UnitX * sphere.Radius;
                 Vector3.TransformNormal(ref vRadius, ref invTrans, out vRadius);
                 locRadius = vRadius.Length();
             }
 
             //Perform regular BoundingBox to BoundingSphere containment check
-            Vector3 minusExtens = -Extents;
+            var minusExtens = -Extents;
             Vector3.Clamp(ref locCenter, ref minusExtens, ref Extents, out var vector);
-            float distance = Vector3.DistanceSquared(locCenter, vector);
+            var distance = Vector3.DistanceSquared(locCenter, vector);
 
             if (distance > locRadius * locRadius)
                 return ContainmentType.Disjoint;
 
-            if ((((minusExtens.X + locRadius <= locCenter.X) && (locCenter.X <= Extents.X - locRadius)) && ((Extents.X - minusExtens.X > locRadius) &&
-                (minusExtens.Y + locRadius <= locCenter.Y))) && (((locCenter.Y <= Extents.Y - locRadius) && (Extents.Y - minusExtens.Y > locRadius)) &&
-                (((minusExtens.Z + locRadius <= locCenter.Z) && (locCenter.Z <= Extents.Z - locRadius)) && (Extents.Z - minusExtens.Z > locRadius))))
+            if (minusExtens.X + locRadius <= locCenter.X && locCenter.X <= Extents.X - locRadius && Extents.X - minusExtens.X > locRadius && minusExtens.Y + locRadius <= locCenter.Y && locCenter.Y <= Extents.Y - locRadius && Extents.Y - minusExtens.Y > locRadius && minusExtens.Z + locRadius <= locCenter.Z && locCenter.Z <= Extents.Z - locRadius && Extents.Z - minusExtens.Z > locRadius)
             {
                 return ContainmentType.Contains;
             }
@@ -475,7 +473,7 @@ namespace Xacor.Mathematics
 
             // Get line midpoint and extent
             var LMid = (LB1 + LB2) * 0.5f;
-            var L = (LB1 - LMid);
+            var L = LB1 - LMid;
             var LExt = new Vector3(Math.Abs(L.X), Math.Abs(L.Y), Math.Abs(L.Z));
 
             // Use Separating Axis Test
@@ -484,9 +482,9 @@ namespace Xacor.Mathematics
             if (Math.Abs(LMid.Y) > Extents.Y + LExt.Y) return ContainmentType.Disjoint;
             if (Math.Abs(LMid.Z) > Extents.Z + LExt.Z) return ContainmentType.Disjoint;
             // Cross products of line and each axis
-            if (Math.Abs(LMid.Y * L.Z - LMid.Z * L.Y) > (Extents.Y * LExt.Z + Extents.Z * LExt.Y)) return ContainmentType.Disjoint;
-            if (Math.Abs(LMid.X * L.Z - LMid.Z * L.X) > (Extents.X * LExt.Z + Extents.Z * LExt.X)) return ContainmentType.Disjoint;
-            if (Math.Abs(LMid.X * L.Y - LMid.Y * L.X) > (Extents.X * LExt.Y + Extents.Y * LExt.X)) return ContainmentType.Disjoint;
+            if (Math.Abs(LMid.Y * L.Z - LMid.Z * L.Y) > Extents.Y * LExt.Z + Extents.Z * LExt.Y) return ContainmentType.Disjoint;
+            if (Math.Abs(LMid.X * L.Z - LMid.Z * L.X) > Extents.X * LExt.Z + Extents.Z * LExt.X) return ContainmentType.Disjoint;
+            if (Math.Abs(LMid.X * L.Y - LMid.Y * L.X) > Extents.X * LExt.Y + Extents.Y * LExt.X) return ContainmentType.Disjoint;
             // No separating axis, the line intersects
             return ContainmentType.Intersects;
         }
@@ -686,7 +684,7 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static void Merge(ref OrientedBoundingBox A, ref OrientedBoundingBox B, bool NoMatrixScaleApplied = false)
         {
-            Matrix AtoB_Matrix = GetBoxToBoxMatrix(ref A, ref B, NoMatrixScaleApplied);
+            var AtoB_Matrix = GetBoxToBoxMatrix(ref A, ref B, NoMatrixScaleApplied);
 
             //Get B corners in A Space
             var bCorners = B.GetLocalCorners();

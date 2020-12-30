@@ -202,12 +202,12 @@ namespace Xacor.Mathematics
         /// <returns>A packed integer containing all four color components.</returns>
         public int ToBgra()
         {
-            uint a = (uint)(Alpha * 255.0f) & 255;
-            uint r = (uint)(Red * 255.0f) & 255;
-            uint g = (uint)(Green * 255.0f) & 255;
-            uint b = (uint)(Blue * 255.0f) & 255;
+            var a = (uint)(Alpha * 255.0f) & 255;
+            var r = (uint)(Red * 255.0f) & 255;
+            var g = (uint)(Green * 255.0f) & 255;
+            var b = (uint)(Blue * 255.0f) & 255;
 
-            uint value = b;
+            var value = b;
             value |= g << 8;
             value |= r << 16;
             value |= a << 24;
@@ -233,12 +233,12 @@ namespace Xacor.Mathematics
         /// <returns>A packed integer containing all four color components.</returns>
         public int ToRgba()
         {
-            uint a = (uint) (Alpha * 255.0f) & 255;
-            uint r = (uint) (Red * 255.0f) & 255;
-            uint g = (uint) (Green * 255.0f) & 255;
-            uint b = (uint) (Blue * 255.0f) & 255;
+            var a = (uint)(Alpha * 255.0f) & 255;
+            var r = (uint)(Red * 255.0f) & 255;
+            var g = (uint)(Green * 255.0f) & 255;
+            var b = (uint)(Blue * 255.0f) & 255;
 
-            uint value = r;
+            var value = r;
             value |= g << 8;
             value |= b << 16;
             value |= a << 24;
@@ -405,21 +405,21 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the clamped value.</param>
         public static void Clamp(ref Color4 value, ref Color4 min, ref Color4 max, out Color4 result)
         {
-            float alpha = value.Alpha;
-            alpha = (alpha > max.Alpha) ? max.Alpha : alpha;
-            alpha = (alpha < min.Alpha) ? min.Alpha : alpha;
+            var alpha = value.Alpha;
+            alpha = alpha > max.Alpha ? max.Alpha : alpha;
+            alpha = alpha < min.Alpha ? min.Alpha : alpha;
 
-            float red = value.Red;
-            red = (red > max.Red) ? max.Red : red;
-            red = (red < min.Red) ? min.Red : red;
+            var red = value.Red;
+            red = red > max.Red ? max.Red : red;
+            red = red < min.Red ? min.Red : red;
 
-            float green = value.Green;
-            green = (green > max.Green) ? max.Green : green;
-            green = (green < min.Green) ? min.Green : green;
+            var green = value.Green;
+            green = green > max.Green ? max.Green : green;
+            green = green < min.Green ? min.Green : green;
 
-            float blue = value.Blue;
-            blue = (blue > max.Blue) ? max.Blue : blue;
-            blue = (blue < min.Blue) ? min.Blue : blue;
+            var blue = value.Blue;
+            blue = blue > max.Blue ? max.Blue : blue;
+            blue = blue < min.Blue ? min.Blue : blue;
 
             result = new Color4(red, green, blue, alpha);
         }
@@ -505,10 +505,10 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains an new color composed of the largest components of the source colors.</param>
         public static void Max(ref Color4 left, ref Color4 right, out Color4 result)
         {
-            result.Alpha = (left.Alpha > right.Alpha) ? left.Alpha : right.Alpha;
-            result.Red = (left.Red > right.Red) ? left.Red : right.Red;
-            result.Green = (left.Green > right.Green) ? left.Green : right.Green;
-            result.Blue = (left.Blue > right.Blue) ? left.Blue : right.Blue;
+            result.Alpha = left.Alpha > right.Alpha ? left.Alpha : right.Alpha;
+            result.Red = left.Red > right.Red ? left.Red : right.Red;
+            result.Green = left.Green > right.Green ? left.Green : right.Green;
+            result.Blue = left.Blue > right.Blue ? left.Blue : right.Blue;
         }
 
         /// <summary>
@@ -531,10 +531,10 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains an new color composed of the smallest components of the source colors.</param>
         public static void Min(ref Color4 left, ref Color4 right, out Color4 result)
         {
-            result.Alpha = (left.Alpha < right.Alpha) ? left.Alpha : right.Alpha;
-            result.Red = (left.Red < right.Red) ? left.Red : right.Red;
-            result.Green = (left.Green < right.Green) ? left.Green : right.Green;
-            result.Blue = (left.Blue < right.Blue) ? left.Blue : right.Blue;
+            result.Alpha = left.Alpha < right.Alpha ? left.Alpha : right.Alpha;
+            result.Red = left.Red < right.Red ? left.Red : right.Red;
+            result.Green = left.Green < right.Green ? left.Green : right.Green;
+            result.Blue = left.Blue < right.Blue ? left.Blue : right.Blue;
         }
 
         /// <summary>
@@ -586,7 +586,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the adjusted color.</param>
         public static void AdjustSaturation(ref Color4 value, float saturation, out Color4 result)
         {
-            float grey = value.Red * 0.2125f + value.Green * 0.7154f + value.Blue * 0.0721f;
+            var grey = value.Red * 0.2125f + value.Green * 0.7154f + value.Blue * 0.0721f;
 
             result.Alpha = value.Alpha;
             result.Red = grey + saturation * (value.Red - grey);
@@ -602,7 +602,7 @@ namespace Xacor.Mathematics
         /// <returns>The adjusted color.</returns>
         public static Color4 AdjustSaturation(Color4 value, float saturation)
         {
-            float grey = value.Red * 0.2125f + value.Green * 0.7154f + value.Blue * 0.0721f;
+            var grey = value.Red * 0.2125f + value.Green * 0.7154f + value.Blue * 0.0721f;
 
             return new Color4(                
                 grey + saturation * (value.Red - grey),
@@ -949,7 +949,7 @@ namespace Xacor.Mathematics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public unsafe static implicit operator RawColor4(Color4 value)
+        public static unsafe implicit operator RawColor4(Color4 value)
         {
             return *(RawColor4*)&value;
         }
@@ -959,7 +959,7 @@ namespace Xacor.Mathematics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public unsafe static implicit operator Color4(RawColor4 value)
+        public static unsafe implicit operator Color4(RawColor4 value)
         {
             return *(Color4*)&value;
         }

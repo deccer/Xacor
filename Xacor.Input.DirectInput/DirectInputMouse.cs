@@ -15,10 +15,10 @@ namespace Xacor.Input.DirectInput
         {
             _mouseButtonMap = new Dictionary<int, InputButton>
             {
-                {0, InputButton.Mouse1},
-                {1, InputButton.Mouse2},
-                {2, InputButton.Mouse3},
-                {3, InputButton.Mouse4}
+                { 0, InputButton.Mouse1 },
+                { 1, InputButton.Mouse2 },
+                { 2, InputButton.Mouse3 },
+                { 3, InputButton.Mouse4 }
             };
         }
 

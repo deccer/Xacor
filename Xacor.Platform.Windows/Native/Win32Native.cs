@@ -36,7 +36,6 @@ namespace Xacor.Platform.Windows.Native
             public byte tmCharSet;
         }
 
-
         [DllImport("user32.dll", EntryPoint = "PeekMessage")]
         public static extern int PeekMessage(out NativeMessage lpMsg, IntPtr hWnd, int wMsgFilterMin, int wMsgFilterMax, int wRemoveMsg);
 
@@ -52,13 +51,13 @@ namespace Xacor.Platform.Windows.Native
 
         public enum WindowLongType : int
         {
-            WndProc = (-4),
-            HInstance = (-6),
-            HwndParent = (-8),
-            Style = (-16),
-            ExtendedStyle = (-20),
-            UserData = (-21),
-            Id = (-12)
+            WndProc = -4,
+            HInstance = -6,
+            HwndParent = -8,
+            Style = -16,
+            ExtendedStyle = -20,
+            UserData = -21,
+            Id = -12
         }
 
         public delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
@@ -97,7 +96,6 @@ namespace Xacor.Platform.Windows.Native
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLong", CharSet = CharSet.Unicode)]
         private static extern IntPtr SetWindowLong32(IntPtr hwnd, WindowLongType index, IntPtr wndProc);
-
 
         public static bool ShowWindow(IntPtr hWnd, bool windowVisible)
         {

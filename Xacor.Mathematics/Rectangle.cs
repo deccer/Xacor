@@ -113,7 +113,7 @@ namespace Xacor.Mathematics
         /// <value>
         ///   <c>true</c> if [is empty]; otherwise, <c>false</c>.
         /// </value>
-        public bool IsEmpty => (Width == 0) && (Height == 0) && (X == 0) && (Y == 0);
+        public bool IsEmpty => Width == 0 && Height == 0 && X == 0 && Y == 0;
 
         ///// <summary>
         ///// Gets or sets the location.
@@ -222,7 +222,7 @@ namespace Xacor.Mathematics
         /// <param name="y">The y-coordinate of the specified point.</param>
         public bool Contains(int x, int y)
         {
-            return (X <= x) && (x < Right) && (Y <= y) && (y < Bottom);
+            return X <= x && x < Right && Y <= y && y < Bottom;
         }
 
         ///// <summary>Determines whether this rectangle contains a specified Point.</summary>
@@ -255,7 +255,7 @@ namespace Xacor.Mathematics
         /// <param name="result">[OutAttribute] On exit, is true if this rectangle entirely contains the specified rectangle, or false if not.</param>
         public void Contains(ref Rectangle value, out bool result)
         {
-            result = (X <= value.X) && (value.Right <= Right) && (Y <= value.Y) && (value.Bottom <= Bottom);
+            result = X <= value.X && value.Right <= Right && Y <= value.Y && value.Bottom <= Bottom;
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace Xacor.Mathematics
         /// <returns><c>true</c> if point is inside <see cref="Rectangle"/>, otherwise <c>false</c>.</returns>
         public bool Contains(float x, float y)
         {
-            return (x >= Left && x <= Right && y >= Top && y <= Bottom);
+            return x >= Left && x <= Right && y >= Top && y <= Bottom;
         }
 
         ///// <summary>
@@ -294,7 +294,7 @@ namespace Xacor.Mathematics
         /// <param name="result">[OutAttribute] true if the specified rectangle intersects with this one; false otherwise.</param>
         public void Intersects(ref Rectangle value, out bool result)
         {
-            result = (value.X < Right) && (X < value.Right) && (value.Y < Bottom) && (Y < value.Bottom);
+            result = value.X < Right && X < value.Right && value.Y < Bottom && Y < value.Bottom;
         }
 
         /// <summary>
@@ -315,11 +315,11 @@ namespace Xacor.Mathematics
         /// <param name="result">[OutAttribute] The area where the two first parameters overlap.</param>
         public static void Intersect(ref Rectangle value1, ref Rectangle value2, out Rectangle result)
         {
-            int newLeft = (value1.X > value2.X) ? value1.X : value2.X;
-            int newTop = (value1.Y > value2.Y) ? value1.Y : value2.Y;
-            int newRight = (value1.Right < value2.Right) ? value1.Right : value2.Right;
-            int newBottom = (value1.Bottom < value2.Bottom) ? value1.Bottom : value2.Bottom;
-            if ((newRight > newLeft) && (newBottom > newTop))
+            var newLeft = value1.X > value2.X ? value1.X : value2.X;
+            var newTop = value1.Y > value2.Y ? value1.Y : value2.Y;
+            var newRight = value1.Right < value2.Right ? value1.Right : value2.Right;
+            var newBottom = value1.Bottom < value2.Bottom ? value1.Bottom : value2.Bottom;
+            if (newRight > newLeft && newBottom > newTop)
             {
                 result = new Rectangle(newLeft, newTop, newRight - newLeft, newBottom - newTop);
             }
@@ -407,7 +407,7 @@ namespace Xacor.Mathematics
         {
             unchecked
             {
-                int result = Left;
+                var result = Left;
                 result = (result * 397) ^ Top;
                 result = (result * 397) ^ Right;
                 result = (result * 397) ^ Bottom;
@@ -457,8 +457,8 @@ namespace Xacor.Mathematics
 
         internal void MakeXYAndWidthHeight()
         {
-            Right = (Right - Left);
-            Bottom = (Bottom - Top);
+            Right = Right - Left;
+            Bottom = Bottom - Top;
         }
 
         /// <summary>

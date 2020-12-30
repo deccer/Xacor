@@ -8,7 +8,7 @@ namespace Xacor.Mathematics
      * at this time and not all shapes have a corresponding struct. Only the objects that have
      * a corresponding struct should come first in naming and in parameter order. The order of
      * complexity is as follows:
-     * 
+     *
      * 1. Point
      * 2. Ray
      * 3. Segment
@@ -41,74 +41,74 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the closest point between the two objects.</param>
         public static void ClosestPointPointTriangle(ref Vector3 point, ref Vector3 vertex1, ref Vector3 vertex2, ref Vector3 vertex3, out Vector3 result)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 136
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 136
 
-            //Check if P in vertex region outside A
-            Vector3 ab = vertex2 - vertex1;
-            Vector3 ac = vertex3 - vertex1;
-            Vector3 ap = point - vertex1;
+            // Check if P in vertex region outside A
+            var ab = vertex2 - vertex1;
+            var ac = vertex3 - vertex1;
+            var ap = point - vertex1;
 
-            float d1 = Vector3.Dot(ab, ap);
-            float d2 = Vector3.Dot(ac, ap);
+            var d1 = Vector3.Dot(ab, ap);
+            var d2 = Vector3.Dot(ac, ap);
             if (d1 <= 0.0f && d2 <= 0.0f)
             {
-                result = vertex1; //Barycentric coordinates (1,0,0)
+                result = vertex1; // Barycentric coordinates (1,0,0)
                 return;
             }
 
-            //Check if P in vertex region outside B
-            Vector3 bp = point - vertex2;
-            float d3 = Vector3.Dot(ab, bp);
-            float d4 = Vector3.Dot(ac, bp);
+            // Check if P in vertex region outside B
+            var bp = point - vertex2;
+            var d3 = Vector3.Dot(ab, bp);
+            var d4 = Vector3.Dot(ac, bp);
             if (d3 >= 0.0f && d4 <= d3)
             {
                 result = vertex2; // Barycentric coordinates (0,1,0)
                 return;
             }
 
-            //Check if P in edge region of AB, if so return projection of P onto AB
-            float vc = d1 * d4 - d3 * d2;
+            // Check if P in edge region of AB, if so return projection of P onto AB
+            var vc = d1 * d4 - d3 * d2;
             if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f)
             {
-                float v = d1 / (d1 - d3);
-                result = vertex1 + v * ab; //Barycentric coordinates (1-v,v,0)
+                var v = d1 / (d1 - d3);
+                result = vertex1 + v * ab; // Barycentric coordinates (1-v,v,0)
                 return;
             }
 
-            //Check if P in vertex region outside C
-            Vector3 cp = point - vertex3;
-            float d5 = Vector3.Dot(ab, cp);
-            float d6 = Vector3.Dot(ac, cp);
+            // Check if P in vertex region outside C
+            var cp = point - vertex3;
+            var d5 = Vector3.Dot(ab, cp);
+            var d6 = Vector3.Dot(ac, cp);
             if (d6 >= 0.0f && d5 <= d6)
             {
-                result = vertex3; //Barycentric coordinates (0,0,1)
+                result = vertex3; // Barycentric coordinates (0,0,1)
                 return;
             }
 
-            //Check if P in edge region of AC, if so return projection of P onto AC
-            float vb = d5 * d2 - d1 * d6;
+            // Check if P in edge region of AC, if so return projection of P onto AC
+            var vb = d5 * d2 - d1 * d6;
             if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f)
             {
-                float w = d2 / (d2 - d6);
-                result = vertex1 + w * ac; //Barycentric coordinates (1-w,0,w)
+                var w = d2 / (d2 - d6);
+                result = vertex1 + w * ac; // Barycentric coordinates (1-w,0,w)
                 return;
             }
 
-            //Check if P in edge region of BC, if so return projection of P onto BC
-            float va = d3 * d6 - d5 * d4;
-            if (va <= 0.0f && (d4 - d3) >= 0.0f && (d5 - d6) >= 0.0f)
+            // Check if P in edge region of BC, if so return projection of P onto BC
+            var va = d3 * d6 - d5 * d4;
+            if (va <= 0.0f && d4 - d3 >= 0.0f && d5 - d6 >= 0.0f)
             {
-                float w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
-                result = vertex2 + w * (vertex3 - vertex2); //Barycentric coordinates (0,1-w,w)
+                var w = (d4 - d3) / (d4 - d3 + (d5 - d6));
+                result = vertex2 + w * (vertex3 - vertex2); // Barycentric coordinates (0,1-w,w)
                 return;
             }
 
-            //P inside face region. Compute Q through its Barycentric coordinates (u,v,w)
-            float denom = 1.0f / (va + vb + vc);
-            float v2 = vb * denom;
-            float w2 = vc * denom;
-            result = vertex1 + ab * v2 + ac * w2; //= u*vertex1 + v*vertex2 + w*vertex3, u = va * denom = 1.0f - v - w
+            // P inside face region. Compute Q through its Barycentric coordinates (u,v,w)
+            var denom = 1.0f / (va + vb + vc);
+            var v2 = vb * denom;
+            var w2 = vc * denom;
+            result = vertex1 + ab * v2 + ac * w2; // = u*vertex1 + v*vertex2 + w*vertex3, u = va * denom = 1.0f - v - w
         }
 
         /// <summary>
@@ -119,13 +119,13 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the closest point between the two objects.</param>
         public static void ClosestPointPlanePoint(ref Plane plane, ref Vector3 point, out Vector3 result)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 126
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 126
 
             Vector3.Dot(ref plane.Normal, ref point, out var dot);
-            float t = dot - plane.D;
+            var t = dot - plane.D;
 
-            result = point - (t * plane.Normal);
+            result = point - t * plane.Normal;
         }
 
         /// <summary>
@@ -136,8 +136,8 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the closest point between the two objects.</param>
         public static void ClosestPointBoxPoint(ref BoundingBox box, ref Vector3 point, out Vector3 result)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 130
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 130
 
             Vector3.Max(ref point, ref box.Minimum, out var temp);
             Vector3.Min(ref temp, ref box.Maximum, out result);
@@ -146,24 +146,24 @@ namespace Xacor.Mathematics
         /// <summary>
         /// Determines the closest point between a <see cref="BoundingSphere"/> and a point.
         /// </summary>
-        /// <param name="sphere"></param>
+        /// <param name="sphere" />
         /// <param name="point">The point to test.</param>
         /// <param name="result">When the method completes, contains the closest point between the two objects;
         /// or, if the point is directly in the center of the sphere, contains <see cref="Vector3.Zero"/>.</param>
         public static void ClosestPointSpherePoint(ref BoundingSphere sphere, ref Vector3 point, out Vector3 result)
         {
-            //Source: Jorgy343
-            //Reference: None
+            // Source: Jorgy343
+            // Reference: None
 
-            //Get the unit direction from the sphere's center to the point.
+            // Get the unit direction from the sphere's center to the point.
             Vector3.Subtract(ref point, ref sphere.Center, out result);
             result.Normalize();
 
-            //Multiply the unit direction by the sphere's radius to get a vector
-            //the length of the sphere.
+            // Multiply the unit direction by the sphere's radius to get a vector
+            // the length of the sphere.
             result *= sphere.Radius;
 
-            //Add the sphere's center to the direction to get a point on the sphere.
+            // Add the sphere's center to the direction to get a point on the sphere.
             result += sphere.Center;
         }
 
@@ -181,18 +181,18 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static void ClosestPointSphereSphere(ref BoundingSphere sphere1, ref BoundingSphere sphere2, out Vector3 result)
         {
-            //Source: Jorgy343
-            //Reference: None
+            // Source: Jorgy343
+            // Reference: None
 
-            //Get the unit direction from the first sphere's center to the second sphere's center.
+            // Get the unit direction from the first sphere's center to the second sphere's center.
             Vector3.Subtract(ref sphere2.Center, ref sphere1.Center, out result);
             result.Normalize();
 
-            //Multiply the unit direction by the first sphere's radius to get a vector
-            //the length of the first sphere.
+            // Multiply the unit direction by the first sphere's radius to get a vector
+            // the length of the first sphere.
             result *= sphere1.Radius;
 
-            //Add the first sphere's center to the direction to get a point on the first sphere.
+            // Add the first sphere's center to the direction to get a point on the first sphere.
             result += sphere1.Center;
         }
 
@@ -204,8 +204,8 @@ namespace Xacor.Mathematics
         /// <returns>The distance between the two objects.</returns>
         public static float DistancePlanePoint(ref Plane plane, ref Vector3 point)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 127
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 127
 
             Vector3.Dot(ref plane.Normal, ref point, out var dot);
             return dot - plane.D;
@@ -219,10 +219,10 @@ namespace Xacor.Mathematics
         /// <returns>The distance between the two objects.</returns>
         public static float DistanceBoxPoint(ref BoundingBox box, ref Vector3 point)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 131
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 131
 
-            float distance = 0f;
+            var distance = 0f;
 
             if (point.X < box.Minimum.X)
                 distance += (box.Minimum.X - point.X) * (box.Minimum.X - point.X);
@@ -250,44 +250,44 @@ namespace Xacor.Mathematics
         /// <returns>The distance between the two objects.</returns>
         public static float DistanceBoxBox(ref BoundingBox box1, ref BoundingBox box2)
         {
-            //Source:
-            //Reference:
+            // Source:
+            // Reference:
 
-            float distance = 0f;
+            var distance = 0f;
 
-            //Distance for X.
+            // Distance for X.
             if (box1.Minimum.X > box2.Maximum.X)
             {
-                float delta = box2.Maximum.X - box1.Minimum.X;
+                var delta = box2.Maximum.X - box1.Minimum.X;
                 distance += delta * delta;
             }
             else if (box2.Minimum.X > box1.Maximum.X)
             {
-                float delta = box1.Maximum.X - box2.Minimum.X;
+                var delta = box1.Maximum.X - box2.Minimum.X;
                 distance += delta * delta;
             }
 
-            //Distance for Y.
+            // Distance for Y.
             if (box1.Minimum.Y > box2.Maximum.Y)
             {
-                float delta = box2.Maximum.Y - box1.Minimum.Y;
+                var delta = box2.Maximum.Y - box1.Minimum.Y;
                 distance += delta * delta;
             }
             else if (box2.Minimum.Y > box1.Maximum.Y)
             {
-                float delta = box1.Maximum.Y - box2.Minimum.Y;
+                var delta = box1.Maximum.Y - box2.Minimum.Y;
                 distance += delta * delta;
             }
 
-            //Distance for Z.
+            // Distance for Z.
             if (box1.Minimum.Z > box2.Maximum.Z)
             {
-                float delta = box2.Maximum.Z - box1.Minimum.Z;
+                var delta = box2.Maximum.Z - box1.Minimum.Z;
                 distance += delta * delta;
             }
             else if (box2.Minimum.Z > box1.Maximum.Z)
             {
-                float delta = box1.Maximum.Z - box2.Minimum.Z;
+                var delta = box1.Maximum.Z - box2.Minimum.Z;
                 distance += delta * delta;
             }
 
@@ -302,8 +302,8 @@ namespace Xacor.Mathematics
         /// <returns>The distance between the two objects.</returns>
         public static float DistanceSpherePoint(ref BoundingSphere sphere, ref Vector3 point)
         {
-            //Source: Jorgy343
-            //Reference: None
+            // Source: Jorgy343
+            // Reference: None
 
             Vector3.Distance(ref sphere.Center, ref point, out var distance);
             distance -= sphere.Radius;
@@ -319,8 +319,8 @@ namespace Xacor.Mathematics
         /// <returns>The distance between the two objects.</returns>
         public static float DistanceSphereSphere(ref BoundingSphere sphere1, ref BoundingSphere sphere2)
         {
-            //Source: Jorgy343
-            //Reference: None
+            // Source: Jorgy343
+            // Reference: None
 
             Vector3.Distance(ref sphere1.Center, ref sphere2.Center, out var distance);
             distance -= sphere1.Radius + sphere2.Radius;
@@ -336,20 +336,20 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersect.</returns>
         public static bool RayIntersectsPoint(ref Ray ray, ref Vector3 point)
         {
-            //Source: RayIntersectsSphere
-            //Reference: None
+            // Source: RayIntersectsSphere
+            // Reference: None
 
             Vector3.Subtract(ref ray.Position, ref point, out var m);
 
-            //Same thing as RayIntersectsSphere except that the radius of the sphere (point)
-            //is the epsilon for zero.
-            float b = Vector3.Dot(m, ray.Direction);
-            float c = Vector3.Dot(m, m) - MathUtil.ZeroTolerance;
+            // Same thing as RayIntersectsSphere except that the radius of the sphere (point)
+            // is the epsilon for zero.
+            var b = Vector3.Dot(m, ray.Direction);
+            var c = Vector3.Dot(m, m) - MathUtil.ZeroTolerance;
 
             if (c > 0f && b > 0f)
                 return false;
 
-            float discriminant = b * b - c;
+            var discriminant = b * b - c;
 
             if (discriminant < 0f)
                 return false;
@@ -377,16 +377,16 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static bool RayIntersectsRay(ref Ray ray1, ref Ray ray2, out Vector3 point)
         {
-            //Source: Real-Time Rendering, Third Edition
-            //Reference: Page 780
+            // Source: Real-Time Rendering, Third Edition
+            // Reference: Page 780
 
             Vector3.Cross(ref ray1.Direction, ref ray2.Direction, out var cross);
-            float denominator = cross.Length();
+            var denominator = cross.Length();
 
-            //Lines are parallel.
+            // Lines are parallel.
             if (MathUtil.IsZero(denominator))
             {
-                //Lines are parallel and on top of each other.
+                // Lines are parallel and on top of each other.
                 if (MathUtil.NearEqual(ray2.Position.X, ray1.Position.X) &&
                     MathUtil.NearEqual(ray2.Position.Y, ray1.Position.Y) &&
                     MathUtil.NearEqual(ray2.Position.Z, ray1.Position.Z))
@@ -398,19 +398,19 @@ namespace Xacor.Mathematics
 
             denominator = denominator * denominator;
 
-            //3x3 matrix for the first ray.
-            float m11 = ray2.Position.X - ray1.Position.X;
-            float m12 = ray2.Position.Y - ray1.Position.Y;
-            float m13 = ray2.Position.Z - ray1.Position.Z;
-            float m21 = ray2.Direction.X;
-            float m22 = ray2.Direction.Y;
-            float m23 = ray2.Direction.Z;
-            float m31 = cross.X;
-            float m32 = cross.Y;
-            float m33 = cross.Z;
+            // 3x3 matrix for the first ray.
+            var m11 = ray2.Position.X - ray1.Position.X;
+            var m12 = ray2.Position.Y - ray1.Position.Y;
+            var m13 = ray2.Position.Z - ray1.Position.Z;
+            var m21 = ray2.Direction.X;
+            var m22 = ray2.Direction.Y;
+            var m23 = ray2.Direction.Z;
+            var m31 = cross.X;
+            var m32 = cross.Y;
+            var m33 = cross.Z;
 
-            //Determinant of first matrix.
-            float dets =
+            // Determinant of first matrix.
+            var dets =
                 m11 * m22 * m33 +
                 m12 * m23 * m31 +
                 m13 * m21 * m32 -
@@ -418,13 +418,13 @@ namespace Xacor.Mathematics
                 m12 * m21 * m33 -
                 m13 * m22 * m31;
 
-            //3x3 matrix for the second ray.
+            // 3x3 matrix for the second ray.
             m21 = ray1.Direction.X;
             m22 = ray1.Direction.Y;
             m23 = ray1.Direction.Z;
 
-            //Determinant of the second matrix.
-            float dett =
+            // Determinant of the second matrix.
+            var dett =
                 m11 * m22 * m33 +
                 m12 * m23 * m31 +
                 m13 * m21 * m32 -
@@ -432,15 +432,15 @@ namespace Xacor.Mathematics
                 m12 * m21 * m33 -
                 m13 * m22 * m31;
 
-            //t values of the point of intersection.
-            float s = dets / denominator;
-            float t = dett / denominator;
+            // t values of the point of intersection.
+            var s = dets / denominator;
+            var t = dett / denominator;
 
-            //The points of intersection.
-            Vector3 point1 = ray1.Position + (s * ray1.Direction);
-            Vector3 point2 = ray2.Position + (t * ray2.Direction);
+            // The points of intersection.
+            var point1 = ray1.Position + s * ray1.Direction;
+            var point2 = ray2.Position + t * ray2.Direction;
 
-            //If the points are not equal, no intersection has occurred.
+            // If the points are not equal, no intersection has occurred.
             if (!MathUtil.NearEqual(point2.X, point1.X) ||
                 !MathUtil.NearEqual(point2.Y, point1.Y) ||
                 !MathUtil.NearEqual(point2.Z, point1.Z))
@@ -463,8 +463,8 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersect.</returns>
         public static bool RayIntersectsPlane(ref Ray ray, ref Plane plane, out float distance)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 175
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 175
 
             Vector3.Dot(ref plane.Normal, ref ray.Direction, out var direction);
 
@@ -496,8 +496,8 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersected.</returns>
         public static bool RayIntersectsPlane(ref Ray ray, ref Plane plane, out Vector3 point)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 175
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 175
 
             if (!RayIntersectsPlane(ref ray, ref plane, out float distance))
             {
@@ -505,7 +505,7 @@ namespace Xacor.Mathematics
                 return false;
             }
 
-            point = ray.Position + (ray.Direction * distance);
+            point = ray.Position + ray.Direction * distance;
             return true;
         }
 
@@ -528,84 +528,85 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static bool RayIntersectsTriangle(ref Ray ray, ref Vector3 vertex1, ref Vector3 vertex2, ref Vector3 vertex3, out float distance)
         {
-            //Source: Fast Minimum Storage Ray / Triangle Intersection
-            //Reference: http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
-
-            //Compute vectors along two edges of the triangle.
+            // Source: Fast Minimum Storage Ray / Triangle Intersection
+            // Reference: http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
+            // Compute vectors along two edges of the triangle.
             Vector3 edge1, edge2;
 
-            //Edge 1
+            // Edge 1
             edge1.X = vertex2.X - vertex1.X;
             edge1.Y = vertex2.Y - vertex1.Y;
             edge1.Z = vertex2.Z - vertex1.Z;
 
-            //Edge2
+            // Edge2
             edge2.X = vertex3.X - vertex1.X;
             edge2.Y = vertex3.Y - vertex1.Y;
             edge2.Z = vertex3.Z - vertex1.Z;
 
-            //Cross product of ray direction and edge2 - first part of determinant.
+            // Cross product of ray direction and edge2 - first part of determinant.
             Vector3 directioncrossedge2;
-            directioncrossedge2.X = (ray.Direction.Y * edge2.Z) - (ray.Direction.Z * edge2.Y);
-            directioncrossedge2.Y = (ray.Direction.Z * edge2.X) - (ray.Direction.X * edge2.Z);
-            directioncrossedge2.Z = (ray.Direction.X * edge2.Y) - (ray.Direction.Y * edge2.X);
+            directioncrossedge2.X = ray.Direction.Y * edge2.Z - ray.Direction.Z * edge2.Y;
+            directioncrossedge2.Y = ray.Direction.Z * edge2.X - ray.Direction.X * edge2.Z;
+            directioncrossedge2.Z = ray.Direction.X * edge2.Y - ray.Direction.Y * edge2.X;
 
-            //Compute the determinant.
+            // Compute the determinant.
             float determinant;
-            //Dot product of edge1 and the first part of determinant.
-            determinant = (edge1.X * directioncrossedge2.X) + (edge1.Y * directioncrossedge2.Y) + (edge1.Z * directioncrossedge2.Z);
+            // Dot product of edge1 and the first part of determinant.
+            determinant = edge1.X * directioncrossedge2.X + edge1.Y * directioncrossedge2.Y + edge1.Z * directioncrossedge2.Z;
 
-            //If the ray is parallel to the triangle plane, there is no collision.
-            //This also means that we are not culling, the ray may hit both the
-            //back and the front of the triangle.
+            // If the ray is parallel to the triangle plane, there is no collision.
+            // This also means that we are not culling, the ray may hit both the
+            // back and the front of the triangle.
             if (MathUtil.IsZero(determinant))
             {
                 distance = 0f;
                 return false;
             }
 
-            float inversedeterminant = 1.0f / determinant;
+            var inversedeterminant = 1.0f / determinant;
 
-            //Calculate the U parameter of the intersection point.
+            // Calculate the U parameter of the intersection point.
             Vector3 distanceVector;
             distanceVector.X = ray.Position.X - vertex1.X;
             distanceVector.Y = ray.Position.Y - vertex1.Y;
             distanceVector.Z = ray.Position.Z - vertex1.Z;
 
-            float triangleU;
-            triangleU = (distanceVector.X * directioncrossedge2.X) + (distanceVector.Y * directioncrossedge2.Y) + (distanceVector.Z * directioncrossedge2.Z);
+            var triangleU = distanceVector.X * directioncrossedge2.X +
+                            distanceVector.Y * directioncrossedge2.Y +
+                            distanceVector.Z * directioncrossedge2.Z;
             triangleU *= inversedeterminant;
 
-            //Make sure it is inside the triangle.
+            // Make sure it is inside the triangle.
             if (triangleU < 0f || triangleU > 1f)
             {
                 distance = 0f;
                 return false;
             }
 
-            //Calculate the V parameter of the intersection point.
+            // Calculate the V parameter of the intersection point.
             Vector3 distancecrossedge1;
-            distancecrossedge1.X = (distanceVector.Y * edge1.Z) - (distanceVector.Z * edge1.Y);
-            distancecrossedge1.Y = (distanceVector.Z * edge1.X) - (distanceVector.X * edge1.Z);
-            distancecrossedge1.Z = (distanceVector.X * edge1.Y) - (distanceVector.Y * edge1.X);
+            distancecrossedge1.X = distanceVector.Y * edge1.Z - distanceVector.Z * edge1.Y;
+            distancecrossedge1.Y = distanceVector.Z * edge1.X - distanceVector.X * edge1.Z;
+            distancecrossedge1.Z = distanceVector.X * edge1.Y - distanceVector.Y * edge1.X;
 
-            float triangleV;
-            triangleV = ((ray.Direction.X * distancecrossedge1.X) + (ray.Direction.Y * distancecrossedge1.Y)) + (ray.Direction.Z * distancecrossedge1.Z);
+            var triangleV = ray.Direction.X * distancecrossedge1.X +
+                            ray.Direction.Y * distancecrossedge1.Y +
+                            ray.Direction.Z * distancecrossedge1.Z;
             triangleV *= inversedeterminant;
 
-            //Make sure it is inside the triangle.
+            // Make sure it is inside the triangle.
             if (triangleV < 0f || triangleU + triangleV > 1f)
             {
                 distance = 0f;
                 return false;
             }
 
-            //Compute the distance along the ray to the triangle.
+            // Compute the distance along the ray to the triangle.
             float raydistance;
-            raydistance = (edge2.X * distancecrossedge1.X) + (edge2.Y * distancecrossedge1.Y) + (edge2.Z * distancecrossedge1.Z);
+            raydistance = edge2.X * distancecrossedge1.X + edge2.Y * distancecrossedge1.Y + edge2.Z * distancecrossedge1.Z;
             raydistance *= inversedeterminant;
 
-            //Is the triangle behind the ray origin?
+            // Is the triangle behind the ray origin?
             if (raydistance < 0f)
             {
                 distance = 0f;
@@ -634,7 +635,7 @@ namespace Xacor.Mathematics
                 return false;
             }
 
-            point = ray.Position + (ray.Direction * distance);
+            point = ray.Position + ray.Direction * distance;
             return true;
         }
 
@@ -648,11 +649,11 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersected.</returns>
         public static bool RayIntersectsBox(ref Ray ray, ref BoundingBox box, out float distance)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 179
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 179
 
             distance = 0f;
-            float tmax = float.MaxValue;
+            var tmax = float.MaxValue;
 
             if (MathUtil.IsZero(ray.Direction.X))
             {
@@ -664,13 +665,13 @@ namespace Xacor.Mathematics
             }
             else
             {
-                float inverse = 1.0f / ray.Direction.X;
-                float t1 = (box.Minimum.X - ray.Position.X) * inverse;
-                float t2 = (box.Maximum.X - ray.Position.X) * inverse;
+                var inverse = 1.0f / ray.Direction.X;
+                var t1 = (box.Minimum.X - ray.Position.X) * inverse;
+                var t2 = (box.Maximum.X - ray.Position.X) * inverse;
 
                 if (t1 > t2)
                 {
-                    float temp = t1;
+                    var temp = t1;
                     t1 = t2;
                     t2 = temp;
                 }
@@ -695,13 +696,13 @@ namespace Xacor.Mathematics
             }
             else
             {
-                float inverse = 1.0f / ray.Direction.Y;
-                float t1 = (box.Minimum.Y - ray.Position.Y) * inverse;
-                float t2 = (box.Maximum.Y - ray.Position.Y) * inverse;
+                var inverse = 1.0f / ray.Direction.Y;
+                var t1 = (box.Minimum.Y - ray.Position.Y) * inverse;
+                var t2 = (box.Maximum.Y - ray.Position.Y) * inverse;
 
                 if (t1 > t2)
                 {
-                    float temp = t1;
+                    var temp = t1;
                     t1 = t2;
                     t2 = temp;
                 }
@@ -726,13 +727,13 @@ namespace Xacor.Mathematics
             }
             else
             {
-                float inverse = 1.0f / ray.Direction.Z;
-                float t1 = (box.Minimum.Z - ray.Position.Z) * inverse;
-                float t2 = (box.Maximum.Z - ray.Position.Z) * inverse;
+                var inverse = 1.0f / ray.Direction.Z;
+                var t1 = (box.Minimum.Z - ray.Position.Z) * inverse;
+                var t2 = (box.Maximum.Z - ray.Position.Z) * inverse;
 
                 if (t1 > t2)
                 {
-                    float temp = t1;
+                    var temp = t1;
                     t1 = t2;
                     t2 = temp;
                 }
@@ -766,7 +767,7 @@ namespace Xacor.Mathematics
                 return false;
             }
 
-            point = ray.Position + (ray.Direction * distance);
+            point = ray.Position + ray.Direction * distance;
             return true;
         }
 
@@ -780,13 +781,13 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersected.</returns>
         public static bool RayIntersectsSphere(ref Ray ray, ref BoundingSphere sphere, out float distance)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 177
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 177
 
             Vector3.Subtract(ref ray.Position, ref sphere.Center, out var m);
 
-            float b = Vector3.Dot(m, ray.Direction);
-            float c = Vector3.Dot(m, m) - (sphere.Radius * sphere.Radius);
+            var b = Vector3.Dot(m, ray.Direction);
+            var c = Vector3.Dot(m, m) - sphere.Radius * sphere.Radius;
 
             if (c > 0f && b > 0f)
             {
@@ -794,7 +795,7 @@ namespace Xacor.Mathematics
                 return false;
             }
 
-            float discriminant = b * b - c;
+            var discriminant = b * b - c;
 
             if (discriminant < 0f)
             {
@@ -805,13 +806,15 @@ namespace Xacor.Mathematics
             distance = -b - (float)Math.Sqrt(discriminant);
 
             if (distance < 0f)
+            {
                 distance = 0f;
+            }
 
             return true;
         }
 
         /// <summary>
-        /// Determines whether there is an intersection between a <see cref="Ray"/> and a <see cref="BoundingSphere"/>. 
+        /// Determines whether there is an intersection between a <see cref="Ray"/> and a <see cref="BoundingSphere"/>.
         /// </summary>
         /// <param name="ray">The ray to test.</param>
         /// <param name="sphere">The sphere to test.</param>
@@ -826,7 +829,7 @@ namespace Xacor.Mathematics
                 return false;
             }
 
-            point = ray.Position + (ray.Direction * distance);
+            point = ray.Position + ray.Direction * distance;
             return true;
         }
 
@@ -841,13 +844,11 @@ namespace Xacor.Mathematics
             Vector3.Dot(ref plane.Normal, ref point, out var distance);
             distance += plane.D;
 
-            if (distance > 0f)
-                return PlaneIntersectionType.Front;
-
-            if (distance < 0f)
-                return PlaneIntersectionType.Back;
-
-            return PlaneIntersectionType.Intersecting;
+            return distance > 0f
+                ? PlaneIntersectionType.Front
+                : distance < 0f
+                    ? PlaneIntersectionType.Back
+                    : PlaneIntersectionType.Intersecting;
         }
 
         /// <summary>
@@ -860,14 +861,11 @@ namespace Xacor.Mathematics
         {
             Vector3.Cross(ref plane1.Normal, ref plane2.Normal, out var direction);
 
-            //If direction is the zero vector, the planes are parallel and possibly
-            //coincident. It is not an intersection. The dot product will tell us.
+            // If direction is the zero vector, the planes are parallel and possibly
+            // coincident. It is not an intersection. The dot product will tell us.
             Vector3.Dot(ref direction, ref direction, out var denominator);
 
-            if (MathUtil.IsZero(denominator))
-                return false;
-
-            return true;
+            return !MathUtil.IsZero(denominator);
         }
 
         /// <summary>
@@ -885,25 +883,25 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static bool PlaneIntersectsPlane(ref Plane plane1, ref Plane plane2, out Ray line)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 207
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 207
 
             Vector3.Cross(ref plane1.Normal, ref plane2.Normal, out var direction);
 
-            //If direction is the zero vector, the planes are parallel and possibly
-            //coincident. It is not an intersection. The dot product will tell us.
+            // If direction is the zero vector, the planes are parallel and possibly
+            // coincident. It is not an intersection. The dot product will tell us.
             Vector3.Dot(ref direction, ref direction, out var denominator);
 
-            //We assume the planes are normalized, therefore the denominator
-            //only serves as a parallel and coincident check. Otherwise we need
-            //to divide the point by the denominator.
+            // We assume the planes are normalized, therefore the denominator
+            // only serves as a parallel and coincident check. Otherwise we need
+            // to divide the point by the denominator.
             if (MathUtil.IsZero(denominator))
             {
-                line = new Ray();
+                line = default(Ray);
                 return false;
             }
 
-            Vector3 temp = plane1.D * plane2.Normal - plane2.D * plane1.Normal;
+            var temp = plane1.D * plane2.Normal - plane2.D * plane1.Normal;
             Vector3.Cross(ref temp, ref direction, out var point);
 
             line.Position = point;
@@ -923,12 +921,12 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersected.</returns>
         public static PlaneIntersectionType PlaneIntersectsTriangle(ref Plane plane, ref Vector3 vertex1, ref Vector3 vertex2, ref Vector3 vertex3)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 207
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 207
 
-            PlaneIntersectionType test1 = PlaneIntersectsPoint(ref plane, ref vertex1);
-            PlaneIntersectionType test2 = PlaneIntersectsPoint(ref plane, ref vertex2);
-            PlaneIntersectionType test3 = PlaneIntersectsPoint(ref plane, ref vertex3);
+            var test1 = PlaneIntersectsPoint(ref plane, ref vertex1);
+            var test2 = PlaneIntersectsPoint(ref plane, ref vertex2);
+            var test3 = PlaneIntersectsPoint(ref plane, ref vertex3);
 
             if (test1 == PlaneIntersectionType.Front && test2 == PlaneIntersectionType.Front && test3 == PlaneIntersectionType.Front)
                 return PlaneIntersectionType.Front;
@@ -947,18 +945,18 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersected.</returns>
         public static PlaneIntersectionType PlaneIntersectsBox(ref Plane plane, ref BoundingBox box)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 161
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 161
 
             Vector3 min;
             Vector3 max;
 
-            max.X = (plane.Normal.X >= 0.0f) ? box.Minimum.X : box.Maximum.X;
-            max.Y = (plane.Normal.Y >= 0.0f) ? box.Minimum.Y : box.Maximum.Y;
-            max.Z = (plane.Normal.Z >= 0.0f) ? box.Minimum.Z : box.Maximum.Z;
-            min.X = (plane.Normal.X >= 0.0f) ? box.Maximum.X : box.Minimum.X;
-            min.Y = (plane.Normal.Y >= 0.0f) ? box.Maximum.Y : box.Minimum.Y;
-            min.Z = (plane.Normal.Z >= 0.0f) ? box.Maximum.Z : box.Minimum.Z;
+            max.X = plane.Normal.X >= 0.0f ? box.Minimum.X : box.Maximum.X;
+            max.Y = plane.Normal.Y >= 0.0f ? box.Minimum.Y : box.Maximum.Y;
+            max.Z = plane.Normal.Z >= 0.0f ? box.Minimum.Z : box.Maximum.Z;
+            min.X = plane.Normal.X >= 0.0f ? box.Maximum.X : box.Minimum.X;
+            min.Y = plane.Normal.Y >= 0.0f ? box.Maximum.Y : box.Minimum.Y;
+            min.Z = plane.Normal.Z >= 0.0f ? box.Maximum.Z : box.Minimum.Z;
 
             Vector3.Dot(ref plane.Normal, ref max, out var distance);
 
@@ -981,8 +979,8 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersected.</returns>
         public static PlaneIntersectionType PlaneIntersectsSphere(ref Plane plane, ref BoundingSphere sphere)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 160
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 160
 
             Vector3.Dot(ref plane.Normal, ref sphere.Center, out var distance);
             distance += plane.D;
@@ -1048,11 +1046,11 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersected.</returns>
         public static bool BoxIntersectsSphere(ref BoundingBox box, ref BoundingSphere sphere)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 166
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 166
 
             Vector3.Clamp(ref sphere.Center, ref box.Minimum, ref box.Maximum, out var vector);
-            float distance = Vector3.DistanceSquared(sphere.Center, vector);
+            var distance = Vector3.DistanceSquared(sphere.Center, vector);
 
             return distance <= sphere.Radius * sphere.Radius;
         }
@@ -1067,11 +1065,11 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersected.</returns>
         public static bool SphereIntersectsTriangle(ref BoundingSphere sphere, ref Vector3 vertex1, ref Vector3 vertex2, ref Vector3 vertex3)
         {
-            //Source: Real-Time Collision Detection by Christer Ericson
-            //Reference: Page 167
+            // Source: Real-Time Collision Detection by Christer Ericson
+            // Reference: Page 167
 
             ClosestPointPointTriangle(ref sphere.Center, ref vertex1, ref vertex2, ref vertex3, out var point);
-            Vector3 v = point - sphere.Center;
+            var v = point - sphere.Center;
 
             Vector3.Dot(ref v, ref v, out var dot);
 
@@ -1086,7 +1084,7 @@ namespace Xacor.Mathematics
         /// <returns>Whether the two objects intersected.</returns>
         public static bool SphereIntersectsSphere(ref BoundingSphere sphere1, ref BoundingSphere sphere2)
         {
-            float radiisum = sphere1.Radius + sphere2.Radius;
+            var radiisum = sphere1.Radius + sphere2.Radius;
             return Vector3.DistanceSquared(sphere1.Center, sphere2.Center) <= radiisum * radiisum;
         }
 
@@ -1150,9 +1148,7 @@ namespace Xacor.Mathematics
             if (box1.Maximum.Z < box2.Minimum.Z || box1.Minimum.Z > box2.Maximum.Z)
                 return ContainmentType.Disjoint;
 
-            if (box1.Minimum.X <= box2.Minimum.X && (box2.Maximum.X <= box1.Maximum.X &&
-                box1.Minimum.Y <= box2.Minimum.Y && box2.Maximum.Y <= box1.Maximum.Y) &&
-                box1.Minimum.Z <= box2.Minimum.Z && box2.Maximum.Z <= box1.Maximum.Z)
+            if (box1.Minimum.X <= box2.Minimum.X && box2.Maximum.X <= box1.Maximum.X && box1.Minimum.Y <= box2.Minimum.Y && box2.Maximum.Y <= box1.Maximum.Y && box1.Minimum.Z <= box2.Minimum.Z && box2.Maximum.Z <= box1.Maximum.Z)
             {
                 return ContainmentType.Contains;
             }
@@ -1169,14 +1165,12 @@ namespace Xacor.Mathematics
         public static ContainmentType BoxContainsSphere(ref BoundingBox box, ref BoundingSphere sphere)
         {
             Vector3.Clamp(ref sphere.Center, ref box.Minimum, ref box.Maximum, out var vector);
-            float distance = Vector3.DistanceSquared(sphere.Center, vector);
+            var distance = Vector3.DistanceSquared(sphere.Center, vector);
 
             if (distance > sphere.Radius * sphere.Radius)
                 return ContainmentType.Disjoint;
 
-            if ((((box.Minimum.X + sphere.Radius <= sphere.Center.X) && (sphere.Center.X <= box.Maximum.X - sphere.Radius)) && ((box.Maximum.X - box.Minimum.X > sphere.Radius) &&
-                (box.Minimum.Y + sphere.Radius <= sphere.Center.Y))) && (((sphere.Center.Y <= box.Maximum.Y - sphere.Radius) && (box.Maximum.Y - box.Minimum.Y > sphere.Radius)) &&
-                (((box.Minimum.Z + sphere.Radius <= sphere.Center.Z) && (sphere.Center.Z <= box.Maximum.Z - sphere.Radius)) && (box.Maximum.Z - box.Minimum.Z > sphere.Radius))))
+            if (box.Minimum.X + sphere.Radius <= sphere.Center.X && sphere.Center.X <= box.Maximum.X - sphere.Radius && box.Maximum.X - box.Minimum.X > sphere.Radius && box.Minimum.Y + sphere.Radius <= sphere.Center.Y && sphere.Center.Y <= box.Maximum.Y - sphere.Radius && box.Maximum.Y - box.Minimum.Y > sphere.Radius && box.Minimum.Z + sphere.Radius <= sphere.Center.Z && sphere.Center.Z <= box.Maximum.Z - sphere.Radius && box.Maximum.Z - box.Minimum.Z > sphere.Radius)
             {
                 return ContainmentType.Contains;
             }
@@ -1208,12 +1202,12 @@ namespace Xacor.Mathematics
         /// <returns>The type of containment the two objects have.</returns>
         public static ContainmentType SphereContainsTriangle(ref BoundingSphere sphere, ref Vector3 vertex1, ref Vector3 vertex2, ref Vector3 vertex3)
         {
-            //Source: Jorgy343
-            //Reference: None
+            // Source: Jorgy343
+            // Reference: None
 
-            ContainmentType test1 = SphereContainsPoint(ref sphere, ref vertex1);
-            ContainmentType test2 = SphereContainsPoint(ref sphere, ref vertex2);
-            ContainmentType test3 = SphereContainsPoint(ref sphere, ref vertex3);
+            var test1 = SphereContainsPoint(ref sphere, ref vertex1);
+            var test2 = SphereContainsPoint(ref sphere, ref vertex2);
+            var test3 = SphereContainsPoint(ref sphere, ref vertex3);
 
             if (test1 == ContainmentType.Contains && test2 == ContainmentType.Contains && test3 == ContainmentType.Contains)
                 return ContainmentType.Contains;
@@ -1237,7 +1231,7 @@ namespace Xacor.Mathematics
             if (!BoxIntersectsSphere(ref box, ref sphere))
                 return ContainmentType.Disjoint;
 
-            float radiussquared = sphere.Radius * sphere.Radius;
+            var radiussquared = sphere.Radius * sphere.Radius;
             vector.X = sphere.Center.X - box.Minimum.X;
             vector.Y = sphere.Center.Y - box.Maximum.Y;
             vector.Z = sphere.Center.Z - box.Maximum.Z;
@@ -1305,7 +1299,7 @@ namespace Xacor.Mathematics
         /// <returns>The type of containment the two objects have.</returns>
         public static ContainmentType SphereContainsSphere(ref BoundingSphere sphere1, ref BoundingSphere sphere2)
         {
-            float distance = Vector3.Distance(sphere1.Center, sphere2.Center);
+            var distance = Vector3.Distance(sphere1.Center, sphere2.Center);
 
             if (sphere1.Radius + sphere2.Radius < distance)
                 return ContainmentType.Disjoint;

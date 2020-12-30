@@ -244,7 +244,7 @@ namespace Xacor.Mathematics
             farPoint = Vector3.Unproject(farPoint, viewport.X, viewport.Y, viewport.Width, viewport.Height, viewport.MinDepth,
                                         viewport.MaxDepth, worldViewProjection);
 
-            Vector3 direction = farPoint - nearPoint;
+            var direction = farPoint - nearPoint;
             direction.Normalize();
 
             return new Ray(nearPoint, direction);

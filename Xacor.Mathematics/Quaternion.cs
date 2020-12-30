@@ -20,7 +20,7 @@ namespace Xacor.Mathematics
         /// <summary>
         /// A <see cref="Quaternion"/> with all of its components set to zero.
         /// </summary>
-        public static readonly Quaternion Zero = new Quaternion();
+        public static readonly Quaternion Zero;
 
         /// <summary>
         /// A <see cref="Quaternion"/> with all of its components set to one.
@@ -148,7 +148,7 @@ namespace Xacor.Mathematics
         /// <summary>
         /// Gets a value indicting whether this instance is normalized.
         /// </summary>
-        public bool IsNormalized => MathUtil.IsOne((X * X) + (Y * Y) + (Z * Z) + (W * W));
+        public bool IsNormalized => MathUtil.IsOne(X * X + Y * Y + Z * Z + W * W);
 
         /// <summary>
         /// Gets the angle of the quaternion.
@@ -158,7 +158,7 @@ namespace Xacor.Mathematics
         {
             get
             {
-                float length = (X * X) + (Y * Y) + (Z * Z);
+                var length = X * X + Y * Y + Z * Z;
                 if (MathUtil.IsZero(length))
                     return 0.0f;
 
@@ -174,11 +174,11 @@ namespace Xacor.Mathematics
         {
             get
             {
-                float length = (X * X) + (Y * Y) + (Z * Z);
+                var length = X * X + Y * Y + Z * Z;
                 if (MathUtil.IsZero(length))
                     return Vector3.UnitX;
 
-                float inv = 1.0f / (float)Math.Sqrt(length);
+                var inv = 1.0f / (float)Math.Sqrt(length);
                 return new Vector3(X * inv, Y * inv, Z * inv);
             }
         }
@@ -233,7 +233,7 @@ namespace Xacor.Mathematics
         /// </summary>
         public void Invert()
         {
-            float lengthSq = LengthSquared();
+            var lengthSq = LengthSquared();
             if (!MathUtil.IsZero(lengthSq))
             {
                 lengthSq = 1.0f / lengthSq;
@@ -255,7 +255,7 @@ namespace Xacor.Mathematics
         /// </remarks>
         public float Length()
         {
-            return (float)Math.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
+            return (float)Math.Sqrt(X * X + Y * Y + Z * Z + W * W);
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Xacor.Mathematics
         /// </remarks>
         public float LengthSquared()
         {
-            return (X * X) + (Y * Y) + (Z * Z) + (W * W);
+            return X * X + Y * Y + Z * Z + W * W;
         }
 
         /// <summary>
@@ -276,10 +276,10 @@ namespace Xacor.Mathematics
         /// </summary>
         public void Normalize()
         {
-            float length = Length();
+            var length = Length();
             if (!MathUtil.IsZero(length))
             {
-                float inverse = 1.0f / length;
+                var inverse = 1.0f / length;
                 X *= inverse;
                 Y *= inverse;
                 Z *= inverse;
@@ -293,7 +293,7 @@ namespace Xacor.Mathematics
         /// <returns>A four-element array containing the components of the quaternion.</returns>
         public float[] ToArray()
         {
-            return new float[] { X, Y, Z, W };
+            return new[] { X, Y, Z, W };
         }
 
         /// <summary>
@@ -382,21 +382,21 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the multiplied quaternion.</param>
         public static void Multiply(ref Quaternion left, ref Quaternion right, out Quaternion result)
         {
-            float lx = left.X;
-            float ly = left.Y;
-            float lz = left.Z;
-            float lw = left.W;
-            float rx = right.X;
-            float ry = right.Y;
-            float rz = right.Z;
-            float rw = right.W;
-            float a = (ly * rz - lz * ry);
-            float b = (lz * rx - lx * rz);
-            float c = (lx * ry - ly * rx);
-            float d = (lx * rx + ly * ry + lz * rz);
-            result.X = (lx * rw + rx * lw) + a;
-            result.Y = (ly * rw + ry * lw) + b;
-            result.Z = (lz * rw + rz * lw) + c;
+            var lx = left.X;
+            var ly = left.Y;
+            var lz = left.Z;
+            var lw = left.W;
+            var rx = right.X;
+            var ry = right.Y;
+            var rz = right.Z;
+            var rw = right.W;
+            var a = ly * rz - lz * ry;
+            var b = lz * rx - lx * rz;
+            var c = lx * ry - ly * rx;
+            var d = lx * rx + ly * ry + lz * rz;
+            result.X = lx * rw + rx * lw + a;
+            result.Y = ly * rw + ry * lw + b;
+            result.Z = lz * rw + rz * lw + c;
             result.W = lw * rw - d;
         }
 
@@ -499,7 +499,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the dot product of the two quaternions.</param>
         public static void Dot(ref Quaternion left, ref Quaternion right, out float result)
         {
-            result = (left.X * right.X) + (left.Y * right.Y) + (left.Z * right.Z) + (left.W * right.W);
+            result = left.X * right.X + left.Y * right.Y + left.Z * right.Z + left.W * right.W;
         }
 
         /// <summary>
@@ -510,7 +510,7 @@ namespace Xacor.Mathematics
         /// <returns>The dot product of the two quaternions.</returns>
         public static float Dot(Quaternion left, Quaternion right)
         {
-            return (left.X * right.X) + (left.Y * right.Y) + (left.Z * right.Z) + (left.W * right.W);
+            return left.X * right.X + left.Y * right.Y + left.Z * right.Z + left.W * right.W;
         }
 
         /// <summary>
@@ -520,12 +520,12 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the exponentiated quaternion.</param>
         public static void Exponential(ref Quaternion value, out Quaternion result)
         {
-            float angle = (float)Math.Sqrt((value.X * value.X) + (value.Y * value.Y) + (value.Z * value.Z));
-            float sin = (float)Math.Sin(angle);
+            var angle = (float)Math.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z);
+            var sin = (float)Math.Sin(angle);
 
             if (!MathUtil.IsZero(sin))
             {
-                float coeff = sin / angle;
+                var coeff = sin / angle;
                 result.X = coeff * value.X;
                 result.Y = coeff * value.Y;
                 result.Z = coeff * value.Z;
@@ -585,21 +585,21 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static void Lerp(ref Quaternion start, ref Quaternion end, float amount, out Quaternion result)
         {
-            float inverse = 1.0f - amount;
+            var inverse = 1.0f - amount;
 
             if (Dot(start, end) >= 0.0f)
             {
-                result.X = (inverse * start.X) + (amount * end.X);
-                result.Y = (inverse * start.Y) + (amount * end.Y);
-                result.Z = (inverse * start.Z) + (amount * end.Z);
-                result.W = (inverse * start.W) + (amount * end.W);
+                result.X = inverse * start.X + amount * end.X;
+                result.Y = inverse * start.Y + amount * end.Y;
+                result.Z = inverse * start.Z + amount * end.Z;
+                result.W = inverse * start.W + amount * end.W;
             }
             else
             {
-                result.X = (inverse * start.X) - (amount * end.X);
-                result.Y = (inverse * start.Y) - (amount * end.Y);
-                result.Z = (inverse * start.Z) - (amount * end.Z);
-                result.W = (inverse * start.W) - (amount * end.W);
+                result.X = inverse * start.X - amount * end.X;
+                result.Y = inverse * start.Y - amount * end.Y;
+                result.Z = inverse * start.Z - amount * end.Z;
+                result.W = inverse * start.W - amount * end.W;
             }
 
             result.Normalize();
@@ -632,12 +632,12 @@ namespace Xacor.Mathematics
         {
             if (Math.Abs(value.W) < 1.0)
             {
-                float angle = (float)Math.Acos(value.W);
-                float sin = (float)Math.Sin(angle);
+                var angle = (float)Math.Acos(value.W);
+                var sin = (float)Math.Sin(angle);
 
                 if (!MathUtil.IsZero(sin))
                 {
-                    float coeff = angle / sin;
+                    var coeff = angle / sin;
                     result.X = value.X * coeff;
                     result.Y = value.Y * coeff;
                     result.Z = value.Z * coeff;
@@ -673,7 +673,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the normalized quaternion.</param>
         public static void Normalize(ref Quaternion value, out Quaternion result)
         {
-            Quaternion temp = value;
+            var temp = value;
             result = temp;
             result.Normalize();
         }
@@ -699,9 +699,9 @@ namespace Xacor.Mathematics
         {
             Vector3.Normalize(ref axis, out var normalized);
 
-            float half = angle * 0.5f;
-            float sin = (float)Math.Sin(half);
-            float cos = (float)Math.Cos(half);
+            var half = angle * 0.5f;
+            var sin = (float)Math.Sin(half);
+            var cos = (float)Math.Cos(half);
 
             result.X = normalized.X * sin;
             result.Y = normalized.Y * sin;
@@ -730,7 +730,7 @@ namespace Xacor.Mathematics
         {
             float sqrt;
             float half;
-            float scale = matrix.M11 + matrix.M22 + matrix.M33;
+            var scale = matrix.M11 + matrix.M22 + matrix.M33;
 
             if (scale > 0.0f)
             {
@@ -742,7 +742,7 @@ namespace Xacor.Mathematics
                 result.Y = (matrix.M31 - matrix.M13) * sqrt;
                 result.Z = (matrix.M12 - matrix.M21) * sqrt;
             }
-            else if ((matrix.M11 >= matrix.M22) && (matrix.M11 >= matrix.M33))
+            else if (matrix.M11 >= matrix.M22 && matrix.M11 >= matrix.M33)
             {
                 sqrt = (float)Math.Sqrt(1.0f + matrix.M11 - matrix.M22 - matrix.M33);
                 half = 0.5f / sqrt;
@@ -783,7 +783,7 @@ namespace Xacor.Mathematics
         {
             float sqrt;
             float half;
-            float scale = matrix.M11 + matrix.M22 + matrix.M33;
+            var scale = matrix.M11 + matrix.M22 + matrix.M33;
 
             if (scale > 0.0f)
             {
@@ -795,7 +795,7 @@ namespace Xacor.Mathematics
                 result.Y = (matrix.M31 - matrix.M13) * sqrt;
                 result.Z = (matrix.M12 - matrix.M21) * sqrt;
             }
-            else if ((matrix.M11 >= matrix.M22) && (matrix.M11 >= matrix.M33))
+            else if (matrix.M11 >= matrix.M22 && matrix.M11 >= matrix.M33)
             {
                 sqrt = (float)Math.Sqrt(1.0f + matrix.M11 - matrix.M22 - matrix.M33);
                 half = 0.5f / sqrt;
@@ -861,7 +861,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the created look-at quaternion.</param>
         public static void RotationLookAtLH(ref Vector3 forward, ref Vector3 up, out Quaternion result)
         {
-            Vector3 eye = Vector3.Zero;
+            var eye = Vector3.Zero;
             LookAtLH(ref eye, ref forward, ref up, out result);
         }
 
@@ -911,7 +911,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the created look-at quaternion.</param>
         public static void RotationLookAtRH(ref Vector3 forward, ref Vector3 up, out Quaternion result)
         {
-            Vector3 eye = Vector3.Zero;
+            var eye = Vector3.Zero;
             LookAtRH(ref eye, ref forward, ref up, out result);
         }
 
@@ -1003,21 +1003,21 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the newly created quaternion.</param>
         public static void RotationYawPitchRoll(float yaw, float pitch, float roll, out Quaternion result)
         {
-            float halfRoll = roll * 0.5f;
-            float halfPitch = pitch * 0.5f;
-            float halfYaw = yaw * 0.5f;
+            var halfRoll = roll * 0.5f;
+            var halfPitch = pitch * 0.5f;
+            var halfYaw = yaw * 0.5f;
 
-            float sinRoll = (float)Math.Sin(halfRoll);
-            float cosRoll = (float)Math.Cos(halfRoll);
-            float sinPitch = (float)Math.Sin(halfPitch);
-            float cosPitch = (float)Math.Cos(halfPitch);
-            float sinYaw = (float)Math.Sin(halfYaw);
-            float cosYaw = (float)Math.Cos(halfYaw);
+            var sinRoll = (float)Math.Sin(halfRoll);
+            var cosRoll = (float)Math.Cos(halfRoll);
+            var sinPitch = (float)Math.Sin(halfPitch);
+            var cosPitch = (float)Math.Cos(halfPitch);
+            var sinYaw = (float)Math.Sin(halfYaw);
+            var cosYaw = (float)Math.Cos(halfYaw);
 
-            result.X = (cosYaw * sinPitch * cosRoll) + (sinYaw * cosPitch * sinRoll);
-            result.Y = (sinYaw * cosPitch * cosRoll) - (cosYaw * sinPitch * sinRoll);
-            result.Z = (cosYaw * cosPitch * sinRoll) - (sinYaw * sinPitch * cosRoll);
-            result.W = (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll);
+            result.X = cosYaw * sinPitch * cosRoll + sinYaw * cosPitch * sinRoll;
+            result.Y = sinYaw * cosPitch * cosRoll - cosYaw * sinPitch * sinRoll;
+            result.Z = cosYaw * cosPitch * sinRoll - sinYaw * sinPitch * cosRoll;
+            result.W = cosYaw * cosPitch * cosRoll + sinYaw * sinPitch * sinRoll;
         }
 
         /// <summary>
@@ -1044,7 +1044,7 @@ namespace Xacor.Mathematics
         {
             float opposite;
             float inverse;
-            float dot = Dot(start, end);
+            var dot = Dot(start, end);
 
             if (Math.Abs(dot) > 1.0f - MathUtil.ZeroTolerance)
             {
@@ -1053,17 +1053,17 @@ namespace Xacor.Mathematics
             }
             else
             {
-                float acos = (float)Math.Acos(Math.Abs(dot));
-                float invSin = (float)(1.0 / Math.Sin(acos));
+                var acos = (float)Math.Acos(Math.Abs(dot));
+                var invSin = (float)(1.0 / Math.Sin(acos));
 
                 inverse = (float)Math.Sin((1.0f - amount) * acos) * invSin;
                 opposite = (float)Math.Sin(amount * acos) * invSin * Math.Sign(dot);
             }
 
-            result.X = (inverse * start.X) + (opposite * end.X);
-            result.Y = (inverse * start.Y) + (opposite * end.Y);
-            result.Z = (inverse * start.Z) + (opposite * end.Z);
-            result.W = (inverse * start.W) + (opposite * end.W);
+            result.X = inverse * start.X + opposite * end.X;
+            result.Y = inverse * start.Y + opposite * end.Y;
+            result.Z = inverse * start.Z + opposite * end.Z;
+            result.W = inverse * start.W + opposite * end.W;
         }
 
         /// <summary>
@@ -1120,15 +1120,15 @@ namespace Xacor.Mathematics
         /// <returns>An array of three quaternions that represent control points for spherical quadrangle interpolation.</returns>
         public static Quaternion[] SquadSetup(Quaternion value1, Quaternion value2, Quaternion value3, Quaternion value4)
         {
-            Quaternion q0 = (value1 + value2).LengthSquared() < (value1 - value2).LengthSquared() ? -value1 : value1;
-            Quaternion q2 = (value2 + value3).LengthSquared() < (value2 - value3).LengthSquared() ? -value3 : value3;
-            Quaternion q3 = (value3 + value4).LengthSquared() < (value3 - value4).LengthSquared() ? -value4 : value4;
-            Quaternion q1 = value2;
+            var q0 = (value1 + value2).LengthSquared() < (value1 - value2).LengthSquared() ? -value1 : value1;
+            var q2 = (value2 + value3).LengthSquared() < (value2 - value3).LengthSquared() ? -value3 : value3;
+            var q3 = (value3 + value4).LengthSquared() < (value3 - value4).LengthSquared() ? -value4 : value4;
+            var q1 = value2;
 
             Exponential(ref q1, out var q1Exp);
             Exponential(ref q2, out var q2Exp);
 
-            Quaternion[] results = new Quaternion[3];
+            var results = new Quaternion[3];
             results[0] = q1 * Exponential(-0.25f * (Logarithm(q1Exp * q2) + Logarithm(q1Exp * q0)));
             results[1] = q2 * Exponential(-0.25f * (Logarithm(q2Exp * q3) + Logarithm(q2Exp * q1)));
             results[2] = q2;

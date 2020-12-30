@@ -20,7 +20,7 @@ namespace Xacor.Mathematics
         /// <summary>
         /// A <see cref = "Int3" /> with all of its components set to zero.
         /// </summary>
-        public static readonly Int3 Zero = new Int3();
+        public static readonly Int3 Zero;
 
         /// <summary>
         /// The X unit <see cref = "Int3" /> (1, 0, 0).
@@ -205,7 +205,7 @@ namespace Xacor.Mathematics
         /// <param name = "result">When the method completes, contains the scaled vector.</param>
         public static void Multiply(ref Int3 value, int scale, out Int3 result)
         {
-            result = new Int3(value.X*scale, value.Y*scale, value.Z*scale);
+            result = new Int3(value.X * scale, value.Y * scale, value.Z * scale);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Xacor.Mathematics
         /// <returns>The scaled vector.</returns>
         public static Int3 Multiply(Int3 value, int scale)
         {
-            return new Int3(value.X*scale, value.Y*scale, value.Z*scale);
+            return new Int3(value.X * scale, value.Y * scale, value.Z * scale);
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace Xacor.Mathematics
         /// <param name = "result">When the method completes, contains the modulated vector.</param>
         public static void Modulate(ref Int3 left, ref Int3 right, out Int3 result)
         {
-            result = new Int3(left.X*right.X, left.Y*right.Y, left.Z*right.Z);
+            result = new Int3(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Xacor.Mathematics
         /// <returns>The modulated vector.</returns>
         public static Int3 Modulate(Int3 left, Int3 right)
         {
-            return new Int3(left.X*right.X, left.Y*right.Y, left.Z*right.Z);
+            return new Int3(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Xacor.Mathematics
         /// <param name = "result">When the method completes, contains the scaled vector.</param>
         public static void Divide(ref Int3 value, int scale, out Int3 result)
         {
-            result = new Int3(value.X/scale, value.Y/scale, value.Z/scale);
+            result = new Int3(value.X / scale, value.Y / scale, value.Z / scale);
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace Xacor.Mathematics
         /// <returns>The scaled vector.</returns>
         public static Int3 Divide(Int3 value, int scale)
         {
-            return new Int3(value.X/scale, value.Y/scale, value.Z/scale);
+            return new Int3(value.X / scale, value.Y / scale, value.Z / scale);
         }
 
         /// <summary>
@@ -292,17 +292,17 @@ namespace Xacor.Mathematics
         /// <param name = "result">When the method completes, contains the clamped value.</param>
         public static void Clamp(ref Int3 value, ref Int3 min, ref Int3 max, out Int3 result)
         {
-            int x = value.X;
-            x = (x > max.X) ? max.X : x;
-            x = (x < min.X) ? min.X : x;
+            var x = value.X;
+            x = x > max.X ? max.X : x;
+            x = x < min.X ? min.X : x;
 
-            int y = value.Y;
-            y = (y > max.Y) ? max.Y : y;
-            y = (y < min.Y) ? min.Y : y;
+            var y = value.Y;
+            y = y > max.Y ? max.Y : y;
+            y = y < min.Y ? min.Y : y;
 
-            int z = value.Z;
-            z = (z > max.Z) ? max.Z : z;
-            z = (z < min.Z) ? min.Z : z;
+            var z = value.Z;
+            z = z > max.Z ? max.Z : z;
+            z = z < min.Z ? min.Z : z;
 
             result = new Int3(x, y, z);
         }
@@ -328,9 +328,9 @@ namespace Xacor.Mathematics
         /// <param name = "result">When the method completes, contains an new vector composed of the largest components of the source vectors.</param>
         public static void Max(ref Int3 left, ref Int3 right, out Int3 result)
         {
-            result.X = (left.X > right.X) ? left.X : right.X;
-            result.Y = (left.Y > right.Y) ? left.Y : right.Y;
-            result.Z = (left.Z > right.Z) ? left.Z : right.Z;
+            result.X = left.X > right.X ? left.X : right.X;
+            result.Y = left.Y > right.Y ? left.Y : right.Y;
+            result.Z = left.Z > right.Z ? left.Z : right.Z;
         }
 
         /// <summary>
@@ -353,9 +353,9 @@ namespace Xacor.Mathematics
         /// <param name = "result">When the method completes, contains an new vector composed of the smallest components of the source vectors.</param>
         public static void Min(ref Int3 left, ref Int3 right, out Int3 result)
         {
-            result.X = (left.X < right.X) ? left.X : right.X;
-            result.Y = (left.Y < right.Y) ? left.Y : right.Y;
-            result.Z = (left.Z < right.Z) ? left.Z : right.Z;
+            result.X = left.X < right.X ? left.X : right.X;
+            result.Y = left.Y < right.Y ? left.Y : right.Y;
+            result.Z = left.Z < right.Z ? left.Z : right.Z;
         }
 
         /// <summary>

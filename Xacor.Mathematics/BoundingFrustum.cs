@@ -5,29 +5,26 @@ using System.Runtime.InteropServices;
 namespace Xacor.Mathematics
 {
     /// <summary>
-    /// Defines a frustum which can be used in frustum culling, zoom to Extents (zoom to fit) operations, 
+    /// Defines a frustum which can be used in frustum culling, zoom to Extents (zoom to fit) operations,
     /// (matrix, frustum, camera) interchange, and many kind of intersection testing.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct BoundingFrustum : IEquatable<BoundingFrustum>
     {
         private Matrix pMatrix;
-        private Plane  pNear;
-        private Plane  pFar;
-        private Plane  pLeft;
-        private Plane  pRight;
-        private Plane  pTop;
-        private Plane  pBottom;
+        private Plane pNear;
+        private Plane pFar;
+        private Plane pLeft;
+        private Plane pRight;
+        private Plane pTop;
+        private Plane pBottom;
 
         /// <summary>
         /// Gets or sets the Matrix that describes this bounding frustum.
         /// </summary>
         public Matrix Matrix
         {
-            get
-            {
-                return pMatrix;
-            }
+            get => pMatrix;
             set
             {
                 pMatrix = value;
@@ -37,63 +34,32 @@ namespace Xacor.Mathematics
         /// <summary>
         /// Gets the near plane of the BoundingFrustum.
         /// </summary>
-        public Plane Near
-        {
-            get
-            {
-                return pNear;
-            }
-        }
+        public Plane Near => pNear;
+
         /// <summary>
         /// Gets the far plane of the BoundingFrustum.
         /// </summary>
-        public Plane Far
-        {
-            get
-            {
-                return pFar;
-            }
-        }
+        public Plane Far => pFar;
+
         /// <summary>
         /// Gets the left plane of the BoundingFrustum.
         /// </summary>
-        public Plane Left
-        {
-            get
-            {
-                return pLeft;
-            }
-        }
+        public Plane Left => pLeft;
+
         /// <summary>
         /// Gets the right plane of the BoundingFrustum.
         /// </summary>
-        public Plane Right
-        {
-            get
-            {
-                return pRight;
-            }
-        }
+        public Plane Right => pRight;
+
         /// <summary>
         /// Gets the top plane of the BoundingFrustum.
         /// </summary>
-        public Plane Top
-        {
-            get
-            {
-                return pTop;
-            }
-        }
+        public Plane Top => pTop;
+
         /// <summary>
         /// Gets the bottom plane of the BoundingFrustum.
         /// </summary>
-        public Plane Bottom
-        {
-            get
-            {
-                return pBottom;
-            }
-        }
+        public Plane Bottom => pBottom;
 
         /// <summary>
         /// Creates a new instance of BoundingFrustum.
@@ -196,13 +162,13 @@ namespace Xacor.Mathematics
                 case 4: return pNear;
                 case 5: return pFar;
                 default:
-                    return new Plane();
+                    return default(Plane);
             }
         }
 
         private static void GetPlanesFromMatrix(ref Matrix matrix, out Plane near, out Plane far, out Plane left, out Plane right, out Plane top, out Plane bottom)
         {
-            //http://www.chadvernon.com/blog/resources/directx9/frustum-culling/
+            // http://www.chadvernon.com/blog/resources/directx9/frustum-culling/
 
             // Left plane
             left.Normal.X = matrix.M14 + matrix.M11;
@@ -249,8 +215,8 @@ namespace Xacor.Mathematics
 
         private static Vector3 Get3PlanesInterPoint(ref Plane p1, ref Plane p2, ref Plane p3)
         {
-            //P = -d1 * N2xN3 / N1.N2xN3 - d2 * N3xN1 / N2.N3xN1 - d3 * N1xN2 / N3.N1xN2 
-            Vector3 v =
+            // P = -d1 * N2xN3 / N1.N2xN3 - d2 * N3xN1 / N2.N3xN1 - d3 * N1xN2 / N3.N1xN2
+            var v =
                 -p1.D * Vector3.Cross(p2.Normal, p3.Normal) / Vector3.Dot(p1.Normal, Vector3.Cross(p2.Normal, p3.Normal))
                 - p2.D * Vector3.Cross(p3.Normal, p1.Normal) / Vector3.Dot(p2.Normal, Vector3.Cross(p3.Normal, p1.Normal))
                 - p3.D * Vector3.Cross(p1.Normal, p2.Normal) / Vector3.Dot(p3.Normal, Vector3.Cross(p1.Normal, p2.Normal));
@@ -271,35 +237,37 @@ namespace Xacor.Mathematics
         /// <returns>The bounding frustum calculated from perspective camera</returns>
         public static BoundingFrustum FromCamera(Vector3 cameraPos, Vector3 lookDir, Vector3 upDir, float fov, float znear, float zfar, float aspect)
         {
-            //http://knol.google.com/k/view-frustum
+            // http://knol.google.com/k/view-frustum
 
             lookDir = Vector3.Normalize(lookDir);
             upDir = Vector3.Normalize(upDir);
 
-            Vector3 nearCenter = cameraPos + lookDir * znear;
-            Vector3 farCenter = cameraPos + lookDir * zfar;
-            float nearHalfHeight = (float)(znear * Math.Tan(fov / 2f));
-            float farHalfHeight = (float)(zfar * Math.Tan(fov / 2f));
-            float nearHalfWidth = nearHalfHeight * aspect;
-            float farHalfWidth = farHalfHeight * aspect;
+            var nearCenter = cameraPos + lookDir * znear;
+            var farCenter = cameraPos + lookDir * zfar;
+            var nearHalfHeight = (float)(znear * Math.Tan(fov / 2f));
+            var farHalfHeight = (float)(zfar * Math.Tan(fov / 2f));
+            var nearHalfWidth = nearHalfHeight * aspect;
+            var farHalfWidth = farHalfHeight * aspect;
 
-            Vector3 rightDir = Vector3.Normalize(Vector3.Cross(upDir, lookDir));
-            Vector3 Near1 = nearCenter - nearHalfHeight * upDir + nearHalfWidth * rightDir;
-            Vector3 Near2 = nearCenter + nearHalfHeight * upDir + nearHalfWidth * rightDir;
-            Vector3 Near3 = nearCenter + nearHalfHeight * upDir - nearHalfWidth * rightDir;
-            Vector3 Near4 = nearCenter - nearHalfHeight * upDir - nearHalfWidth * rightDir;
-            Vector3 Far1 = farCenter - farHalfHeight * upDir + farHalfWidth * rightDir;
-            Vector3 Far2 = farCenter + farHalfHeight * upDir + farHalfWidth * rightDir;
-            Vector3 Far3 = farCenter + farHalfHeight * upDir - farHalfWidth * rightDir;
-            Vector3 Far4 = farCenter - farHalfHeight * upDir - farHalfWidth * rightDir;
+            var rightDir = Vector3.Normalize(Vector3.Cross(upDir, lookDir));
+            var Near1 = nearCenter - nearHalfHeight * upDir + nearHalfWidth * rightDir;
+            var Near2 = nearCenter + nearHalfHeight * upDir + nearHalfWidth * rightDir;
+            var Near3 = nearCenter + nearHalfHeight * upDir - nearHalfWidth * rightDir;
+            var Near4 = nearCenter - nearHalfHeight * upDir - nearHalfWidth * rightDir;
+            var Far1 = farCenter - farHalfHeight * upDir + farHalfWidth * rightDir;
+            var Far2 = farCenter + farHalfHeight * upDir + farHalfWidth * rightDir;
+            var Far3 = farCenter + farHalfHeight * upDir - farHalfWidth * rightDir;
+            var Far4 = farCenter - farHalfHeight * upDir - farHalfWidth * rightDir;
 
-            var result = new BoundingFrustum();
-            result.pNear = new Plane(Near1, Near2, Near3);
-            result.pFar = new Plane(Far3, Far2, Far1);
-            result.pLeft = new Plane(Near4, Near3, Far3);
-            result.pRight = new Plane(Far1, Far2, Near2);
-            result.pTop = new Plane(Near2, Far2, Far3);
-            result.pBottom = new Plane(Far4, Far1, Near1);
+            var result = new BoundingFrustum
+            {
+                pNear = new Plane(Near1, Near2, Near3),
+                pFar = new Plane(Far3, Far2, Far1),
+                pLeft = new Plane(Near4, Near3, Far3),
+                pRight = new Plane(Far1, Far2, Near2),
+                pTop = new Plane(Near2, Far2, Far3),
+                pBottom = new Plane(Far4, Far1, Near1)
+            };
 
             result.pNear.Normalize();
             result.pFar.Normalize();
@@ -350,17 +318,16 @@ namespace Xacor.Mathematics
         /// , element6 is Far3 (far left top corner)
         /// , element7 is Far4 (far left down corner)
         /// </summary>
-        /// <returns>The 8 corners of the frustum</returns>
         public void GetCorners(Vector3[] corners)
         {
-            corners[0] = Get3PlanesInterPoint(ref pNear, ref  pBottom, ref  pRight);    //Near1
-            corners[1] = Get3PlanesInterPoint(ref pNear, ref  pTop, ref  pRight);       //Near2
-            corners[2] = Get3PlanesInterPoint(ref pNear, ref  pTop, ref  pLeft);        //Near3
-            corners[3] = Get3PlanesInterPoint(ref pNear, ref  pBottom, ref  pLeft);     //Near3
-            corners[4] = Get3PlanesInterPoint(ref pFar, ref  pBottom, ref  pRight);    //Far1
-            corners[5] = Get3PlanesInterPoint(ref pFar, ref  pTop, ref  pRight);       //Far2
-            corners[6] = Get3PlanesInterPoint(ref pFar, ref  pTop, ref  pLeft);        //Far3
-            corners[7] = Get3PlanesInterPoint(ref pFar, ref  pBottom, ref  pLeft);     //Far3
+            corners[0] = Get3PlanesInterPoint(ref pNear, ref pBottom, ref pRight); // Near1
+            corners[1] = Get3PlanesInterPoint(ref pNear, ref pTop, ref pRight); // Near2
+            corners[2] = Get3PlanesInterPoint(ref pNear, ref pTop, ref pLeft); // Near3
+            corners[3] = Get3PlanesInterPoint(ref pNear, ref pBottom, ref pLeft); // Near3
+            corners[4] = Get3PlanesInterPoint(ref pFar, ref pBottom, ref pRight); // Far1
+            corners[5] = Get3PlanesInterPoint(ref pFar, ref pTop, ref pRight); // Far2
+            corners[6] = Get3PlanesInterPoint(ref pFar, ref pTop, ref pLeft); // Far3
+            corners[7] = Get3PlanesInterPoint(ref pFar, ref pBottom, ref pLeft); // Far3
         }
 
         /// <summary>
@@ -370,14 +337,14 @@ namespace Xacor.Mathematics
         public FrustumCameraParams GetCameraParams()
         {
             var corners = GetCorners();
-            var cameraParam = new FrustumCameraParams();
+            var cameraParam = default(FrustumCameraParams);
             cameraParam.Position = Get3PlanesInterPoint(ref pRight, ref pTop, ref pLeft);
             cameraParam.LookAtDir = pNear.Normal;
             cameraParam.UpDir = Vector3.Normalize(Vector3.Cross(pRight.Normal, pNear.Normal));
             cameraParam.FOV = (float)((Math.PI / 2.0 - Math.Acos(Vector3.Dot(pNear.Normal, pTop.Normal))) * 2);
             cameraParam.AspectRatio = (corners[6] - corners[5]).Length() / (corners[4] - corners[5]).Length();
-            cameraParam.ZNear = (cameraParam.Position + (pNear.Normal * pNear.D)).Length();
-            cameraParam.ZFar = (cameraParam.Position + (pFar.Normal * pFar.D)).Length();
+            cameraParam.ZNear = (cameraParam.Position + pNear.Normal * pNear.D).Length();
+            cameraParam.ZFar = (cameraParam.Position + pFar.Normal * pFar.D).Length();
             return cameraParam;
         }
 
@@ -390,17 +357,18 @@ namespace Xacor.Mathematics
         {
             var result = PlaneIntersectionType.Front;
             var planeResult = PlaneIntersectionType.Front;
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 6; i++)
             {
-                switch (i)
+                planeResult = i switch
                 {
-                    case 0: planeResult = pNear.Intersects(ref point); break;
-                    case 1: planeResult = pFar.Intersects(ref point); break;
-                    case 2: planeResult = pLeft.Intersects(ref point); break;
-                    case 3: planeResult = pRight.Intersects(ref point); break;
-                    case 4: planeResult = pTop.Intersects(ref point); break;
-                    case 5: planeResult = pBottom.Intersects(ref point); break;
-                }
+                    0 => pNear.Intersects(ref point),
+                    1 => pFar.Intersects(ref point),
+                    2 => pLeft.Intersects(ref point),
+                    3 => pRight.Intersects(ref point),
+                    4 => pTop.Intersects(ref point),
+                    5 => pBottom.Intersects(ref point),
+                    _ => planeResult
+                };
                 switch (planeResult)
                 {
                     case PlaneIntersectionType.Back:
@@ -410,11 +378,12 @@ namespace Xacor.Mathematics
                         break;
                 }
             }
-            switch (result)
+
+            return result switch
             {
-                case PlaneIntersectionType.Intersecting: return ContainmentType.Intersects;
-                default: return ContainmentType.Contains;
-            }
+                PlaneIntersectionType.Intersecting => ContainmentType.Intersects,
+                _ => ContainmentType.Contains
+            };
         }
 
         /// <summary>
@@ -499,7 +468,7 @@ namespace Xacor.Mathematics
         {
             Plane plane;
             var result = ContainmentType.Contains;
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 6; i++)
             {
                 plane = GetPlane(i);
                 GetBoxToPlanePVertexNVertex(ref box, ref plane.Normal, out var p, out var n);
@@ -540,7 +509,7 @@ namespace Xacor.Mathematics
         {
             var result = PlaneIntersectionType.Front;
             var planeResult = PlaneIntersectionType.Front;
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 6; i++)
             {
                 switch (i)
                 {
@@ -656,7 +625,7 @@ namespace Xacor.Mathematics
         private PlaneIntersectionType PlaneIntersectsPoints(ref Plane plane, Vector3[] points)
         {
             var result = Collision.PlaneIntersectsPoint(ref plane, ref points[0]);
-            for (int i = 1; i < points.Length; i++)
+            for (var i = 1; i < points.Length; i++)
                 if (Collision.PlaneIntersectsPoint(ref plane, ref points[i]) != result)
                     return PlaneIntersectionType.Intersecting;
             return result;
@@ -688,7 +657,7 @@ namespace Xacor.Mathematics
         /// <returns>With of the frustum at the specified depth</returns>
         public float GetWidthAtDepth(float depth)
         {
-            float hAngle = (float)((Math.PI / 2.0 - Math.Acos(Vector3.Dot(pNear.Normal, pLeft.Normal))));
+            var hAngle = (float)(Math.PI / 2.0 - Math.Acos(Vector3.Dot(pNear.Normal, pLeft.Normal)));
             return (float)(Math.Tan(hAngle) * depth * 2);
         }
 
@@ -699,7 +668,7 @@ namespace Xacor.Mathematics
         /// <returns>Height of the frustum at the specified depth</returns>
         public float GetHeightAtDepth(float depth)
         {
-            float vAngle = (float)((Math.PI / 2.0 - Math.Acos(Vector3.Dot(pNear.Normal, pTop.Normal))));
+            var vAngle = (float)(Math.PI / 2.0 - Math.Acos(Vector3.Dot(pNear.Normal, pTop.Normal)));
             return (float)(Math.Tan(vAngle) * depth * 2);
         }
 
@@ -735,8 +704,8 @@ namespace Xacor.Mathematics
         {
             if (Contains(ray.Position) != ContainmentType.Disjoint)
             {
-                float nearstPlaneDistance = float.MaxValue;
-                for (int i = 0; i < 6; i++)
+                var nearstPlaneDistance = float.MaxValue;
+                for (var i = 0; i < 6; i++)
                 {
                     var plane = GetPlane(i);
                     if (Collision.RayIntersectsPlane(ref ray, ref plane, out float distance) && distance < nearstPlaneDistance)
@@ -751,12 +720,12 @@ namespace Xacor.Mathematics
             }
             else
             {
-                //We will find the two points at which the ray enters and exists the frustum
-                //These two points make a line which center inside the frustum if the ray intersects it
-                //Or outside the frustum if the ray intersects frustum planes outside it.
-                float minDist = float.MaxValue;
-                float maxDist = float.MinValue;
-                for (int i = 0; i < 6; i++)
+                // We will find the two points at which the ray enters and exists the frustum
+                // These two points make a line which center inside the frustum if the ray intersects it
+                // Or outside the frustum if the ray intersects frustum planes outside it.
+                var minDist = float.MaxValue;
+                var maxDist = float.MinValue;
+                for (var i = 0; i < 6; i++)
                 {
                     var plane = GetPlane(i);
                     if (Collision.RayIntersectsPlane(ref ray, ref plane, out float distance))
@@ -766,9 +735,9 @@ namespace Xacor.Mathematics
                     }
                 }
 
-                Vector3 minPoint = ray.Position + ray.Direction * minDist;
-                Vector3 maxPoint = ray.Position + ray.Direction * maxDist;
-                Vector3 center = (minPoint + maxPoint) / 2f;
+                var minPoint = ray.Position + ray.Direction * minDist;
+                var maxPoint = ray.Position + ray.Direction * maxDist;
+                var center = (minPoint + maxPoint) / 2f;
                 if (Contains(ref center) != ContainmentType.Disjoint)
                 {
                     inDistance = minDist;
@@ -794,18 +763,18 @@ namespace Xacor.Mathematics
         /// <returns>The zoom to fit distance</returns>
         public float GetZoomToExtentsShiftDistance(Vector3[] points)
         {
-            float vAngle = (float)((Math.PI / 2.0 - Math.Acos(Vector3.Dot(pNear.Normal, pTop.Normal))));
-            float vSin = (float)Math.Sin(vAngle);
-            float hAngle = (float)((Math.PI / 2.0 - Math.Acos(Vector3.Dot(pNear.Normal, pLeft.Normal))));
-            float hSin = (float)Math.Sin(hAngle);
-            float horizontalToVerticalMapping = vSin / hSin;
+            var vAngle = (float)(Math.PI / 2.0 - Math.Acos(Vector3.Dot(pNear.Normal, pTop.Normal)));
+            var vSin = (float)Math.Sin(vAngle);
+            var hAngle = (float)(Math.PI / 2.0 - Math.Acos(Vector3.Dot(pNear.Normal, pLeft.Normal)));
+            var hSin = (float)Math.Sin(hAngle);
+            var horizontalToVerticalMapping = vSin / hSin;
 
             var ioFrustrum = GetInsideOutClone();
 
-            float maxPointDist = float.MinValue;
-            for (int i = 0; i < points.Length; i++)
+            var maxPointDist = float.MinValue;
+            for (var i = 0; i < points.Length; i++)
             {
-                float pointDist = Collision.DistancePlanePoint(ref ioFrustrum.pTop, ref points[i]);
+                var pointDist = Collision.DistancePlanePoint(ref ioFrustrum.pTop, ref points[i]);
                 pointDist = Math.Max(pointDist, Collision.DistancePlanePoint(ref ioFrustrum.pBottom, ref points[i]));
                 pointDist = Math.Max(pointDist, Collision.DistancePlanePoint(ref ioFrustrum.pLeft, ref points[i]) * horizontalToVerticalMapping);
                 pointDist = Math.Max(pointDist, Collision.DistancePlanePoint(ref ioFrustrum.pRight, ref points[i]) * horizontalToVerticalMapping);
@@ -853,13 +822,13 @@ namespace Xacor.Mathematics
         /// Indicate whether the current BoundingFrustrum is Orthographic.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if the current BoundingFrustrum is Orthographic; otherwise, <c>false</c>.
+        /// <c>true</c> if the current BoundingFrustrum is Orthographic; otherwise, <c>false</c>.
         /// </value>
         public bool IsOrthographic
         {
             get
             {
-                return (pLeft.Normal == -pRight.Normal) && (pTop.Normal == -pBottom.Normal);
+                return pLeft.Normal == -pRight.Normal && pTop.Normal == -pBottom.Normal;
             }
         }
     }

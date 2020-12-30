@@ -48,20 +48,20 @@ namespace Xacor.Mathematics
                 return true;
 
             // Original from Bruce Dawson: http://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/
-            int aInt = *(int*)&a;
-            int bInt = *(int*)&b;
+            var aInt = *(int*)&a;
+            var bInt = *(int*)&b;
 
             // Different signs means they do not match.
-            if ((aInt < 0) != (bInt < 0))
+            if (aInt < 0 != bInt < 0)
                 return false;
 
             // Find the difference in ULPs.
-            int ulp = Math.Abs(aInt - bInt);
+            var ulp = Math.Abs(aInt - bInt);
 
             // Choose of maxUlp = 4
             // according to http://code.google.com/p/googletest/source/browse/trunk/include/gtest/internal/gtest-internal.h
             const int maxUlp = 4;
-            return (ulp <= maxUlp);
+            return ulp <= maxUlp;
         }
 
         /// <summary>
@@ -93,8 +93,8 @@ namespace Xacor.Mathematics
         /// <returns><c>true</c> if a almost equal to b within a float epsilon, <c>false</c> otherwise</returns>
         public static bool WithinEpsilon(float a, float b, float epsilon)
         {
-            float num = a - b;
-            return ((-epsilon <= num) && (num <= epsilon));
+            var num = a - b;
+            return -epsilon <= num && num <= epsilon;
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace Xacor.Mathematics
         /// <returns>The result of linear interpolation of values based on the amount.</returns>
         public static byte Lerp(byte from, byte to, float amount)
         {
-            return (byte)Lerp((float)from, (float)to, amount);
+            return (byte)Lerp(@from, (float)to, amount);
         }
 
         /// <summary>
@@ -288,9 +288,9 @@ namespace Xacor.Mathematics
         /// <param name="amount">Value between 0 and 1 indicating interpolation amount.</param>
         public static float SmoothStep(float amount)
         {
-            return (amount <= 0) ? 0
-                : (amount >= 1) ? 1
-                : amount * amount * (3 - (2 * amount));
+            return amount <= 0 ? 0
+                : amount >= 1 ? 1
+                : amount * amount * (3 - 2 * amount);
         }
 
         /// <summary>
@@ -302,9 +302,9 @@ namespace Xacor.Mathematics
         /// <param name="amount">Value between 0 and 1 indicating interpolation amount.</param>
         public static float SmootherStep(float amount)
         {
-            return (amount <= 0) ? 0
-                : (amount >= 1) ? 1
-                : amount * amount * amount * (amount * ((amount * 6) - 15) + 10);
+            return amount <= 0 ? 0
+                : amount >= 1 ? 1
+                : amount * amount * amount * (amount * (amount * 6 - 15) + 10);
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace Xacor.Mathematics
                 throw new ArgumentException(string.Format("min {0} should be less than or equal to max {1}", min, max), nameof(min));
 
             // Code from http://stackoverflow.com/a/707426/1356325
-            int range_size = max - min + 1;
+            var range_size = max - min + 1;
 
             if (value < min)
                 value += range_size * ((min - value) / range_size + 1);
@@ -375,7 +375,7 @@ namespace Xacor.Mathematics
                 throw new ArgumentException(string.Format("min {0} should be less than or equal to max {1}", min, max), nameof(min));
 
             var range_size = maxd - mind;
-            return (float)(mind + (valued - mind) - (range_size * Math.Floor((valued - mind) / range_size)));
+            return (float)(mind + (valued - mind) - range_size * Math.Floor((valued - mind) / range_size));
         }
 
         /// <summary>
@@ -412,8 +412,8 @@ namespace Xacor.Mathematics
             var cx = x - centerX;
             var cy = y - centerY;
 
-            var componentX = (cx * cx) / (2 * sigmaX * sigmaX);
-            var componentY = (cy * cy) / (2 * sigmaY * sigmaY);
+            var componentX = cx * cx / (2 * sigmaX * sigmaX);
+            var componentY = cy * cy / (2 * sigmaY * sigmaY);
 
             return amplitude * Math.Exp(-(componentX + componentY));
         }

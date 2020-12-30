@@ -20,7 +20,7 @@ namespace Xacor.Mathematics
         /// <summary>
         /// A <see cref = "Bool4" /> with all of its components set to false.
         /// </summary>
-        public static readonly Bool4 False = new Bool4();
+        public static readonly Bool4 False;
 
         /// <summary>
         /// The X unit <see cref = "Bool4" /> (true, 0, 0, 0).
@@ -151,9 +151,8 @@ namespace Xacor.Mathematics
             iX = x ? 1 : 0;
             iY = y ? 1 : 0;
             iZ = z ? 1 : 0;
-            iW = w ? 1 : 0; 
+            iW = w ? 1 : 0;
         }
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref = "Bool4" /> struct.
@@ -230,7 +229,7 @@ namespace Xacor.Mathematics
         /// <returns>A four-element array containing the components of the vector.</returns>
         public bool[] ToArray()
         {
-            return new bool[] {X, Y, Z, W};
+            return new[] { X, Y, Z, W };
         }
 
         /// <summary>
@@ -285,7 +284,7 @@ namespace Xacor.Mathematics
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {

@@ -197,39 +197,39 @@ namespace Xacor.Mathematics
             }
 
             // Check that count is in the correct range
-            if (count < 0 || (start + count) > points.Length)
+            if (count < 0 || start + count > points.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(count), count, string.Format("Must be in the range <= {0}", points.Length));
             }
 
             var upperEnd = start + count;
 
-            //Find the center of all points.
-            Vector3 center = Vector3.Zero;
-            for (int i = start; i < upperEnd; ++i)
+            // Find the center of all points.
+            var center = Vector3.Zero;
+            for (var i = start; i < upperEnd; ++i)
             {
                 Vector3.Add(ref points[i], ref center, out center);
             }
 
-            //This is the center of our sphere.
+            // This is the center of our sphere.
             center /= (float)count;
 
-            //Find the radius of the sphere
-            float radius = 0f;
-            for (int i = start; i < upperEnd; ++i)
+            // Find the radius of the sphere
+            var radius = 0f;
+            for (var i = start; i < upperEnd; ++i)
             {
-                //We are doing a relative distance comparison to find the maximum distance
-                //from the center of our sphere.
+                // We are doing a relative distance comparison to find the maximum distance
+                // from the center of our sphere.
                 Vector3.DistanceSquared(ref center, ref points[i], out var distance);
 
                 if (distance > radius)
                     radius = distance;
             }
 
-            //Find the real distance from the DistanceSquared.
+            // Find the real distance from the DistanceSquared.
             radius = (float)Math.Sqrt(radius);
 
-            //Construct the sphere.
+            // Construct the sphere.
             result.Center = center;
             result.Radius = radius;
         }
@@ -269,11 +269,11 @@ namespace Xacor.Mathematics
         {
             Vector3.Lerp(ref box.Minimum, ref box.Maximum, 0.5f, out result.Center);
 
-            float x = box.Minimum.X - box.Maximum.X;
-            float y = box.Minimum.Y - box.Maximum.Y;
-            float z = box.Minimum.Z - box.Maximum.Z;
+            var x = box.Minimum.X - box.Maximum.X;
+            var y = box.Minimum.Y - box.Maximum.Y;
+            var z = box.Minimum.Z - box.Maximum.Z;
 
-            float distance = (float)(Math.Sqrt((x * x) + (y * y) + (z * z)));
+            var distance = (float)Math.Sqrt(x * x + y * y + z * z);
             result.Radius = distance * 0.5f;
         }
 
@@ -296,11 +296,11 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the newly constructed bounding sphere.</param>
         public static void Merge(ref BoundingSphere value1, ref BoundingSphere value2, out BoundingSphere result)
         {
-            Vector3 difference = value2.Center - value1.Center;
+            var difference = value2.Center - value1.Center;
 
-            float length = difference.Length();
-            float radius = value1.Radius;
-            float radius2 = value2.Radius;
+            var length = difference.Length();
+            var radius = value1.Radius;
+            var radius2 = value2.Radius;
 
             if (radius + radius2 >= length)
             {
@@ -317,9 +317,9 @@ namespace Xacor.Mathematics
                 }
             }
 
-            Vector3 vector = difference * (1.0f / length);
-            float min = Math.Min(-radius, length - radius2);
-            float max = (Math.Max(radius, length + radius2) - min) * 0.5f;
+            var vector = difference * (1.0f / length);
+            var min = Math.Min(-radius, length - radius2);
+            var max = (Math.Max(radius, length + radius2) - min) * 0.5f;
 
             result.Center = value1.Center + vector * (max + min);
             result.Radius = max;
@@ -421,7 +421,7 @@ namespace Xacor.Mathematics
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {

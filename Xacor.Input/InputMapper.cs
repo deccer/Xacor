@@ -85,8 +85,6 @@ namespace Xacor.Input
                     _axisValueMap[axis] = axisValue;
                 }
             }
-            
-            // update _values
         }
     }
 }

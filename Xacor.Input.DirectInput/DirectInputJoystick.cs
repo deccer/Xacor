@@ -25,10 +25,10 @@ namespace Xacor.Input.DirectInput
         {
             var currentState = _joystick.GetCurrentState();
 
-            var inputData = new InputData();
-            inputData.AxisData = EmptyAxisData;
-
-
+            var inputData = new InputData
+            {
+                AxisData = EmptyAxisData
+            };
             _previousState = currentState;
 
             return inputData;

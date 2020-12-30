@@ -169,7 +169,7 @@ namespace Xacor.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Equals(ref Half3 value1, ref Half3 value2)
         {
-            return (((value1.X == value2.X) && (value1.Y == value2.Y)) && (value1.Z == value2.Z));
+            return value1.X == value2.X && value1.Y == value2.Y && value1.Z == value2.Z;
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Xacor.Mathematics
         /// <c>true</c> if the current instance is equal to the specified object; <c>false</c> otherwise.</returns>
         public bool Equals(Half3 other)
         {
-            return (((X == other.X) && (Y == other.Y)) && (Z == other.Z));
+            return X == other.X && Y == other.Y && Z == other.Z;
         }
 
         /// <summary>

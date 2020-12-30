@@ -267,10 +267,10 @@ namespace Xacor.Mathematics
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
 
-            Vector3 min = new Vector3(float.MaxValue);
-            Vector3 max = new Vector3(float.MinValue);
+            var min = new Vector3(float.MaxValue);
+            var max = new Vector3(float.MinValue);
 
-            for (int i = 0; i < points.Length; ++i)
+            for (var i = 0; i < points.Length; ++i)
             {
                 Vector3.Min(ref min, ref points[i], out min);
                 Vector3.Max(ref max, ref points[i], out max);
@@ -290,10 +290,10 @@ namespace Xacor.Mathematics
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
 
-            Vector3 min = new Vector3(float.MaxValue);
-            Vector3 max = new Vector3(float.MinValue);
+            var min = new Vector3(float.MaxValue);
+            var max = new Vector3(float.MinValue);
 
-            for (int i = 0; i < points.Length; ++i)
+            for (var i = 0; i < points.Length; ++i)
             {
                 Vector3.Min(ref min, ref points[i], out min);
                 Vector3.Max(ref max, ref points[i], out max);
@@ -436,7 +436,7 @@ namespace Xacor.Mathematics
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {

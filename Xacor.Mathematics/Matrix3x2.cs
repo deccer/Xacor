@@ -16,7 +16,7 @@ namespace Xacor.Mathematics
         /// Gets the identity matrix.
         /// </summary>
         /// <value>The identity matrix.</value>
-        public readonly static Matrix3x2 Identity = new Matrix3x2(1, 0, 0, 1, 0, 0);
+        public static readonly Matrix3x2 Identity = new Matrix3x2(1, 0, 0, 1, 0, 0);
 
         /// <summary>
         /// Element (1,1)
@@ -228,7 +228,7 @@ namespace Xacor.Mathematics
                 if (column < 0 || column > 1)
                     throw new ArgumentOutOfRangeException(nameof(column), "Rows and columns for matrices run from 0 to 1, inclusive.");
 
-                return this[(row * 2) + column];
+                return this[row * 2 + column];
             }
 
             set
@@ -238,7 +238,7 @@ namespace Xacor.Mathematics
                 if (column < 0 || column > 1)
                     throw new ArgumentOutOfRangeException(nameof(column), "Rows and columns for matrices run from 0 to 1, inclusive.");
 
-                this[(row * 2) + column] = value;
+                this[row * 2 + column] = value;
             }
         }
 
@@ -343,13 +343,13 @@ namespace Xacor.Mathematics
         /// <param name="result">The product of the two matrices.</param>
         public static void Multiply(ref Matrix3x2 left, ref Matrix3x2 right, out Matrix3x2 result)
         {
-            Matrix3x2 temp = new Matrix3x2();
-            temp.M11 = (left.M11 * right.M11) + (left.M12 * right.M21);
-            temp.M12 = (left.M11 * right.M12) + (left.M12 * right.M22);
-            temp.M21 = (left.M21 * right.M11) + (left.M22 * right.M21);
-            temp.M22 = (left.M21 * right.M12) + (left.M22 * right.M22);
-            temp.M31 = (left.M31 * right.M11) + (left.M32 * right.M21) + right.M31;
-            temp.M32 = (left.M31 * right.M12) + (left.M32 * right.M22) + right.M32;
+            var temp = new Matrix3x2();
+            temp.M11 = left.M11 * right.M11 + left.M12 * right.M21;
+            temp.M12 = left.M11 * right.M12 + left.M12 * right.M22;
+            temp.M21 = left.M21 * right.M11 + left.M22 * right.M21;
+            temp.M22 = left.M21 * right.M12 + left.M22 * right.M22;
+            temp.M31 = left.M31 * right.M11 + left.M32 * right.M21 + right.M31;
+            temp.M32 = left.M31 * right.M12 + left.M32 * right.M22 + right.M32;
             result = temp;
         }
 
@@ -373,7 +373,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the scaled matrix.</param>
         public static void Divide(ref Matrix3x2 left, float right, out Matrix3x2 result)
         {
-            float inv = 1.0f / right;
+            var inv = 1.0f / right;
 
             result.M11 = left.M11 * inv;
             result.M12 = left.M12 * inv;
@@ -569,8 +569,8 @@ namespace Xacor.Mathematics
             result.M11 = x;     result.M12 = 0.0f;
             result.M21 = 0.0f;  result.M22 = y;
 
-            result.M31 = center.X - (x * center.X);
-            result.M32 = center.Y - (y * center.Y);
+            result.M31 = center.X - x * center.X;
+            result.M32 = center.Y - y * center.Y;
 
             return result;
         }
@@ -589,8 +589,8 @@ namespace Xacor.Mathematics
             localResult.M11 = x;     localResult.M12 = 0.0f;
             localResult.M21 = 0.0f;  localResult.M22 = y;
 
-            localResult.M31 = center.X - (x * center.X);
-            localResult.M32 = center.Y - (y * center.Y);
+            localResult.M31 = center.X - x * center.X;
+            localResult.M32 = center.Y - y * center.Y;
 
             result = localResult;
         }
@@ -601,7 +601,7 @@ namespace Xacor.Mathematics
         /// <returns>Result of the determinant.</returns>
         public float Determinant()
         {
-                return (M11 * M22) - (M12 * M21);
+                return M11 * M22 - M12 * M21;
         }
 
         /// <summary>
@@ -611,8 +611,8 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the created rotation matrix.</param>
         public static void Rotation(float angle, out Matrix3x2 result)
         {
-            float cos = (float)Math.Cos(angle);
-            float sin = (float)Math.Sin(angle);
+            var cos = (float)Math.Cos(angle);
+            var sin = (float)Math.Sin(angle);
 
             result = Identity;
             result.M11 = cos;
@@ -739,8 +739,8 @@ namespace Xacor.Mathematics
         public static Vector2 TransformPoint(Matrix3x2 matrix, Vector2 point)
         {
             Vector2 result;
-            result.X = (point.X * matrix.M11) + (point.Y * matrix.M21) + matrix.M31;
-            result.Y = (point.X * matrix.M12) + (point.Y * matrix.M22) + matrix.M32;
+            result.X = point.X * matrix.M11 + point.Y * matrix.M21 + matrix.M31;
+            result.Y = point.X * matrix.M12 + point.Y * matrix.M22 + matrix.M32;
             return result;
         }
 
@@ -754,8 +754,8 @@ namespace Xacor.Mathematics
         public static void TransformPoint(ref Matrix3x2 matrix, ref Vector2 point, out Vector2 result)
         {
             Vector2 localResult;
-            localResult.X = (point.X * matrix.M11) + (point.Y * matrix.M21) + matrix.M31;
-            localResult.Y = (point.X * matrix.M12) + (point.Y * matrix.M22) + matrix.M32;
+            localResult.X = point.X * matrix.M11 + point.Y * matrix.M21 + matrix.M31;
+            localResult.Y = point.X * matrix.M12 + point.Y * matrix.M22 + matrix.M32;
             result = localResult;
         }
 
@@ -810,7 +810,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the inverse of the specified matrix.</param>
         public static void Invert(ref Matrix3x2 value, out Matrix3x2 result)
         {
-            float determinant = value.Determinant();
+            var determinant = value.Determinant();
 
             if (MathUtil.IsZero(determinant))
             {
@@ -818,9 +818,9 @@ namespace Xacor.Mathematics
                 return;
             }
 
-            float invdet = 1.0f / determinant;
-            float _offsetX = value.M31;
-            float _offsetY = value.M32;
+            var invdet = 1.0f / determinant;
+            var _offsetX = value.M31;
+            var _offsetY = value.M32;
 
             result = new Matrix3x2(
                 value.M22 * invdet,
@@ -1053,12 +1053,12 @@ namespace Xacor.Mathematics
         /// </returns>
         public bool Equals(ref Matrix3x2 other)
         {
-            return (MathUtil.NearEqual(other.M11, M11) &&
-                MathUtil.NearEqual(other.M12, M12) &&
-                MathUtil.NearEqual(other.M21, M21) &&
-                MathUtil.NearEqual(other.M22, M22) &&
-                MathUtil.NearEqual(other.M31, M31) &&
-                MathUtil.NearEqual(other.M32, M32));
+            return MathUtil.NearEqual(other.M11, M11) &&
+                   MathUtil.NearEqual(other.M12, M12) &&
+                   MathUtil.NearEqual(other.M21, M21) &&
+                   MathUtil.NearEqual(other.M22, M22) &&
+                   MathUtil.NearEqual(other.M31, M31) &&
+                   MathUtil.NearEqual(other.M32, M32);
         }
         /// <summary>
         /// Determines whether the specified <see cref="Matrix3x2"/> is equal to this instance.

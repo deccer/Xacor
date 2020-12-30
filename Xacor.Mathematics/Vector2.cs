@@ -20,7 +20,7 @@ namespace Xacor.Mathematics
         /// <summary>
         /// A <see cref="Vector2"/> with all of its components set to zero.
         /// </summary>
-        public static readonly Vector2 Zero = new Vector2();
+        public static readonly Vector2 Zero;
 
         /// <summary>
         /// The X unit <see cref="Vector2"/> (1, 0).
@@ -90,7 +90,7 @@ namespace Xacor.Mathematics
         /// </summary>
         public bool IsNormalized
         {
-            get { return MathUtil.IsOne((X * X) + (Y * Y)); }
+            get { return MathUtil.IsOne(X * X + Y * Y); }
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Xacor.Mathematics
         /// </remarks>
         public float Length()
         {
-            return (float)Math.Sqrt((X * X) + (Y * Y));
+            return (float)Math.Sqrt(X * X + Y * Y);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace Xacor.Mathematics
         /// </remarks>
         public float LengthSquared()
         {
-            return (X * X) + (Y * Y);
+            return X * X + Y * Y;
         }
 
         /// <summary>
@@ -163,10 +163,10 @@ namespace Xacor.Mathematics
         /// </summary>
         public void Normalize()
         {
-            float length = Length();
+            var length = Length();
             if (!MathUtil.IsZero(length))
             {
-                float inv = 1.0f / length;
+                var inv = 1.0f / length;
                 X *= inv;
                 Y *= inv;
             }
@@ -433,8 +433,8 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the 2D Cartesian coordinates of the specified point.</param>
         public static void Barycentric(ref Vector2 value1, ref Vector2 value2, ref Vector2 value3, float amount1, float amount2, out Vector2 result)
         {
-            result = new Vector2((value1.X + (amount1 * (value2.X - value1.X))) + (amount2 * (value3.X - value1.X)),
-                (value1.Y + (amount1 * (value2.Y - value1.Y))) + (amount2 * (value3.Y - value1.Y)));
+            result = new Vector2(value1.X + amount1 * (value2.X - value1.X) + amount2 * (value3.X - value1.X),
+                value1.Y + amount1 * (value2.Y - value1.Y) + amount2 * (value3.Y - value1.Y));
         }
 
         /// <summary>
@@ -461,13 +461,13 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the clamped value.</param>
         public static void Clamp(ref Vector2 value, ref Vector2 min, ref Vector2 max, out Vector2 result)
         {
-            float x = value.X;
-            x = (x > max.X) ? max.X : x;
-            x = (x < min.X) ? min.X : x;
+            var x = value.X;
+            x = x > max.X ? max.X : x;
+            x = x < min.X ? min.X : x;
 
-            float y = value.Y;
-            y = (y > max.Y) ? max.Y : y;
-            y = (y < min.Y) ? min.Y : y;
+            var y = value.Y;
+            y = y > max.Y ? max.Y : y;
+            y = y < min.Y ? min.Y : y;
 
             result = new Vector2(x, y);
         }
@@ -506,10 +506,10 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static void Distance(ref Vector2 value1, ref Vector2 value2, out float result)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
+            var x = value1.X - value2.X;
+            var y = value1.Y - value2.Y;
 
-            result = (float)Math.Sqrt((x * x) + (y * y));
+            result = (float)Math.Sqrt(x * x + y * y);
         }
 
         /// <summary>
@@ -524,10 +524,10 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static float Distance(Vector2 value1, Vector2 value2)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
+            var x = value1.X - value2.X;
+            var y = value1.Y - value2.Y;
 
-            return (float)Math.Sqrt((x * x) + (y * y));
+            return (float)Math.Sqrt(x * x + y * y);
         }
 
         /// <summary>
@@ -536,19 +536,19 @@ namespace Xacor.Mathematics
         /// <param name="value1">The first vector.</param>
         /// <param name="value2">The second vector</param>
         /// <param name="result">When the method completes, contains the squared distance between the two vectors.</param>
-        /// <remarks>Distance squared is the value before taking the square root. 
-        /// Distance squared can often be used in place of distance if relative comparisons are being made. 
-        /// For example, consider three points A, B, and C. To determine whether B or C is further from A, 
-        /// compare the distance between A and B to the distance between A and C. Calculating the two distances 
-        /// involves two square roots, which are computationally expensive. However, using distance squared 
+        /// <remarks>Distance squared is the value before taking the square root.
+        /// Distance squared can often be used in place of distance if relative comparisons are being made.
+        /// For example, consider three points A, B, and C. To determine whether B or C is further from A,
+        /// compare the distance between A and B to the distance between A and C. Calculating the two distances
+        /// involves two square roots, which are computationally expensive. However, using distance squared
         /// provides the same information and avoids calculating two square roots.
         /// </remarks>
         public static void DistanceSquared(ref Vector2 value1, ref Vector2 value2, out float result)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
+            var x = value1.X - value2.X;
+            var y = value1.Y - value2.Y;
 
-            result = (x * x) + (y * y);
+            result = x * x + y * y;
         }
 
         /// <summary>
@@ -557,19 +557,19 @@ namespace Xacor.Mathematics
         /// <param name="value1">The first vector.</param>
         /// <param name="value2">The second vector.</param>
         /// <returns>The squared distance between the two vectors.</returns>
-        /// <remarks>Distance squared is the value before taking the square root. 
-        /// Distance squared can often be used in place of distance if relative comparisons are being made. 
-        /// For example, consider three points A, B, and C. To determine whether B or C is further from A, 
-        /// compare the distance between A and B to the distance between A and C. Calculating the two distances 
-        /// involves two square roots, which are computationally expensive. However, using distance squared 
+        /// <remarks>Distance squared is the value before taking the square root.
+        /// Distance squared can often be used in place of distance if relative comparisons are being made.
+        /// For example, consider three points A, B, and C. To determine whether B or C is further from A,
+        /// compare the distance between A and B to the distance between A and C. Calculating the two distances
+        /// involves two square roots, which are computationally expensive. However, using distance squared
         /// provides the same information and avoids calculating two square roots.
         /// </remarks>
         public static float DistanceSquared(Vector2 value1, Vector2 value2)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
+            var x = value1.X - value2.X;
+            var y = value1.Y - value2.Y;
 
-            return (x * x) + (y * y);
+            return x * x + y * y;
         }
 
         /// <summary>
@@ -580,7 +580,7 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the dot product of the two vectors.</param>
         public static void Dot(ref Vector2 left, ref Vector2 right, out float result)
         {
-            result = (left.X * right.X) + (left.Y * right.Y);
+            result = left.X * right.X + left.Y * right.Y;
         }
 
         /// <summary>
@@ -591,7 +591,7 @@ namespace Xacor.Mathematics
         /// <returns>The dot product of the two vectors.</returns>
         public static float Dot(Vector2 left, Vector2 right)
         {
-            return (left.X * right.X) + (left.Y * right.Y);
+            return left.X * right.X + left.Y * right.Y;
         }
 
         /// <summary>
@@ -624,7 +624,7 @@ namespace Xacor.Mathematics
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
         /// <param name="result">When the method completes, contains the linear interpolation of the two vectors.</param>
         /// <remarks>
-        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned. 
+        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned.
         /// </remarks>
         public static void Lerp(ref Vector2 start, ref Vector2 end, float amount, out Vector2 result)
         {
@@ -640,7 +640,7 @@ namespace Xacor.Mathematics
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
         /// <returns>The linear interpolation of the two vectors.</returns>
         /// <remarks>
-        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned. 
+        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned.
         /// </remarks>
         public static Vector2 Lerp(Vector2 start, Vector2 end, float amount)
         {
@@ -685,15 +685,15 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the result of the Hermite spline interpolation.</param>
         public static void Hermite(ref Vector2 value1, ref Vector2 tangent1, ref Vector2 value2, ref Vector2 tangent2, float amount, out Vector2 result)
         {
-            float squared = amount * amount;
-            float cubed = amount * squared;
-            float part1 = ((2.0f * cubed) - (3.0f * squared)) + 1.0f;
-            float part2 = (-2.0f * cubed) + (3.0f * squared);
-            float part3 = (cubed - (2.0f * squared)) + amount;
-            float part4 = cubed - squared;
+            var squared = amount * amount;
+            var cubed = amount * squared;
+            var part1 = 2.0f * cubed - 3.0f * squared + 1.0f;
+            var part2 = -2.0f * cubed + 3.0f * squared;
+            var part3 = cubed - 2.0f * squared + amount;
+            var part4 = cubed - squared;
 
-            result.X = (((value1.X * part1) + (value2.X * part2)) + (tangent1.X * part3)) + (tangent2.X * part4);
-            result.Y = (((value1.Y * part1) + (value2.Y * part2)) + (tangent1.Y * part3)) + (tangent2.Y * part4);
+            result.X = value1.X * part1 + value2.X * part2 + tangent1.X * part3 + tangent2.X * part4;
+            result.Y = value1.Y * part1 + value2.Y * part2 + tangent1.Y * part3 + tangent2.Y * part4;
         }
 
         /// <summary>
@@ -722,16 +722,16 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the result of the Catmull-Rom interpolation.</param>
         public static void CatmullRom(ref Vector2 value1, ref Vector2 value2, ref Vector2 value3, ref Vector2 value4, float amount, out Vector2 result)
         {
-            float squared = amount * amount;
-            float cubed = amount * squared;
+            var squared = amount * amount;
+            var cubed = amount * squared;
 
-            result.X = 0.5f * ((((2.0f * value2.X) + ((-value1.X + value3.X) * amount)) +
-            (((((2.0f * value1.X) - (5.0f * value2.X)) + (4.0f * value3.X)) - value4.X) * squared)) +
-            ((((-value1.X + (3.0f * value2.X)) - (3.0f * value3.X)) + value4.X) * cubed));
+            result.X = 0.5f * (2.0f * value2.X + (-value1.X + value3.X) * amount +
+                               (2.0f * value1.X - 5.0f * value2.X + 4.0f * value3.X - value4.X) * squared +
+            (-value1.X + 3.0f * value2.X - 3.0f * value3.X + value4.X) * cubed);
 
-            result.Y = 0.5f * ((((2.0f * value2.Y) + ((-value1.Y + value3.Y) * amount)) +
-                (((((2.0f * value1.Y) - (5.0f * value2.Y)) + (4.0f * value3.Y)) - value4.Y) * squared)) +
-                ((((-value1.Y + (3.0f * value2.Y)) - (3.0f * value3.Y)) + value4.Y) * cubed));
+            result.Y = 0.5f * (2.0f * value2.Y + (-value1.Y + value3.Y) * amount +
+                               (2.0f * value1.Y - 5.0f * value2.Y + 4.0f * value3.Y - value4.Y) * squared +
+                (-value1.Y + 3.0f * value2.Y - 3.0f * value3.Y + value4.Y) * cubed);
         }
 
         /// <summary>
@@ -757,8 +757,8 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains an new vector composed of the largest components of the source vectors.</param>
         public static void Max(ref Vector2 left, ref Vector2 right, out Vector2 result)
         {
-            result.X = (left.X > right.X) ? left.X : right.X;
-            result.Y = (left.Y > right.Y) ? left.Y : right.Y;
+            result.X = left.X > right.X ? left.X : right.X;
+            result.Y = left.Y > right.Y ? left.Y : right.Y;
         }
 
         /// <summary>
@@ -781,8 +781,8 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains an new vector composed of the smallest components of the source vectors.</param>
         public static void Min(ref Vector2 left, ref Vector2 right, out Vector2 result)
         {
-            result.X = (left.X < right.X) ? left.X : right.X;
-            result.Y = (left.Y < right.Y) ? left.Y : right.Y;
+            result.X = left.X < right.X ? left.X : right.X;
+            result.Y = left.Y < right.Y ? left.Y : right.Y;
         }
 
         /// <summary>
@@ -798,28 +798,28 @@ namespace Xacor.Mathematics
         }
 
         /// <summary>
-        /// Returns the reflection of a vector off a surface that has the specified normal. 
+        /// Returns the reflection of a vector off a surface that has the specified normal.
         /// </summary>
         /// <param name="vector">The source vector.</param>
         /// <param name="normal">Normal of the surface.</param>
         /// <param name="result">When the method completes, contains the reflected vector.</param>
-        /// <remarks>Reflect only gives the direction of a reflection off a surface, it does not determine 
+        /// <remarks>Reflect only gives the direction of a reflection off a surface, it does not determine
         /// whether the original vector was close enough to the surface to hit it.</remarks>
         public static void Reflect(ref Vector2 vector, ref Vector2 normal, out Vector2 result)
         {
-            float dot = (vector.X * normal.X) + (vector.Y * normal.Y);
+            var dot = vector.X * normal.X + vector.Y * normal.Y;
 
-            result.X = vector.X - ((2.0f * dot) * normal.X);
-            result.Y = vector.Y - ((2.0f * dot) * normal.Y);
+            result.X = vector.X - 2.0f * dot * normal.X;
+            result.Y = vector.Y - 2.0f * dot * normal.Y;
         }
 
         /// <summary>
-        /// Returns the reflection of a vector off a surface that has the specified normal. 
+        /// Returns the reflection of a vector off a surface that has the specified normal.
         /// </summary>
         /// <param name="vector">The source vector.</param>
         /// <param name="normal">Normal of the surface.</param>
         /// <returns>The reflected vector.</returns>
-        /// <remarks>Reflect only gives the direction of a reflection off a surface, it does not determine 
+        /// <remarks>Reflect only gives the direction of a reflection off a surface, it does not determine
         /// whether the original vector was close enough to the surface to hit it.</remarks>
         public static Vector2 Reflect(Vector2 vector, Vector2 normal)
         {
@@ -859,13 +859,13 @@ namespace Xacor.Mathematics
             if (destination.Length < source.Length)
                 throw new ArgumentOutOfRangeException(nameof(destination), "The destination array must be of same length or larger length than the source array.");
 
-            for (int i = 0; i < source.Length; ++i)
+            for (var i = 0; i < source.Length; ++i)
             {
-                Vector2 newvector = source[i];
+                var newvector = source[i];
 
-                for (int r = 0; r < i; ++r)
+                for (var r = 0; r < i; ++r)
                 {
-                    newvector -= (Dot(destination[r], newvector) / Dot(destination[r], destination[r])) * destination[r];
+                    newvector -= Dot(destination[r], newvector) / Dot(destination[r], destination[r]) * destination[r];
                 }
 
                 destination[i] = newvector;
@@ -906,11 +906,11 @@ namespace Xacor.Mathematics
             if (destination.Length < source.Length)
                 throw new ArgumentOutOfRangeException(nameof(destination), "The destination array must be of same length or larger length than the source array.");
 
-            for (int i = 0; i < source.Length; ++i)
+            for (var i = 0; i < source.Length; ++i)
             {
-                Vector2 newvector = source[i];
+                var newvector = source[i];
 
-                for (int r = 0; r < i; ++r)
+                for (var r = 0; r < i; ++r)
                 {
                     newvector -= Dot(destination[r], newvector) * destination[r];
                 }
@@ -928,16 +928,16 @@ namespace Xacor.Mathematics
         /// <param name="result">When the method completes, contains the transformed <see cref="Vector4"/>.</param>
         public static void Transform(ref Vector2 vector, ref Quaternion rotation, out Vector2 result)
         {
-            float x = rotation.X + rotation.X;
-            float y = rotation.Y + rotation.Y;
-            float z = rotation.Z + rotation.Z;
-            float wz = rotation.W * z;
-            float xx = rotation.X * x;
-            float xy = rotation.X * y;
-            float yy = rotation.Y * y;
-            float zz = rotation.Z * z;
+            var x = rotation.X + rotation.X;
+            var y = rotation.Y + rotation.Y;
+            var z = rotation.Z + rotation.Z;
+            var wz = rotation.W * z;
+            var xx = rotation.X * x;
+            var xy = rotation.X * y;
+            var yy = rotation.Y * y;
+            var zz = rotation.Z * z;
 
-            result = new Vector2((vector.X * (1.0f - yy - zz)) + (vector.Y * (xy - wz)), (vector.X * (xy + wz)) + (vector.Y * (1.0f - xx - zz)));
+            result = new Vector2(vector.X * (1.0f - yy - zz) + vector.Y * (xy - wz), vector.X * (xy + wz) + vector.Y * (1.0f - xx - zz));
         }
 
         /// <summary>
@@ -970,25 +970,25 @@ namespace Xacor.Mathematics
             if (destination.Length < source.Length)
                 throw new ArgumentOutOfRangeException(nameof(destination), "The destination array must be of same length or larger length than the source array.");
 
-            float x = rotation.X + rotation.X;
-            float y = rotation.Y + rotation.Y;
-            float z = rotation.Z + rotation.Z;
-            float wz = rotation.W * z;
-            float xx = rotation.X * x;
-            float xy = rotation.X * y;
-            float yy = rotation.Y * y;
-            float zz = rotation.Z * z;
+            var x = rotation.X + rotation.X;
+            var y = rotation.Y + rotation.Y;
+            var z = rotation.Z + rotation.Z;
+            var wz = rotation.W * z;
+            var xx = rotation.X * x;
+            var xy = rotation.X * y;
+            var yy = rotation.Y * y;
+            var zz = rotation.Z * z;
 
-            float num1 = (1.0f - yy - zz);
-            float num2 = (xy - wz);
-            float num3 = (xy + wz);
-            float num4 = (1.0f - xx - zz);
+            var num1 = 1.0f - yy - zz;
+            var num2 = xy - wz;
+            var num3 = xy + wz;
+            var num4 = 1.0f - xx - zz;
 
-            for (int i = 0; i < source.Length; ++i)
+            for (var i = 0; i < source.Length; ++i)
             {
                 destination[i] = new Vector2(
-                    (source[i].X * num1) + (source[i].Y * num2),
-                    (source[i].X * num3) + (source[i].Y * num4));
+                    source[i].X * num1 + source[i].Y * num2,
+                    source[i].X * num3 + source[i].Y * num4);
             }
         }
 
@@ -1001,10 +1001,10 @@ namespace Xacor.Mathematics
         public static void Transform(ref Vector2 vector, ref Matrix transform, out Vector4 result)
         {
             result = new Vector4(
-                (vector.X * transform.M11) + (vector.Y * transform.M21) + transform.M41,
-                (vector.X * transform.M12) + (vector.Y * transform.M22) + transform.M42,
-                (vector.X * transform.M13) + (vector.Y * transform.M23) + transform.M43,
-                (vector.X * transform.M14) + (vector.Y * transform.M24) + transform.M44);
+                vector.X * transform.M11 + vector.Y * transform.M21 + transform.M41,
+                vector.X * transform.M12 + vector.Y * transform.M22 + transform.M42,
+                vector.X * transform.M13 + vector.Y * transform.M23 + transform.M43,
+                vector.X * transform.M14 + vector.Y * transform.M24 + transform.M44);
         }
 
         /// <summary>
@@ -1036,7 +1036,7 @@ namespace Xacor.Mathematics
             if (destination.Length < source.Length)
                 throw new ArgumentOutOfRangeException(nameof(destination), "The destination array must be of same length or larger length than the source array.");
 
-            for (int i = 0; i < source.Length; ++i)
+            for (var i = 0; i < source.Length; ++i)
             {
                 Transform(ref source[i], ref transform, out destination[i]);
             }
@@ -1057,11 +1057,11 @@ namespace Xacor.Mathematics
         /// </remarks>
         public static void TransformCoordinate(ref Vector2 coordinate, ref Matrix transform, out Vector2 result)
         {
-            Vector4 vector = new Vector4();
-            vector.X = (coordinate.X * transform.M11) + (coordinate.Y * transform.M21) + transform.M41;
-            vector.Y = (coordinate.X * transform.M12) + (coordinate.Y * transform.M22) + transform.M42;
-            vector.Z = (coordinate.X * transform.M13) + (coordinate.Y * transform.M23) + transform.M43;
-            vector.W = 1f / ((coordinate.X * transform.M14) + (coordinate.Y * transform.M24) + transform.M44);
+            var vector = new Vector4();
+            vector.X = coordinate.X * transform.M11 + coordinate.Y * transform.M21 + transform.M41;
+            vector.Y = coordinate.X * transform.M12 + coordinate.Y * transform.M22 + transform.M42;
+            vector.Z = coordinate.X * transform.M13 + coordinate.Y * transform.M23 + transform.M43;
+            vector.W = 1f / (coordinate.X * transform.M14 + coordinate.Y * transform.M24 + transform.M44);
 
             result = new Vector2(vector.X * vector.W, vector.Y * vector.W);
         }
@@ -1110,7 +1110,7 @@ namespace Xacor.Mathematics
             if (destination.Length < source.Length)
                 throw new ArgumentOutOfRangeException(nameof(destination), "The destination array must be of same length or larger length than the source array.");
 
-            for (int i = 0; i < source.Length; ++i)
+            for (var i = 0; i < source.Length; ++i)
             {
                 TransformCoordinate(ref source[i], ref transform, out destination[i]);
             }
@@ -1132,8 +1132,8 @@ namespace Xacor.Mathematics
         public static void TransformNormal(ref Vector2 normal, ref Matrix transform, out Vector2 result)
         {
             result = new Vector2(
-                (normal.X * transform.M11) + (normal.Y * transform.M21),
-                (normal.X * transform.M12) + (normal.Y * transform.M22));
+                normal.X * transform.M11 + normal.Y * transform.M21,
+                normal.X * transform.M12 + normal.Y * transform.M22);
         }
 
         /// <summary>
@@ -1180,7 +1180,7 @@ namespace Xacor.Mathematics
             if (destination.Length < source.Length)
                 throw new ArgumentOutOfRangeException(nameof(destination), "The destination array must be of same length or larger length than the source array.");
 
-            for (int i = 0; i < source.Length; ++i)
+            for (var i = 0; i < source.Length; ++i)
             {
                 TransformNormal(ref source[i], ref transform, out destination[i]);
             }
