@@ -40,7 +40,7 @@ namespace Xacor.Demo
             };
 
             var graphicsOptions = new GraphicsOptions(
-                RenderApi.OpenGL,
+                RenderApi.D3D11,
                 new Size(1680, 800),
                 new Size(672, 320),
                 WindowState.Windowed,
@@ -61,7 +61,7 @@ namespace Xacor.Demo
                 case RenderApi.D3D11:
                     services.AddSingleton<IGraphicsFactory, D3D11GraphicsFactory>();
                     break;
-                case RenderApi.OpenGL:
+                case RenderApi.OpenGL46:
                     services.AddSingleton<IGraphicsFactory, GL46GraphicsFactory>();
                     break;
             }
