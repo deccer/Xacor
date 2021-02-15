@@ -44,7 +44,7 @@ namespace Xacor.Graphics.Api.GL46
         public GL46SwapChain(SwapChainDescriptor swapChainDescriptor)
         {
             var options = new ToolkitOptions();
-            options.Backend = PlatformBackend.PreferNative;
+            options.Backend = PlatformBackend.Default;
             Toolkit.Init(options);
 
             _windowInfo = Utilities.CreateWindowsWindowInfo(swapChainDescriptor.WindowHandle);
