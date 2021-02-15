@@ -1,1 +1,0 @@
-﻿# Xacor.Platform.Windows

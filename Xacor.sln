@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor", "Xacor\Xacor.csproj", "{47D192A0-3471-4B18-9013-BDF6623A91DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Platform.Windows", "Xacor.Platform.Windows\Xacor.Platform.Windows.csproj", "{F37FF8E5-4BC8-49C2-A98B-BDEE2F4DDF29}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Graphics.Api", "Xacor.Graphics.Api\Xacor.Graphics.Api.csproj", "{21F0CFF5-2E7A-4C0C-90D0-93780262E383}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xacor.Platform", "Xacor.Platform\Xacor.Platform.csproj", "{DC5A1B7E-7777-4C88-92D0-C78A54D7A6B6}"
@@ -118,10 +116,6 @@ Global
 		{47D192A0-3471-4B18-9013-BDF6623A91DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47D192A0-3471-4B18-9013-BDF6623A91DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47D192A0-3471-4B18-9013-BDF6623A91DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F37FF8E5-4BC8-49C2-A98B-BDEE2F4DDF29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F37FF8E5-4BC8-49C2-A98B-BDEE2F4DDF29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F37FF8E5-4BC8-49C2-A98B-BDEE2F4DDF29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F37FF8E5-4BC8-49C2-A98B-BDEE2F4DDF29}.Release|Any CPU.Build.0 = Release|Any CPU
 		{21F0CFF5-2E7A-4C0C-90D0-93780262E383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{21F0CFF5-2E7A-4C0C-90D0-93780262E383}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21F0CFF5-2E7A-4C0C-90D0-93780262E383}.Release|Any CPU.ActiveCfg = Release|Any CPU
