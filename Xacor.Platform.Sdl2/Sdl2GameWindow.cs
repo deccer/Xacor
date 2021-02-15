@@ -87,7 +87,8 @@ namespace Xacor.Platform.Sdl2
                 RenderApi.D3D11 => SDL.SDL_WindowFlags.SDL_WINDOW_FOREIGN,
                 RenderApi.D3D12 => SDL.SDL_WindowFlags.SDL_WINDOW_FOREIGN,
                 RenderApi.Vulkan => SDL.SDL_WindowFlags.SDL_WINDOW_VULKAN,
-                RenderApi.OpenGL => SDL.SDL_WindowFlags.SDL_WINDOW_OPENGL,
+                RenderApi.OpenGL33 => SDL.SDL_WindowFlags.SDL_WINDOW_OPENGL,
+                RenderApi.OpenGL46 => SDL.SDL_WindowFlags.SDL_WINDOW_OPENGL,
                 _ => throw new ArgumentOutOfRangeException(nameof(renderApi), renderApi, null)
             };
         }

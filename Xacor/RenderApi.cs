@@ -2,7 +2,8 @@
 {
     public enum RenderApi
     {
-        OpenGL,
+        OpenGL46,
+        OpenGL33,
         D3D11,
         D3D12,
         Vulkan
