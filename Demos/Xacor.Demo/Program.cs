@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Xacor.Graphics.Api;
@@ -72,12 +71,8 @@ namespace Xacor.Demo
             return services.BuildServiceProvider();
         }
 
-        [STAThread]
         public static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
             var compositionRoot = CreateCompositionRoot();
             using var game = compositionRoot.GetService<DemoGame>();
 
