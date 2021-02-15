@@ -48,4 +48,22 @@
         <!-- <Exec Command="xcopy /Y /E &quot;$(SolutionDir)Assets&quot; &quot;$(TargetDir)Assets\&quot;" /> -->
     </Target>
 
+    <ItemGroup>
+        <None Include="$(ProjectDir)..\..\External\SDL2-Native\x64\**\*.*" Condition=" '$(RuntimeIdentifier)' == 'win-x64' or ('$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' and '$(Prefer32Bit)' == 'false') ">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <InProject>false</InProject>
+        </None>
+        <None Include="$(ProjectDir)..\..\External\SDL2-Native\osx\**\*.*" Condition=" '$(RuntimeIdentifier)' == 'osx-x64' or ('$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' and '$(Prefer32Bit)' == 'false') ">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <InProject>false</InProject>
+        </None>
+        <None Include="$(ProjectDir)..\..\External\SDL2-Native\lib64\**\*.*" Condition=" '$(RuntimeIdentifier)' == 'linux-x64' or ('$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' and '$(Prefer32Bit)' == 'false') ">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <InProject>false</InProject>
+        </None>
+    </ItemGroup>
+
 </Project>

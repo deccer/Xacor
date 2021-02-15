@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\External\SDL2\SDL2-CS.Core.csproj" />
     <ProjectReference Include="..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />
     <ProjectReference Include="..\Xacor.Graphics\Xacor.Graphics.csproj" />
     <ProjectReference Include="..\Xacor.Input\Xacor.Input.csproj" />
