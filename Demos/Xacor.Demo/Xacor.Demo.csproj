@@ -1,51 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <ApplicationIcon>AppLogo.ico</ApplicationIcon>
-    <TargetFramework>net5.0-windows</TargetFramework>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <ApplicationIcon>AppLogo.ico</ApplicationIcon>
+        <TargetFramework>net5.0</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ImGui.NET" Version="1.78.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="Serilog" Version="2.10.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="ImGui.NET" Version="1.78.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1"/>
+        <PackageReference Include="Serilog" Version="2.10.0"/>
+        <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1"/>
+        <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0"/>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Xacor.Game\Xacor.Game.csproj" />
-    <ProjectReference Include="..\..\Xacor.Graphics.Api.D3D11\Xacor.Graphics.Api.D3D11.csproj" />
-    <ProjectReference Include="..\..\Xacor.Graphics.Api.D3D12\Xacor.Graphics.Api.D3D12.csproj" />
-    <ProjectReference Include="..\..\Xacor.Graphics.Api.GL33\Xacor.Graphics.Api.GL33.csproj" />
-    <ProjectReference Include="..\..\Xacor.Graphics.Api.GL46\Xacor.Graphics.Api.GL46.csproj" />
-    <ProjectReference Include="..\..\Xacor.Graphics.Api.VK\Xacor.Graphics.Api.VK.csproj" />
-    <ProjectReference Include="..\..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj" />
-    <ProjectReference Include="..\..\Xacor.Input.DirectInput\Xacor.Input.DirectInput.csproj" />
-    <ProjectReference Include="..\..\Xacor.Mathematics\Xacor.Mathematics.csproj" />
-    <ProjectReference Include="..\..\Xacor.Platform.Windows\Xacor.Platform.Windows.csproj" />
-    <ProjectReference Include="..\..\Xacor.Platform\Xacor.Platform.csproj" />
-    <ProjectReference Include="..\..\Xacor\Xacor.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\Xacor.Game\Xacor.Game.csproj"/>
+        <ProjectReference Include="..\..\Xacor.Graphics.Api.D3D11\Xacor.Graphics.Api.D3D11.csproj"/>
+        <ProjectReference Include="..\..\Xacor.Graphics.Api.D3D12\Xacor.Graphics.Api.D3D12.csproj"/>
+        <ProjectReference Include="..\..\Xacor.Graphics.Api.GL33\Xacor.Graphics.Api.GL33.csproj"/>
+        <ProjectReference Include="..\..\Xacor.Graphics.Api.GL46\Xacor.Graphics.Api.GL46.csproj"/>
+        <ProjectReference Include="..\..\Xacor.Graphics.Api.VK\Xacor.Graphics.Api.VK.csproj"/>
+        <ProjectReference Include="..\..\Xacor.Graphics.Api\Xacor.Graphics.Api.csproj"/>
+        <ProjectReference Include="..\..\Xacor.Input.DirectInput\Xacor.Input.DirectInput.csproj"/>
+        <ProjectReference Include="..\..\Xacor.Mathematics\Xacor.Mathematics.csproj"/>
+        <ProjectReference Include="..\..\Xacor.Platform.Sdl2\Xacor.Platform.Sdl2.csproj"/>
+        <ProjectReference Include="..\..\Xacor.Platform\Xacor.Platform.csproj"/>
+        <ProjectReference Include="..\..\Xacor\Xacor.csproj"/>
+    </ItemGroup>
 
-  <PropertyGroup>
-    <CodeAnalysisRuleSet>..\..\stylecop.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>..\..\stylecop.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="..\..\stylecop.json" />
-  </ItemGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="..\..\stylecop.json"/>
+    </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <!-- <Exec Command="xcopy /Y /E &quot;$(SolutionDir)Assets&quot; &quot;$(TargetDir)Assets\&quot;" /> -->
-  </Target>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <!-- <Exec Command="xcopy /Y /E &quot;$(SolutionDir)Assets&quot; &quot;$(TargetDir)Assets\&quot;" /> -->
+    </Target>
 
 </Project>
