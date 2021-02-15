@@ -28,8 +28,8 @@ namespace Xacor.Demo
         private const string SlideRight = nameof(SlideRight);
 
         private readonly Options _options;
-        private Size _windowResolution;
-        private Size _renderResolution;
+        private readonly Size _windowResolution;
+        private readonly Size _renderResolution;
 
         private ICommandList _commandList;
         private IPipeline _simplePipeline;
