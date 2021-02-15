@@ -110,7 +110,7 @@ namespace Xacor.Demo
             Window.Title = "Xacor.Demo";
 
             _viewMatrix = Matrix.LookAtRH(new Vector3(0, 0, 10f), Vector3.Zero, Vector3.UnitY);
-            _projectionMatrix = Matrix.PerspectiveFovRH(MathF.PI / 4.0f, _renderResolution.Width / (float)_renderResolution.Height, 0.1f, 4096f);
+            _projectionMatrix = Matrix.PerspectiveFovRH(MathF.PI / 3.0f, _renderResolution.Width / (float)_renderResolution.Height, 0.1f, 4096f);
             _leftMvp = new InputBuffer
             {
                 ModelViewProjectionMatrix = Matrix.Translation(-1.5f, 1, -0.5f) * _viewMatrix * _projectionMatrix
