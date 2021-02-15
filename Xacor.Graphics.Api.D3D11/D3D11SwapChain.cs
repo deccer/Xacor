@@ -1,5 +1,4 @@
-﻿using System;
-using SharpDX.Direct3D11;
+﻿using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using Xacor.Graphics.Api.D3D;
 using DXGIFactory = SharpDX.DXGI.Factory1;
@@ -7,7 +6,7 @@ using D3D11Texture2D = SharpDX.Direct3D11.Texture2D;
 
 namespace Xacor.Graphics.Api.D3D11
 {
-    internal class D3D11SwapChain : ISwapChain, IDisposable
+    internal class D3D11SwapChain : ISwapChain
     {
         private readonly SwapChainDescriptor _swapChainDescriptor;
         private readonly DXGIFactory _factory;
