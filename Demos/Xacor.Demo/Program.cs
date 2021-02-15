@@ -9,7 +9,7 @@ using Xacor.Graphics.Api.GL46;
 using Xacor.Input;
 using Xacor.Input.DirectInput;
 using Xacor.Platform;
-using Xacor.Platform.Windows;
+using Xacor.Platform.Sdl2;
 
 namespace Xacor.Demo
 {
@@ -55,7 +55,7 @@ namespace Xacor.Demo
             services.AddSingleton(new HardwareOptions(true, false));
             #endif
             services.AddSingleton<Options>();
-            services.AddSingleton<IGamePlatformFactory, Win32GamePlatformFactory>();
+            services.AddSingleton<IGamePlatformFactory, Sdl2GamePlatformFactory>();
             switch (graphicsOptions.RenderApi)
             {
                 case RenderApi.D3D11:
