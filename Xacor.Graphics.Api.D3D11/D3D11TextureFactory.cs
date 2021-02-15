@@ -24,8 +24,12 @@ namespace Xacor.Graphics.Api.D3D11
 
         public ITexture CreateRenderTarget(int width, int height, Format format)
         {
-            const TextureViewType type = TextureViewType.RenderTarget | TextureViewType.ShaderResource;
-            var resource = Create2DTexture(width, height, format, type);
+            var type = TextureViewType.RenderTarget | TextureViewType.ShaderResource;
+            if (format == Format.D32Float || format == Format.D24UnormS8UInt)
+            {
+                type |= TextureViewType.DepthStencil;
+            }
+            var resource = Create2DTexture(width, height, format, type, false);
             return new D3D11Texture(_graphicsDevice, resource, width, height, 0, false, 1, type);
         }
 
@@ -103,7 +107,7 @@ namespace Xacor.Graphics.Api.D3D11
             var texture2dDescription = new Texture2DDescription
             {
                 BindFlags = TextureViewTypeToBindFlags(type),
-                CpuAccessFlags = CpuAccessFlags.None,
+                CpuAccessFlags = CpuAccessFlags.Write,
                 Format = format.ToSharpDX(),
                 Width = width,
                 Height = height,
@@ -112,7 +116,8 @@ namespace Xacor.Graphics.Api.D3D11
                     ? (int)Math.Log(width, 2)
                     : 1,
                 OptionFlags = ResourceOptionFlags.None,
-                Usage = ResourceUsage.Default
+                Usage = ResourceUsage.Default,
+                SampleDescription = new SampleDescription(1, 0)
             };
             return new Texture2D(_graphicsDevice, texture2dDescription);
         }
