@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{3A595499-8AEF-4F5E-AB84-CF1F69AD7DE3}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{A2BE18C3-856B-4881-BF39-01459FBF9F1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Media", "Media", "{E65CFD06-828C-410C-9965-F8A2A43F5FBD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppLogo", "AppLogo", "{DCC153D3-055F-4D19-9CF9-4ED29E4709CC}"
+	ProjectSection(SolutionItems) = preProject
+		Media\AppLogo\AppLogo.ico = Media\AppLogo\AppLogo.ico
+		Media\AppLogo\AppLogo_AppIcon.binary = Media\AppLogo\AppLogo_AppIcon.binary
+		Media\AppLogo\AppLogo_AppIcon.ico = Media\AppLogo\AppLogo_AppIcon.ico
+		Media\AppLogo\Xacor_AppLogo_16x16.png = Media\AppLogo\Xacor_AppLogo_16x16.png
+		Media\AppLogo\Xacor_AppLogo_24x24.png = Media\AppLogo\Xacor_AppLogo_24x24.png
+		Media\AppLogo\Xacor_AppLogo_32x32.png = Media\AppLogo\Xacor_AppLogo_32x32.png
+		Media\AppLogo\Xacor_AppLogo_48x48.png = Media\AppLogo\Xacor_AppLogo_48x48.png
+		Media\AppLogo\Xacor_AppLogo_64x64.png = Media\AppLogo\Xacor_AppLogo_64x64.png
+		Media\AppLogo\Xacor_AppLogo_72x72.png = Media\AppLogo\Xacor_AppLogo_72x72.png
+		Media\AppLogo\Xacor_AppLogo_96x96.png = Media\AppLogo\Xacor_AppLogo_96x96.png
+		Media\AppLogo\Xacor_AppLogo_128x128.png = Media\AppLogo\Xacor_AppLogo_128x128.png
+		Media\AppLogo\Xacor_Logo.png = Media\AppLogo\Xacor_Logo.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{460769C0-0B40-42D0-92E6-1DC832C40329}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{FEC216AC-FDB3-48C2-96BF-F9C10A9042A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSpace", "Source\Games\OpenSpace\OpenSpace.csproj", "{2F286500-3239-483B-B062-94D0C4BF14E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xacor", "Source\Engine\Xacor\Xacor.csproj", "{23B2F520-6D1B-4CAE-A67C-47C924E48680}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Xacor.Graphics.Api.D3D\Xacor.Graphics.Api.D3D.projitems*{7b7225e0-f6f2-4d96-b304-eecdc4152a26}*SharedItemsImports = 13
+		Xacor.Graphics.Api.GL\Xacor.Graphics.Api.GL.projitems*{fb60aade-1ef7-4d5f-a433-fb950c2e2b55}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F286500-3239-483B-B062-94D0C4BF14E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F286500-3239-483B-B062-94D0C4BF14E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F286500-3239-483B-B062-94D0C4BF14E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F286500-3239-483B-B062-94D0C4BF14E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23B2F520-6D1B-4CAE-A67C-47C924E48680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23B2F520-6D1B-4CAE-A67C-47C924E48680}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23B2F520-6D1B-4CAE-A67C-47C924E48680}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23B2F520-6D1B-4CAE-A67C-47C924E48680}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DCC153D3-055F-4D19-9CF9-4ED29E4709CC} = {E65CFD06-828C-410C-9965-F8A2A43F5FBD}
+		{460769C0-0B40-42D0-92E6-1DC832C40329} = {A2BE18C3-856B-4881-BF39-01459FBF9F1F}
+		{FEC216AC-FDB3-48C2-96BF-F9C10A9042A8} = {A2BE18C3-856B-4881-BF39-01459FBF9F1F}
+		{2F286500-3239-483B-B062-94D0C4BF14E2} = {460769C0-0B40-42D0-92E6-1DC832C40329}
+		{23B2F520-6D1B-4CAE-A67C-47C924E48680} = {FEC216AC-FDB3-48C2-96BF-F9C10A9042A8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A256E438-E549-4752-9224-DD36E14FCFCA}
+	EndGlobalSection
+EndGlobal

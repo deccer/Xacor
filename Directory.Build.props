@@ -1,0 +1,25 @@
+<Project>
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <InvariantGlobalization>true</InvariantGlobalization>
+    </PropertyGroup>
+    
+    <!-- 
+    
+    Temporary Fix for the ILCompiler to detect the right nuget package, 
+    since it assumes arch as the RuntimeIdentifier, 
+    for which no ILCompiler package exists 
+    
+    -->
+    <PropertyGroup Condition="$([System.OperatingSystem]::IsLinux())">
+        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <IsAotCompatible>true</IsAotCompatible>
+    </PropertyGroup>
+
+</Project>
