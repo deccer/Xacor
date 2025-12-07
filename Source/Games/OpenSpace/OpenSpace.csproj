@@ -1,34 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\..\..\NativeAOT.props" />
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <PublishAot>True</PublishAot>
-        <PublishTrimmed>True</PublishTrimmed>
-        <TrimMode>full</TrimMode>
-        <Trimming>full</Trimming>
-        <Optimize>true</Optimize>
-        <OptimizationPreference>speed</OptimizationPreference>
-        <Deterministic>true</Deterministic>
-
-        <IlcGenerateStackTraceSupport>true</IlcGenerateStackTraceSupport>
-        <IlcInstructionSetSupport>base</IlcInstructionSetSupport>
-
-        <IlcOptimizationPreference>speed</IlcOptimizationPreference>
-        <IlcInstructionSet>native</IlcInstructionSet>
-        <IlcGeneratePInvokeStubs>true</IlcGeneratePInvokeStubs>
-        <IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
-        <IlcGenerateCompleteTypeMetadata>false</IlcGenerateCompleteTypeMetadata>
-        <IlcFoldIdenticalMethodBodies>true</IlcFoldIdenticalMethodBodies>
-        <IlcGenerateCompleteExceptionData>false</IlcGenerateCompleteExceptionData>
-        <IlcUseIcu>false</IlcUseIcu>
-        <IlcIncludeLinqMetadata>false</IlcIncludeLinqMetadata>
-
-        <IlcInvariantGlobalization>true</IlcInvariantGlobalization>
-        <InvariantGlobalization>true</InvariantGlobalization>
-    </PropertyGroup>
+    </PropertyGroup>    
 
     <ItemGroup>
         <ProjectReference Include="..\..\Engine\Xacor\Xacor.csproj"/>
