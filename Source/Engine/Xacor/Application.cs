@@ -1,5 +1,7 @@
+using Silk.NET.Input.Sdl;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
+using Silk.NET.Windowing.Sdl;
 using Xacor.Ecs;
 using Xacor.Game;
 using Xacor.Graphics;
@@ -18,6 +20,9 @@ internal sealed class Application : IApplication
         RenderSystem renderSystem,
         IGraphicsDeviceInitializer graphicsDeviceInitializer)
     {
+        SdlWindowing.RegisterPlatform();
+        SdlInput.RegisterPlatform();
+
         _game = game;
         _renderSystem = renderSystem;
         _graphicsDeviceInitializer = graphicsDeviceInitializer;
