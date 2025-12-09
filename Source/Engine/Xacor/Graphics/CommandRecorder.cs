@@ -15,7 +15,8 @@ public unsafe struct DetachedBuffer
 public unsafe class CommandRecorder : IDisposable
 {
     private const int DefaultCapacity = 64 * 1024;
-    
+
+    private readonly int _initialCapacity;
     private byte* _buffer;
     private int _capacity;
     private int _position;
@@ -28,6 +29,7 @@ public unsafe class CommandRecorder : IDisposable
 
     public CommandRecorder(int initialCapacity = DefaultCapacity)
     {
+        _initialCapacity = initialCapacity;
         _capacity = initialCapacity;
         _buffer = (byte*)NativeMemory.AllocZeroed((nuint)_capacity);
         _position = 0;
@@ -58,7 +60,7 @@ public unsafe class CommandRecorder : IDisposable
         
         if (allocateFresh && _buffer == null)
         {
-            _capacity = 64 * 1024;
+            _capacity = _initialCapacity;
             _buffer = (byte*)NativeMemory.AllocZeroed((nuint)_capacity);
         }
     }
