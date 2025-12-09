@@ -54,6 +54,7 @@ internal sealed class Application : IApplication
     private void OnWindowLoad()
     {
         _graphicsDeviceInitializer.InitializeGraphicsDevice(_window);
+        _renderSystem.Initialize();
     }
 
     private void OnWindowFramebufferResize(Vector2D<int> newFramebufferSize)
