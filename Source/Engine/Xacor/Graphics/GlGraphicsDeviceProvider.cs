@@ -4,7 +4,7 @@ using Xacor.Graphics.Gl;
 
 namespace Xacor.Graphics;
 
-internal sealed class GraphicsDeviceProvider : IGraphicsDeviceProvider, IGraphicsDeviceInitializer
+internal sealed class GlGraphicsDeviceProvider : IGraphicsDeviceProvider, IGraphicsDeviceInitializer
 {
     private IGraphicsDevice? _graphicsDevice;
     
