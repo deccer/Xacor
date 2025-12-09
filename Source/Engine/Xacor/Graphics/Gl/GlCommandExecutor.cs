@@ -14,6 +14,15 @@ public unsafe class GlCommandExecutor : ICommandExecutor
     {
         _gl = gl;
         _defaultInputLayout = _gl.CreateVertexArray();
+        
+        _gl.EnableVertexArrayAttrib(_defaultInputLayout, 0);
+        _gl.VertexArrayAttribFormat(_defaultInputLayout, 0, 3, VertexAttribType.Float, false, 0);
+        _gl.VertexArrayAttribBinding(_defaultInputLayout, 0, 0); // Attrib 0 takes data from Binding 0
+
+        // Enable Attribute 1 (Color)
+        _gl.EnableVertexArrayAttrib(_defaultInputLayout, 1);
+        _gl.VertexArrayAttribFormat(_defaultInputLayout, 1, 4, VertexAttribType.Float, false, 12); // Offset 12 (3*float)
+        _gl.VertexArrayAttribBinding(_defaultInputLayout, 1, 0);
     }
 
     public void Execute(ReadOnlySpan<byte> commandBuffer)
@@ -93,11 +102,12 @@ public unsafe class GlCommandExecutor : ICommandExecutor
     private void ExecuteBindPipeline(in BindPipelineCommand cmd)
     {
         _gl.UseProgram(cmd.PipelineHandle);
+        _gl.BindVertexArray(_defaultInputLayout);
     }
 
     private void ExecuteBindVertexBuffer(in BindVertexBufferCommand cmd)
     {
-        var stride = 0u;
+        var stride = 7u * sizeof(float);
         _gl.VertexArrayVertexBuffer(
             _defaultInputLayout, 
             cmd.Binding, 
