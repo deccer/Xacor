@@ -11,6 +11,8 @@ public interface IGraphicsDevice
         string vertexShaderSource,
         string fragmentShaderSource);
     
+    CommandRecorder CreateCommandRecorder();
+    
     void Submit(CommandRecorder recorder);
     
     void RenderFrame(float deltaTime);

@@ -15,6 +15,11 @@ internal abstract class GraphicsDevice
     
     protected readonly ConcurrentQueue<Submission> SubmissionQueue = new();
 
+    public CommandRecorder CreateCommandRecorder()
+    {
+        return new CommandRecorder();
+    }
+
     public unsafe void Submit(CommandRecorder recorder)
     {
         var detachedBuffer = recorder.DetachBuffer(); 
