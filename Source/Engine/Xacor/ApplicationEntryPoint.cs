@@ -30,9 +30,7 @@ public static class ApplicationEntryPoint
         
         var services = new ServiceCollection();
         services.AddSingleton(configuration);
-        services.AddSingleton<GraphicsDeviceProvider>();
-        services.AddSingleton<IGraphicsDeviceProvider>(provider => provider.GetRequiredService<GraphicsDeviceProvider>());
-        services.AddSingleton<IGraphicsDeviceInitializer>(provider => provider.GetRequiredService<GraphicsDeviceProvider>());
+        services.AddSingleton<IStatistics, Statistics>();
         services.AddSingleton<RenderSystem>();
         services.AddSingleton<Scene>(); // TODO(deccer) introduce some sort of SceneProvider which has an active scene or something like that
         services.AddSingleton<IApplication, Application>();
