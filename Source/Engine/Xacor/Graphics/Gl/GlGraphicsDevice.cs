@@ -23,7 +23,6 @@ internal class GlGraphicsDevice : GraphicsDevice, IGraphicsDevice
     }
 
     public unsafe GraphicsBuffer CreateBuffer<T>(
-        BufferUsageARB usage, 
         ReadOnlySpan<T> initialData) where T : unmanaged
     {
         var sizeInBytes = (uint)(initialData.Length * sizeof(T));

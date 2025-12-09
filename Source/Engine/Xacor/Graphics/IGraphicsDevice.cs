@@ -6,7 +6,6 @@ namespace Xacor.Graphics;
 public interface IGraphicsDevice
 {
     GraphicsBuffer CreateBuffer<T>(
-        BufferUsageARB usage, 
         ReadOnlySpan<T> initialData) where T : unmanaged;
 
     GraphicsPipeline CreateGraphicsPipeline(
