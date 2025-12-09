@@ -29,7 +29,7 @@ internal class GlGraphicsDevice : GraphicsDevice, IGraphicsDevice
         var bufferHandle = _gl.CreateBuffer();
         fixed (void* dataPtr = initialData)
         {
-            _gl.NamedBufferStorage(bufferHandle, sizeInBytes, dataPtr, BufferStorageMask.DynamicStorageBit);
+            _gl.NamedBufferStorage(bufferHandle, sizeInBytes, dataPtr, BufferStorageMask.None);
         }
         
         return new GraphicsBuffer(bufferHandle, sizeInBytes);
