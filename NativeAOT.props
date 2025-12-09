@@ -30,4 +30,8 @@
         <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
         <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="PublishAotCompressed" />
+    </ItemGroup>
 </Project>

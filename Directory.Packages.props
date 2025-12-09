@@ -11,6 +11,7 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+    <PackageVersion Include="PublishAotCompressed" Version="1.0.5" />
     <PackageVersion Include="Silk.NET.Input.Sdl" Version="2.22.0" />
     <PackageVersion Include="Silk.NET.OpenGL" Version="2.22.0" />
     <PackageVersion Include="Silk.NET.Windowing.Sdl" Version="2.22.0" />
