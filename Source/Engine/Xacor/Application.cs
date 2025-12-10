@@ -1,33 +1,31 @@
+using Microsoft.Extensions.DependencyInjection;
 using Silk.NET.Input.Sdl;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
 using Silk.NET.Windowing.Sdl;
 using Xacor.Ecs;
 using Xacor.Game;
-using Xacor.Graphics;
 
 namespace Xacor;
 
 internal sealed class Application : IApplication
 {
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IWindow _window;
     private readonly IGame _game;
-    private readonly RenderSystem _renderSystem;
-    private readonly IGraphicsDeviceInitializer _graphicsDeviceInitializer;
+    private RenderSystem? _renderSystem = null;
+    private IServiceScope? _scope = null;
 
     public Application(
-        IGame game, 
-        RenderSystem renderSystem,
-        IGraphicsDeviceInitializer graphicsDeviceInitializer)
+        IServiceScopeFactory serviceScopeFactory,
         IWindowSetter windowSetter,
+        IGame game)
     {
         SdlWindowing.RegisterPlatform();
         SdlInput.RegisterPlatform();
 
+        _serviceScopeFactory = serviceScopeFactory;
         _game = game;
-        _renderSystem = renderSystem;
-        _graphicsDeviceInitializer = graphicsDeviceInitializer;
-
         
         var windowOptions = WindowOptions.Default;
         windowOptions.IsContextControlDisabled = true;
@@ -55,18 +53,20 @@ internal sealed class Application : IApplication
 
     private void OnWindowLoad()
     {
-        _graphicsDeviceInitializer.InitializeGraphicsDevice(_window);
+        _scope = _serviceScopeFactory.CreateScope();
+        _renderSystem = _scope.ServiceProvider.GetRequiredService<RenderSystem>();
+        //_graphicsDeviceInitializer.InitializeGraphicsDevice(_window);
         _renderSystem.Initialize();
     }
 
     private void OnWindowFramebufferResize(Vector2D<int> newFramebufferSize)
     {
-        _renderSystem.NotifyResolutionChange(newFramebufferSize.X, newFramebufferSize.Y);
+        _renderSystem?.NotifyResolutionChange(newFramebufferSize.X, newFramebufferSize.Y);
     }
 
     private void OnWindowRender(double deltaTime)
     {
-        _renderSystem.Run(1 / 60.0f);
+        _renderSystem?.Run(1 / 60.0f);
         
         _window.SwapBuffers();
     }
@@ -79,6 +79,7 @@ internal sealed class Application : IApplication
 
     public void Dispose()
     {
+        _scope?.Dispose();
         _game.Dispose();
     }
 

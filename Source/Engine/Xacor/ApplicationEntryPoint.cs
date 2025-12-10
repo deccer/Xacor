@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xacor.Ecs;
 using Xacor.Graphics;
+using Xacor.Graphics.Gl;
 
 namespace Xacor;
 
@@ -35,7 +36,8 @@ public static class ApplicationEntryPoint
         services.AddSingleton<IWindowGetter>(provider => provider.GetRequiredService<WindowHolder>());
         services.AddSingleton<IWindowSetter>(provider => provider.GetRequiredService<WindowHolder>());
         services.AddSingleton<CommandRecorder>();
-        services.AddSingleton<RenderSystem>();
+        services.AddScoped<IGraphicsDevice, GlGraphicsDevice>();
+        services.AddScoped<RenderSystem>();
         services.AddSingleton<Scene>(); // TODO(deccer) introduce some sort of SceneProvider which has an active scene or something like that
         services.AddSingleton<IApplication, Application>();
         configureAdditionalServices(services, configuration);

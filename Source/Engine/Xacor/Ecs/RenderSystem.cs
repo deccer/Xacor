@@ -1,4 +1,3 @@
-using System;
 using Xacor.Graphics;
 
 namespace Xacor.Ecs;
@@ -18,28 +17,25 @@ public struct Vertex
 public class RenderSystem
 {
     private readonly Scene _scene;
-    private readonly Lazy<IGraphicsDevice> _graphicsDeviceProvider;
+    private readonly IGraphicsDevice _graphicsDevice;
     private readonly CommandRecorder _commandRecorder;
-    private IGraphicsDevice? _graphicsDevice;
 
-    private GraphicsPipeline _pipeline;
-    private GraphicsBuffer _vertexBuffer;
-    private GraphicsBuffer _indexBuffer;
+    private GraphicsPipeline? _pipeline = null;
+    private GraphicsBuffer? _vertexBuffer = null;
+    //private GraphicsBuffer _indexBuffer;
 
     public RenderSystem(
         Scene scene, 
-        Lazy<IGraphicsDevice> graphicsDeviceProvider,
+        IGraphicsDevice graphicsDevice,
         CommandRecorder commandRecorder)
     {
         _scene = scene;
-        _graphicsDeviceProvider = graphicsDeviceProvider;
+        _graphicsDevice = graphicsDevice;
         _commandRecorder = commandRecorder;
     }
     
     public void Run(float deltaTime)
     {
-        //_commandRecorder ??= _graphicsDevice.CreateCommandRecorder();
-
         _commandRecorder.Reset();
         //#005C53
         _commandRecorder.BeginRenderPass(
@@ -49,8 +45,8 @@ public class RenderSystem
             0.3607843137254902f,
             0.3254901960784314f);
         _commandRecorder.SetViewport(0, 0, 1680, 720, -1.0f, 1.0f);
-        _commandRecorder.BindPipeline(_pipeline.Handle);
-        _commandRecorder.BindVertexBuffer(_vertexBuffer.Handle);
+        _commandRecorder.BindPipeline(_pipeline!.Handle);
+        _commandRecorder.BindVertexBuffer(_vertexBuffer!.Handle);
         _commandRecorder.Draw(3);
         _commandRecorder.EndRenderPass();
         
@@ -65,8 +61,6 @@ public class RenderSystem
 
     public void Initialize()
     {
-        _graphicsDevice = _graphicsDeviceProvider.Value;
-        
         var vertexShaderSource = """
                                  #version 460 core
                                  

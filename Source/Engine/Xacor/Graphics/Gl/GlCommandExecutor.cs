@@ -159,6 +159,8 @@ public unsafe class GlCommandExecutor : ICommandExecutor
     {
         _gl.BindFramebuffer(FramebufferTarget.Framebuffer, cmd.FramebufferHandle);
         //TODO(deccer) clear color and depth
+        var clearColor = new[] { cmd.ClearR, cmd.ClearG, cmd.ClearB, cmd.ClearA };
+        _gl.ClearNamedFramebuffer(0, GLEnum.Color, 0, clearColor);
     }
 
     private void ExecuteEndRenderPass()
