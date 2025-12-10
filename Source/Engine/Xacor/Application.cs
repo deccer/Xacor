@@ -19,6 +19,7 @@ internal sealed class Application : IApplication
         IGame game, 
         RenderSystem renderSystem,
         IGraphicsDeviceInitializer graphicsDeviceInitializer)
+        IWindowSetter windowSetter,
     {
         SdlWindowing.RegisterPlatform();
         SdlInput.RegisterPlatform();
@@ -49,6 +50,7 @@ internal sealed class Application : IApplication
 
         var primaryMonitor = Monitor.GetMainMonitor(_window);
         _window.Center(primaryMonitor);
+        windowSetter.SetWindow(_window);
     }
 
     private void OnWindowLoad()

@@ -31,14 +31,9 @@ public static class ApplicationEntryPoint
         var services = new ServiceCollection();
         services.AddSingleton(configuration);
         services.AddSingleton<IStatistics, Statistics>();
-        services.AddSingleton<GlGraphicsDeviceProvider>();
-        services.AddSingleton<IGraphicsDeviceProvider>(provider => provider.GetRequiredService<GlGraphicsDeviceProvider>());
-        services.AddSingleton<IGraphicsDeviceInitializer>(provider => provider.GetRequiredService<GlGraphicsDeviceProvider>());
-        services.AddSingleton<Lazy<IGraphicsDevice>>(provider =>
-        {
-            var graphicsDeviceProvider = provider.GetRequiredService<GlGraphicsDeviceProvider>();
-            return new Lazy<IGraphicsDevice>(() => graphicsDeviceProvider.GetGraphicsDevice());
-        });
+        services.AddSingleton<WindowHolder>();
+        services.AddSingleton<IWindowGetter>(provider => provider.GetRequiredService<WindowHolder>());
+        services.AddSingleton<IWindowSetter>(provider => provider.GetRequiredService<WindowHolder>());
         services.AddSingleton<CommandRecorder>();
         services.AddSingleton<RenderSystem>();
         services.AddSingleton<Scene>(); // TODO(deccer) introduce some sort of SceneProvider which has an active scene or something like that

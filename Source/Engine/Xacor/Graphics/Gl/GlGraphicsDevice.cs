@@ -9,8 +9,9 @@ internal class GlGraphicsDevice : GraphicsDevice, IGraphicsDevice
     private readonly GL _gl;
     private readonly ICommandExecutor _commandExecutor;
     
-    public GlGraphicsDevice(IWindow window)
+    public GlGraphicsDevice(IWindowGetter windowGetter)
     {
+        var window = windowGetter.GetWindow() ?? throw new InvalidOperationException("Window needs to be initialized first.");
         window.MakeCurrent();
         
         _gl = window.CreateOpenGL();
