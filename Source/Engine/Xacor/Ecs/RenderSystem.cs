@@ -41,7 +41,13 @@ public class RenderSystem
         //_commandRecorder ??= _graphicsDevice.CreateCommandRecorder();
 
         _commandRecorder.Reset();
-        _commandRecorder.BeginRenderPass(0, 0);
+        //#005C53
+        _commandRecorder.BeginRenderPass(
+            0, 
+            0,
+            0.0f,
+            0.3607843137254902f,
+            0.3254901960784314f);
         _commandRecorder.SetViewport(0, 0, 1680, 720, -1.0f, 1.0f);
         _commandRecorder.BindPipeline(_pipeline.Handle);
         _commandRecorder.BindVertexBuffer(_vertexBuffer.Handle);
@@ -84,12 +90,12 @@ public class RenderSystem
                                    }
                                    """;
         _pipeline = _graphicsDevice.CreateGraphicsPipeline(vertexShaderSource, fragmentShaderSource);
-        
+        // #042940
         var vertices = new Vertex[]
         {
-            new(-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f), // Bottom Left, Red
-            new( 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f), // Bottom Right, Green
-            new( 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f, 1.0f)  // Top, Blue
+            new(-0.5f, -0.5f, 0.0f,  0.01568627450980392f, 0.1607843137254902f, 0.25098039215686274f, 1.0f), // Bottom Left, Red
+            new( 0.5f, -0.5f, 0.0f,  0.6235294117647059f, 0.7568627450980392f, 0.19215686274509805f, 1.0f), // Bottom Right, Green
+            new( 0.0f,  0.5f, 0.0f,  0.8392156862745098f, 0.8352941176470589f, 0.5568627450980392f, 1.0f)  // Top, Blue
         };
 
         _vertexBuffer = _graphicsDevice.CreateBuffer(vertices);
