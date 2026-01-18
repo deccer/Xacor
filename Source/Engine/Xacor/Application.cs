@@ -13,10 +13,11 @@ internal sealed class Application : IApplication
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IWindow _window;
     private readonly IGame _game;
-    private RenderSystem? _renderSystem = null;
-    private IServiceScope? _scope = null;
+    private RenderSystem? _renderSystem;
+    private IServiceScope? _scope;
 
     public Application(
+        ApplicationSettings settings,
         IServiceScopeFactory serviceScopeFactory,
         IWindowSetter windowSetter,
         IGame game)
@@ -38,7 +39,9 @@ internal sealed class Application : IApplication
             new APIVersion(4, 6));
         windowOptions.Title = game.GetTitle();
         windowOptions.Size = new Vector2D<int>(1680, 720);
-        windowOptions.VSync = true;
+        windowOptions.VSync = settings.VSync;
+        windowOptions.UpdatesPerSecond = settings.UpdatesPerSecond;
+        windowOptions.FramesPerSecond = settings.FramesPerSecond;
 
         _window = Window.Create(windowOptions);
         _window.Load += OnWindowLoad;
@@ -55,7 +58,6 @@ internal sealed class Application : IApplication
     {
         _scope = _serviceScopeFactory.CreateScope();
         _renderSystem = _scope.ServiceProvider.GetRequiredService<RenderSystem>();
-        //_graphicsDeviceInitializer.InitializeGraphicsDevice(_window);
         _renderSystem.Initialize();
     }
 
@@ -73,8 +75,8 @@ internal sealed class Application : IApplication
 
     private void OnWindowUpdate(double deltaTime)
     {
-        _game.VariableUpdate(1 / 60.0f);
-        _game.FixedUpdate(1 / 60.0f);
+        _game.VariableUpdate();
+        _game.FixedUpdate();
     }
 
     public void Dispose()

@@ -31,6 +31,7 @@ public static class ApplicationEntryPoint
         
         var services = new ServiceCollection();
         services.AddSingleton(configuration);
+        services.AddSingleton<ApplicationSettings>();
         services.AddSingleton<IStatistics, Statistics>();
         services.AddSingleton<WindowHolder>();
         services.AddSingleton<IWindowGetter>(provider => provider.GetRequiredService<WindowHolder>());

@@ -8,9 +8,9 @@ public interface IGame : IDisposable
     
     void Shutdown();
     
-    void FixedUpdate(float deltaTime);
+    void FixedUpdate();
     
-    void VariableUpdate(float deltaTime);
+    void VariableUpdate();
 
     string GetTitle();
 }

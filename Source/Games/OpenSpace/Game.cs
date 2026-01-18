@@ -41,11 +41,11 @@ internal class Game : IGame
     {
     }
 
-    public void FixedUpdate(float deltaTime)
+    public void FixedUpdate()
     {
     }
 
-    public void VariableUpdate(float deltaTime)
+    public void VariableUpdate()
     {
     }
 

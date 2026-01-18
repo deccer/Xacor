@@ -2,27 +2,15 @@ using Xacor.Graphics;
 
 namespace Xacor.Ecs;
 
-public struct Vertex
-{
-    public float X, Y, Z;
-    public float R, G, B, A;
-
-    public Vertex(float x, float y, float z, float r, float g, float b, float a)
-    {
-        X = x; Y = y; Z = z;
-        R = r; G = g; B = b; A = a;
-    }
-}
-
 public class RenderSystem
 {
     private readonly Scene _scene;
     private readonly IGraphicsDevice _graphicsDevice;
     private readonly CommandRecorder _commandRecorder;
 
-    private GraphicsPipeline? _pipeline = null;
-    private GraphicsBuffer? _vertexBuffer = null;
-    //private GraphicsBuffer _indexBuffer;
+    private GraphicsPipeline? _pipeline;
+    private GraphicsBuffer? _vertexBuffer;
+    private GraphicsBuffer? _indexBuffer;
 
     public RenderSystem(
         Scene scene, 
@@ -32,6 +20,10 @@ public class RenderSystem
         _scene = scene;
         _graphicsDevice = graphicsDevice;
         _commandRecorder = commandRecorder;
+
+        _pipeline = null;
+        _vertexBuffer = null;
+        _indexBuffer = null;
     }
     
     public void Run(float deltaTime)
@@ -47,7 +39,8 @@ public class RenderSystem
         _commandRecorder.SetViewport(0, 0, 1680, 720, -1.0f, 1.0f);
         _commandRecorder.BindPipeline(_pipeline!.Handle);
         _commandRecorder.BindVertexBuffer(_vertexBuffer!.Handle);
-        _commandRecorder.Draw(3);
+        _commandRecorder.BindIndexBuffer(_indexBuffer!.Handle, IndexType.UInt32);
+        _commandRecorder.DrawIndexed(3);
         _commandRecorder.EndRenderPass();
         
         _graphicsDevice.Submit(_commandRecorder);
@@ -85,7 +78,7 @@ public class RenderSystem
                                    """;
         _pipeline = _graphicsDevice.CreateGraphicsPipeline(vertexShaderSource, fragmentShaderSource);
         // #042940
-        var vertices = new Vertex[]
+        var vertices = new TVertexPositionColor[]
         {
             new(-0.5f, -0.5f, 0.0f,  0.01568627450980392f, 0.1607843137254902f, 0.25098039215686274f, 1.0f), // Bottom Left, Red
             new( 0.5f, -0.5f, 0.0f,  0.6235294117647059f, 0.7568627450980392f, 0.19215686274509805f, 1.0f), // Bottom Right, Green
@@ -93,5 +86,6 @@ public class RenderSystem
         };
 
         _vertexBuffer = _graphicsDevice.CreateBuffer(vertices);
+        _indexBuffer = _graphicsDevice.CreateBuffer([0u, 1u, 2u]);
     }
 }

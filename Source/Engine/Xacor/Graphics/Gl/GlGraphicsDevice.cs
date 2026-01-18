@@ -7,7 +7,7 @@ namespace Xacor.Graphics.Gl;
 internal class GlGraphicsDevice : GraphicsDevice, IGraphicsDevice
 {
     private readonly GL _gl;
-    private readonly ICommandExecutor _commandExecutor;
+    private readonly GlCommandExecutor _commandExecutor;
     
     public GlGraphicsDevice(IWindowGetter windowGetter)
     {
@@ -65,6 +65,18 @@ internal class GlGraphicsDevice : GraphicsDevice, IGraphicsDevice
         return new GraphicsPipeline(programHandle);
     }
 
+    public unsafe void RenderFrame(float deltaTime)
+    {
+        //TODO(deccer): process resource deletions here
+        
+        while (SubmissionQueue.TryDequeue(out var submission))
+        {
+            _commandExecutor.Execute(new ReadOnlySpan<byte>((void*)submission.BufferStart, submission.Length));
+            
+            submission.OnComplete(submission.BufferStart);
+        }
+    }
+
     private uint CreateShader(ShaderType shaderType, string shaderSource)
     {
         var shader = _gl.CreateShader(shaderType);
@@ -78,17 +90,5 @@ internal class GlGraphicsDevice : GraphicsDevice, IGraphicsDevice
         }
 
         return shader;
-    }
-
-    public unsafe void RenderFrame(float deltaTime)
-    {
-        //TODO(deccer): process resource deletions here
-        
-        while (SubmissionQueue.TryDequeue(out var submission))
-        {
-            _commandExecutor.Execute(new ReadOnlySpan<byte>((void*)submission.BufferStart, submission.Length));
-            
-            submission.OnComplete(submission.BufferStart);
-        }
     }
 }

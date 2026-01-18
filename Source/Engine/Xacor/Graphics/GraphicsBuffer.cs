@@ -4,6 +4,7 @@ namespace Xacor.Graphics;
 public class GraphicsBuffer : GraphicsResource
 {
     public uint Size { get; }
+
     public GraphicsBuffer(
         uint handle, 
         uint size) 
